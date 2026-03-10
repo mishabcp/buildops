@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PageWrapper } from '../../components/layout/PageWrapper.jsx';
+import { TableSkeleton } from '../../components/shared/TableSkeleton.jsx';
 import { Button } from '../../components/ui/button.jsx';
 import { getMaterials, createMaterial, updateMaterial } from '../../api/materials.api.js';
 import { MaterialForm } from './MaterialForm.jsx';
