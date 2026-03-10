@@ -27,6 +27,8 @@ cd client && npm install && npm run dev
 - API: http://localhost:5000
 - Client: http://localhost:5173
 
+A **User Guide** is available at `/guide` (features, how-to, examples, seeded credentials, workflow diagrams). It is linked from the login page and from the sidebar when signed in.
+
 ## Build order
 
 See `CURSOR_SPEC.md` Section 8 for the full build order.

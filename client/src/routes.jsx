@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import { Login } from './pages/auth/Login.jsx';
+import { Guide } from './pages/guide/Guide.jsx';
 import { Dashboard } from './pages/dashboard/Dashboard.jsx';
 import { Settings } from './pages/settings/Settings.jsx';
 import { ProjectList } from './pages/projects/ProjectList.jsx';
@@ -24,6 +25,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/guide" element={<Guide />} />
       <Route
         path="/"
         element={

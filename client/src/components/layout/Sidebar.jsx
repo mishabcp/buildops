@@ -4,15 +4,12 @@ import { uiStore } from '../../store/uiStore';
 import {
   LayoutDashboard,
   FolderKanban,
-  Users,
   FileText,
-  Receipt,
   Package,
-  Handshake,
-  Banknote,
   CircleDollarSign,
   Settings,
   Menu,
+  BookOpen,
 } from 'lucide-react';
 
 const nav = [
@@ -21,6 +18,7 @@ const nav = [
   { to: '/materials', label: 'Materials', icon: Package },
   { to: '/bills', label: 'Bills', icon: FileText },
   { to: '/reports', label: 'Reports', icon: CircleDollarSign },
+  { to: '/guide', label: 'Guide', icon: BookOpen },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 

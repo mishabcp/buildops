@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authStore } from '../../store/authStore.js';
 import { toastStore } from '../../store/toastStore.js';
 import { login as loginApi } from '../../api/auth.api.js';
@@ -81,6 +81,11 @@ export function Login() {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing in…' : 'Sign in'}
             </Button>
+            <p className="mt-4 text-center">
+              <Link to="/guide" className="text-sm text-gray-600 underline hover:text-gray-900">
+                View user guide
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>
