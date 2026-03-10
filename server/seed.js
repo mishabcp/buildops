@@ -141,8 +141,8 @@ export async function runSeed() {
     associates.push(found || await prisma.associate.create({ data: a }));
   }
 
-  // ─── PAYMENT STAGES + RECEIPTS (for first few projects) ─
-  for (let i = 0; i < Math.min(4, allProjects.length); i++) {
+  // ─── PAYMENT STAGES + RECEIPTS (for all projects so every project has demo data) ─
+  for (let i = 0; i < allProjects.length; i++) {
     const project = allProjects[i];
     const existingStages = await prisma.paymentStage.findMany({ where: { projectId: project.id } });
     if (existingStages.length > 0) continue;
@@ -166,9 +166,8 @@ export async function runSeed() {
     });
   }
 
-  // ─── LABOUR PAYMENTS (for some projects) ─────────────
-  const labourProjects = allProjects.slice(0, 5);
-  for (const project of labourProjects) {
+  // ─── LABOUR PAYMENTS (for all projects) ─────────────
+  for (const project of allProjects) {
     const count = await prisma.labourPayment.count({ where: { projectId: project.id } });
     if (count > 0) continue;
     const payDate = new Date();
@@ -181,12 +180,12 @@ export async function runSeed() {
     });
   }
 
-  // ─── MATERIAL ITEMS (purchases for some projects) ────
+  // ─── MATERIAL ITEMS (purchases for all projects) ────
   const cement = materials.find((m) => m.name === 'Cement');
   const bricks = materials.find((m) => m.name === 'Bricks');
   if (cement && bricks) {
-    for (let i = 0; i < Math.min(3, allProjects.length); i++) {
-      const project = allProjects[i];
+    const numProjects = allProjects.length;
+    for (const project of allProjects) {
       const count = await prisma.materialItem.count({ where: { projectId: project.id } });
       if (count > 0) continue;
       await prisma.materialItem.create({
@@ -196,12 +195,12 @@ export async function runSeed() {
         data: { projectId: project.id, materialId: bricks.id, type: 'PURCHASE', quantity: 5000, ratePerUnit: 8, totalCost: 40000, supplierName: 'Brick Works', date: new Date() },
       });
     }
-    await prisma.material.update({ where: { id: cement.id }, data: { currentStock: Number(cement.currentStock) + 300 } });
-    await prisma.material.update({ where: { id: bricks.id }, data: { currentStock: Number(bricks.currentStock) + 15000 } });
+    await prisma.material.update({ where: { id: cement.id }, data: { currentStock: Number(cement.currentStock) + 100 * numProjects } });
+    await prisma.material.update({ where: { id: bricks.id }, data: { currentStock: Number(bricks.currentStock) + 5000 * numProjects } });
   }
 
-  // ─── ASSOCIATE PAYMENTS + TRANSACTIONS ───────────────
-  for (let i = 0; i < Math.min(4, allProjects.length); i++) {
+  // ─── ASSOCIATE PAYMENTS + TRANSACTIONS (for all projects) ───────────────
+  for (let i = 0; i < allProjects.length; i++) {
     const project = allProjects[i];
     const count = await prisma.associatePayment.count({ where: { projectId: project.id } });
     if (count > 0) continue;
@@ -214,9 +213,8 @@ export async function runSeed() {
     });
   }
 
-  // ─── BILLS + BILL PAYMENTS ───────────────────────────
-  const billProjects = allProjects.slice(0, 4);
-  for (const project of billProjects) {
+  // ─── BILLS + BILL PAYMENTS (for all projects) ───────────────────────────
+  for (const project of allProjects) {
     const count = await prisma.bill.count({ where: { projectId: project.id } });
     if (count > 0) continue;
     const bill = await prisma.bill.create({
@@ -252,8 +250,8 @@ export async function runSeed() {
     });
   }
 
-  // ─── OTHER EXPENSES ─────────────────────────────────
-  for (let i = 0; i < Math.min(5, allProjects.length); i++) {
+  // ─── OTHER EXPENSES (for all projects) ─────────────────────────────────
+  for (let i = 0; i < allProjects.length; i++) {
     const project = allProjects[i];
     const count = await prisma.otherExpense.count({ where: { projectId: project.id } });
     if (count > 0) continue;

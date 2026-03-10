@@ -85,7 +85,17 @@ export function ProjectDetail() {
             <button
               key={tab.id}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                if (tab.id === 'bills') {
+                  console.log('[ProjectDetail] Bills tab clicked', {
+                    projectId: id,
+                    projectName: project?.name,
+                    previousTab: activeTab,
+                    timestamp: new Date().toISOString(),
+                  });
+                }
+                setActiveTab(tab.id);
+              }}
               className={cn(
                 'flex items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors',
                 activeTab === tab.id
@@ -108,7 +118,15 @@ export function ProjectDetail() {
         {activeTab === 'labour' && <LabourList projectId={id} onDataChange={load} />}
         {activeTab === 'materials' && <ProjectMaterialsTab projectId={id} onDataChange={load} />}
         {activeTab === 'associates' && <ProjectAssociatesTab projectId={id} onDataChange={load} />}
-        {activeTab === 'bills' && <ProjectBillsTab projectId={id} onDataChange={load} />}
+        {activeTab === 'bills' && (() => {
+          console.log('[ProjectDetail] Rendering Bills tab content', {
+            projectId: id,
+            activeTab,
+            projectName: project?.name,
+            timestamp: new Date().toISOString(),
+          });
+          return <ProjectBillsTab projectId={id} onDataChange={load} />;
+        })()}
         {activeTab === 'expenses' && <ProjectExpensesTab projectId={id} onDataChange={load} />}
       </div>
     </PageWrapper>

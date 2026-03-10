@@ -17,7 +17,24 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
   const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
-    if (projectId) load();
+    if (!projectId) return;
+    let cancelled = false;
+    setLoading(true);
+    setError('');
+    (async () => {
+      try {
+        const res = await getProjectExpenses(projectId);
+        if (cancelled) return;
+        if (res?.success && res?.data) setExpenses(res.data);
+        else setError(res?.error ?? 'Failed to load');
+        // Do not call onDataChange here — avoids parent re-render cascade when opening the tab.
+      } catch (err) {
+        if (!cancelled) setError(err.response?.data?.error ?? err.message ?? 'Failed to load');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
   }, [projectId]);
 
   async function load() {
@@ -28,7 +45,6 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
       const res = await getProjectExpenses(projectId);
       if (res?.success && res?.data) setExpenses(res.data);
       else setError(res?.error ?? 'Failed to load');
-      onDataChange?.();
     } catch (err) {
       setError(err.response?.data?.error ?? err.message ?? 'Failed to load');
     } finally {

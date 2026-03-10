@@ -9,6 +9,10 @@ import { BillPaymentForm } from './BillPaymentForm.jsx';
 import { Plus, ChevronDown, ChevronRight } from 'lucide-react';
 
 export function ProjectBillsTab({ projectId, onDataChange }) {
+  console.log('[ProjectBillsTab] Render', {
+    projectId,
+    timestamp: new Date().toISOString(),
+  });
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -18,7 +22,65 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
   const [paymentBill, setPaymentBill] = useState(null);
 
   useEffect(() => {
-    if (projectId) loadBills();
+    if (!projectId) {
+      console.log('[ProjectBillsTab] Effect skipped (no projectId)', { projectId });
+      return;
+    }
+    const effectId = `${projectId}-${Date.now()}`;
+    let cancelled = false;
+    console.log('[ProjectBillsTab] Effect started: fetch bills for project', {
+      projectId: Number(projectId),
+      effectId,
+      timestamp: new Date().toISOString(),
+    });
+    setLoading(true);
+    setError('');
+    (async () => {
+      try {
+        console.log('[ProjectBillsTab] getBills() request started', { projectId: Number(projectId), effectId });
+        const res = await getBills({ projectId: Number(projectId) });
+        if (cancelled) {
+          console.log('[ProjectBillsTab] getBills() response ignored (effect already cleaned up)', {
+            effectId,
+            hadSuccess: res?.success,
+            dataLength: res?.data?.length ?? 0,
+            timestamp: new Date().toISOString(),
+          });
+          return;
+        }
+        console.log('[ProjectBillsTab] getBills() response received', {
+          effectId,
+          success: res?.success,
+          error: res?.error ?? null,
+          count: Array.isArray(res?.data) ? res.data.length : 0,
+          data: res?.data,
+          fullResponse: res,
+          timestamp: new Date().toISOString(),
+        });
+        if (res?.success && res?.data) setBills(res.data);
+        else setError(res?.error ?? 'Failed to load');
+        // Do not call onDataChange here — it triggers parent load() and causes a re-render cascade. Call it only when user adds/edits a bill or records a payment.
+      } catch (err) {
+        if (!cancelled) {
+          console.log('[ProjectBillsTab] getBills() error', {
+            effectId,
+            message: err?.message,
+            response: err?.response?.data,
+            timestamp: new Date().toISOString(),
+          });
+          setError(err.response?.data?.error ?? err.message ?? 'Failed to load');
+        }
+      } finally {
+        if (!cancelled) {
+          console.log('[ProjectBillsTab] Effect finished (loading=false)', { effectId, timestamp: new Date().toISOString() });
+          setLoading(false);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+      console.log('[ProjectBillsTab] Effect cleanup (unmount/cancel)', { effectId, projectId: Number(projectId), timestamp: new Date().toISOString() });
+    };
   }, [projectId]);
 
   async function loadBills() {
@@ -45,12 +107,14 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
         setBills((prev) => prev.map((b) => (b.id === editingBill.id ? res.data : b)));
         setEditingBill(null);
         setShowForm(false);
+        onDataChange?.();
       } else throw new Error(res?.error);
     } else {
       const res = await createBill(withProject);
       if (res?.success && res?.data) {
         setBills((prev) => [res.data, ...prev]);
         setShowForm(false);
+        onDataChange?.();
       } else throw new Error(res?.error);
     }
   }
@@ -60,6 +124,7 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
     if (res?.success && res?.data?.bill) {
       setBills((prev) => prev.map((b) => (b.id === billId ? res.data.bill : b)));
       setPaymentBill(null);
+      onDataChange?.();
     } else throw new Error(res?.error);
   }
 
