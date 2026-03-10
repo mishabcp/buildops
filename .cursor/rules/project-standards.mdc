@@ -1,0 +1,38 @@
+---
+description: Core project standards — flexibility, security, docs, and module design (MANDATORY)
+alwaysApply: true
+---
+
+# CBMS Project Standards — MANDATORY
+
+**These rules are non-negotiable. Apply every one of them in every change.**
+
+---
+
+## 1. Flexibility & scalability (REQUIRED)
+
+- **MUST** design so the core architecture and folder structure can change later without large rewrites.
+- **MUST** prefer abstractions, clear boundaries, and dependency injection over hard-coded coupling.
+- **MUST** keep structure changes local and manageable — no change should force rewrites across the whole codebase.
+
+---
+
+## 2. Security best practices (REQUIRED)
+
+- **MUST** validate and sanitize all inputs; **NEVER** trust client or external data.
+- **NEVER** commit secrets; **ALWAYS** use environment variables or a secrets manager.
+- **MUST** apply least privilege for access and permissions; use secure defaults for auth and sessions.
+
+---
+
+## 3. Keep docs in sync with the code (REQUIRED)
+
+- **MUST** update README, architecture notes, and API docs whenever behavior or structure changes.
+- **NEVER** leave documentation outdated after a code change that affects behavior, APIs, or setup.
+
+---
+
+## 4. Small, focused modules (REQUIRED)
+
+- **MUST** prefer small, single-responsibility modules over large “god” modules or files.
+- **NEVER** add huge, multi-purpose modules; split by responsibility so parts can be replaced or reshaped later.

@@ -1,0 +1,34 @@
+---
+description: Shell/terminal command rules for Windows and PowerShell — avoid && to prevent parser errors
+alwaysApply: true
+---
+
+# Shell commands on Windows (PowerShell) — MANDATORY
+
+**When generating terminal commands, assume the user may be on Windows with PowerShell. Follow these rules so commands run without parser errors.**
+
+---
+
+## 1. Do NOT use `&&` in generated commands (REQUIRED)
+
+- **NEVER** use `&&` as a statement separator in commands you suggest or generate.
+- In **Windows PowerShell 5.x** (the default on many Windows systems), `&&` is **not** a valid statement separator and produces:
+  - `The token '&&' is not a valid statement separator in this version.`
+- **MUST** use one of these instead:
+  - **Semicolon `;`** to chain commands: `cd path; npm install`
+  - **Separate commands** in separate invocations or lines.
+  - **Explicit PowerShell 7+ only** if you clearly document that the user must have PowerShell 7+ and they have confirmed it.
+
+---
+
+## 2. Prefer PowerShell-safe chaining
+
+- Use `;` to run multiple commands in one line: `cd C:\path\to\project; npm install`
+- For conditional execution on success, use PowerShell’s `-and` / `if` or run commands separately; do not rely on `&&` unless the environment is known to be PowerShell 7+ or bash.
+
+---
+
+## 3. Apply to all generated commands
+
+- Apply this rule to **every** terminal command you generate (e.g. in chat, docs, scripts, or rule examples).
+- This avoids repeated "token '&&' is not a valid statement separator" errors for Windows PowerShell users.
