@@ -158,11 +158,16 @@ export async function runSeed() {
         data: { projectId: project.id, stageName: 'Stage 3 - Structure', stageNumber: 3, expectedAmount: cv * 0.3, dueDate: new Date(), status: 'PENDING' },
       }),
     ]);
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     await prisma.paymentReceipt.create({
-      data: { paymentStageId: stages[0].id, amount: cv * 0.2, receivedDate: new Date(), paymentMode: 'BANK_TRANSFER', referenceNo: 'INV-001' },
+      data: { paymentStageId: stages[0].id, amount: cv * 0.2, receivedDate: startOfMonth, paymentMode: 'BANK_TRANSFER', referenceNo: 'INV-001' },
     });
     await prisma.paymentReceipt.create({
-      data: { paymentStageId: stages[1].id, amount: cv * 0.1, receivedDate: new Date(), paymentMode: 'CHEQUE', referenceNo: 'CHQ-001' },
+      data: { paymentStageId: stages[1].id, amount: cv * 0.1, receivedDate: now, paymentMode: 'CHEQUE', referenceNo: 'CHQ-001' },
+    });
+    await prisma.paymentReceipt.create({
+      data: { paymentStageId: stages[1].id, amount: cv * 0.08, receivedDate: now, paymentMode: 'UPI', referenceNo: 'UPI-001' },
     });
   }
 
@@ -176,6 +181,8 @@ export async function runSeed() {
         { projectId: project.id, workerName: 'Ramesh Kumar', workType: 'Mason', days: 20, ratePerDay: 800, totalAmount: 16000, paidAmount: 10000, status: 'PARTIALLY_PAID', paymentDate: payDate, paymentMode: 'CASH' },
         { projectId: project.id, workerName: 'Suresh Singh', workType: 'Labour', days: 30, ratePerDay: 500, totalAmount: 15000, paidAmount: 15000, status: 'PAID', paymentDate: payDate, paymentMode: 'UPI' },
         { projectId: project.id, workerName: 'Vijay Patel', workType: 'Carpenter', days: 15, ratePerDay: 1000, totalAmount: 15000, paidAmount: 0, status: 'PENDING' },
+        { projectId: project.id, workerName: 'Anil Sharma', workType: 'Electrician', days: 10, ratePerDay: 1200, totalAmount: 12000, paidAmount: 5000, status: 'PARTIALLY_PAID', paymentDate: payDate, paymentMode: 'BANK_TRANSFER' },
+        { projectId: project.id, workerName: 'Deepak Roy', workType: 'Plumber', days: 12, ratePerDay: 900, totalAmount: 10800, paidAmount: 0, status: 'PENDING' },
       ],
     });
   }
@@ -205,11 +212,15 @@ export async function runSeed() {
     const count = await prisma.associatePayment.count({ where: { projectId: project.id } });
     if (count > 0) continue;
     const assoc = associates[i % associates.length];
+    const assoc2 = associates[(i + 2) % associates.length];
     const pay = await prisma.associatePayment.create({
       data: { projectId: project.id, associateId: assoc.id, scopeOfWork: 'Full scope as per contract', agreedAmount: 150000, paidAmount: 50000, status: 'PARTIALLY_PAID' },
     });
     await prisma.associateTransaction.create({
       data: { associatePaymentId: pay.id, amount: 50000, paidDate: new Date(), paymentMode: 'BANK_TRANSFER', referenceNo: 'AP-001' },
+    });
+    const pay2 = await prisma.associatePayment.create({
+      data: { projectId: project.id, associateId: assoc2.id, scopeOfWork: 'HVAC installation', agreedAmount: 220000, paidAmount: 0, status: 'PENDING' },
     });
   }
 
@@ -233,6 +244,23 @@ export async function runSeed() {
     });
     await prisma.billPayment.create({
       data: { billId: bill.id, amount: 25000, paidDate: new Date(), paymentMode: 'CHEQUE', referenceNo: 'BP-001' },
+    });
+    const bill2 = await prisma.bill.create({
+      data: {
+        projectId: project.id,
+        type: 'PAYABLE',
+        partyName: 'Steel & Hardware Co',
+        billNumber: `BL-${project.id}-002`,
+        billDate: new Date(),
+        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+        totalAmount: 120000,
+        paidAmount: 40000,
+        status: 'PARTIALLY_PAID',
+        description: 'Steel and hardware supplies',
+      },
+    });
+    await prisma.billPayment.create({
+      data: { billId: bill2.id, amount: 40000, paidDate: new Date(), paymentMode: 'BANK_TRANSFER', referenceNo: 'BP-002' },
     });
   }
   if (!(await prisma.bill.findFirst({ where: { billNumber: 'RC-001' } }))) {
