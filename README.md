@@ -13,7 +13,7 @@ MVP monorepo: React (Vite) frontend, Node.js (Express) backend, Prisma + Postgre
 
 1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `JWT_SECRET`, `PORT`, `CLIENT_URL`.
 2. Ensure PostgreSQL 15+ is running and `DATABASE_URL` is correct.
-3. From `server/`: `npm run prisma:generate` then `npm run prisma:migrate` (creates DB tables). Then `npm run prisma:seed` (seed data; admin login: `admin@company.com` / `admin123`).
+3. From repo root: `npx prisma db push --schema=prisma/schema.prisma` (or `npm run prisma:migrate` from server if you use migrations). Then `cd server && npm run prisma:seed` (seed data: 2 branches, 7 users, 10 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses). All seeded users share password **admin123** — e.g. `admin@company.com` (SUPER_ADMIN), `manager-a@company.com` / `manager-b@company.com` (BRANCH_MANAGER), `staff-a1@company.com` (STAFF).
 4. Install dependencies and run:
 
 ```bash

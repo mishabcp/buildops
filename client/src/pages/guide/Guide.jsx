@@ -105,7 +105,7 @@ export function Guide() {
         <section className="mb-10">
           <h2 className="mb-3 text-xl font-semibold text-gray-900">Sample logins</h2>
           <p className="mb-3 text-gray-600">
-            If your company has just set up CBMS, these accounts may be available so you can try the system. Everyone uses the same password. The <strong>Admin</strong> account can see all offices; <strong>Branch Managers</strong> see only their own office.
+            If your company has just set up CBMS, these accounts may be available so you can try the system. Everyone uses the same password (<strong>admin123</strong>). <strong>Admin</strong> sees all offices; <strong>Branch Managers</strong> and <strong>Staff</strong> see only their own office. Staff cannot delete records.
           </p>
           <div className="overflow-x-auto rounded border border-gray-200 bg-white">
             <table className="min-w-full text-left text-sm">
@@ -130,9 +130,21 @@ export function Guide() {
                   <td className="px-4 py-2">admin123</td>
                   <td className="px-4 py-2">Branch A - Main Office</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-gray-100">
                   <td className="px-4 py-2">Branch Manager</td>
                   <td className="px-4 py-2">manager-b@company.com</td>
+                  <td className="px-4 py-2">admin123</td>
+                  <td className="px-4 py-2">Branch B - Site Office</td>
+                </tr>
+                <tr className="border-b border-gray-100">
+                  <td className="px-4 py-2">Staff (Branch A)</td>
+                  <td className="px-4 py-2">staff-a1@company.com</td>
+                  <td className="px-4 py-2">admin123</td>
+                  <td className="px-4 py-2">Branch A - Main Office</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2">Staff (Branch B)</td>
+                  <td className="px-4 py-2">staff-b1@company.com</td>
                   <td className="px-4 py-2">admin123</td>
                   <td className="px-4 py-2">Branch B - Site Office</td>
                 </tr>

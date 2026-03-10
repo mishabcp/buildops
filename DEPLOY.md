@@ -45,20 +45,23 @@ Do these in order. Each step assumes the previous is done.
    npm run prisma:generate
    cd ..
    ```
-4. Run migrations (from repo root so `.env` is loaded):
+4. Apply schema (from repo root so `.env` is loaded). If you have migration files, run:
    ```bash
    npx prisma migrate deploy --schema=prisma/schema.prisma
    ```
-   You should see migrations applied.
+   If you have no migrations (schema-only), run:
+   ```bash
+   npx prisma db push --schema=prisma/schema.prisma
+   ```
 5. Run the seed (from repo root):
    ```bash
    cd server
    npm run prisma:seed
    cd ..
    ```
-   You should see seed output (branches, users, etc.). Default admin: `admin@company.com` / `admin123`.
+   You should see "Seed completed." Seeded data includes 2 branches, 7 users (1 admin, 2 managers, 4 staff), 10 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses. All user passwords: **admin123** (e.g. `admin@company.com`, `manager-a@company.com`, `staff-a1@company.com`).
 
-**Check:** Supabase **Table Editor** in the dashboard shows tables (e.g. `Branch`, `User`, `Project`). You can log in locally using the same `.env` and `admin@company.com` / `admin123` once server and client run.
+**Check:** Supabase **Table Editor** shows tables with data. Log in locally with `admin@company.com` / `admin123` once server and client run.
 
 ---
 
