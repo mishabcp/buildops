@@ -9,7 +9,10 @@ export async function list(req, res) {
     return success(res, branches);
   } catch (err) {
     console.error('Branch list error:', err);
-    return error(res, 'Failed to list branches', 500);
+    const message = process.env.NODE_ENV !== 'production' && err?.message
+      ? `Branches: ${err.message}`
+      : 'Failed to list branches';
+    return error(res, message, 500);
   }
 }
 

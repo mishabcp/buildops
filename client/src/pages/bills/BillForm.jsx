@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '../../components/ui/button.jsx';
 import { Input } from '../../components/ui/input.jsx';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card.jsx';
+import { X, Building2, AlignLeft, Hash, Calendar, Banknote, ShieldAlert, Type, FolderOpen } from 'lucide-react';
 import { getProjects } from '../../api/projects.api.js';
 
 export function BillForm({ bill, projectId: initialProjectId, onSave, onClose }) {
@@ -50,7 +50,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
         totalAmount: total,
         description: form.description.trim() || null,
       });
-      onClose();
+      // onClose handled by parent
     } catch (err) {
       setError(err.response?.data?.error ?? err.message ?? 'Failed to save');
     } finally {
@@ -59,59 +59,171 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
   }
 
   return (
-    <Card className="w-full max-w-lg">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{isEdit ? 'Edit Bill' : 'Add Bill'}</CardTitle>
-        <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium">Type *</label>
-            <select className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm" value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}>
-              <option value="PAYABLE">Payable</option>
-              <option value="RECEIVABLE">Receivable</option>
-            </select>
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Party name *</label>
-            <Input value={form.partyName} onChange={(e) => setForm((f) => ({ ...f, partyName: e.target.value }))} required />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Project</label>
-            <select className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm" value={form.projectId} onChange={(e) => setForm((f) => ({ ...f, projectId: e.target.value }))}>
-              <option value="">— None —</option>
-              {projects.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Bill number</label>
-            <Input value={form.billNumber} onChange={(e) => setForm((f) => ({ ...f, billNumber: e.target.value }))} />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="mb-1 block text-sm font-medium">Bill date *</label>
-              <Input type="date" value={form.billDate} onChange={(e) => setForm((f) => ({ ...f, billDate: e.target.value }))} required />
+    <div className="relative w-full bg-white rounded-3xl shadow-2xl border border-slate-200/60 overflow-hidden">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+        <h2 className="text-xl font-bold text-slate-900 leading-tight">
+          {isEdit ? 'Update Bill Details' : 'Record New Bill'}
+        </h2>
+        <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-xl transition-colors mt-1 self-start">
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {error && (
+            <div className="rounded-xl border border-red-200 bg-red-50 p-3 shadow-sm flex items-start gap-2.5">
+              <ShieldAlert className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
+              <p className="text-sm font-medium text-red-800">{error}</p>
             </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium">Due date</label>
-              <Input type="date" value={form.dueDate} onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} />
+          )}
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2 relative">
+                  <label className="text-sm font-bold text-slate-700">Bill Type <span className="text-red-500">*</span></label>
+                  <div className="relative">
+                     <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                     <select 
+                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer" 
+                       value={form.type} 
+                       onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}
+                     >
+                        <option value="PAYABLE">Accounts Payable (We owe)</option>
+                        <option value="RECEIVABLE">Accounts Receivable (They owe)</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div className="space-y-2 relative">
+                  <label className="text-sm font-bold text-slate-700">Link to Project</label>
+                  <div className="relative">
+                     <FolderOpen className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                     <select 
+                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer" 
+                       value={form.projectId} 
+                       onChange={(e) => setForm((f) => ({ ...f, projectId: e.target.value }))}
+                     >
+                        <option value="">— Unassigned General Bill —</option>
+                        {projects.map((p) => (
+                           <option key={p.id} value={p.id}>{p.name}</option>
+                        ))}
+                     </select>
+                  </div>
+               </div>
+            </div>
+
+            <div className="space-y-2 relative">
+              <label className="text-sm font-bold text-slate-700">Party / Vendor Name <span className="text-red-500">*</span></label>
+              <div className="relative">
+                 <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                 <Input 
+                   value={form.partyName} 
+                   onChange={(e) => setForm((f) => ({ ...f, partyName: e.target.value }))} 
+                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-bold text-[15px] transition-all"
+                   placeholder="e.g. ABC Suppliers Ltd."
+                   required 
+                   autoFocus
+                 />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2 relative">
+                <label className="text-sm font-bold text-slate-700">Bill / Invoice No.</label>
+                <div className="relative">
+                   <Hash className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                   <Input 
+                     value={form.billNumber} 
+                     onChange={(e) => setForm((f) => ({ ...f, billNumber: e.target.value }))} 
+                     className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                     placeholder="INV-2024-001"
+                   />
+                </div>
+              </div>
+
+              <div className="space-y-2 relative">
+                <label className="text-sm font-bold text-slate-700">Total Amount (₹) <span className="text-red-500">*</span></label>
+                <div className="relative">
+                   <Banknote className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                   <Input 
+                     type="number" 
+                     step="0.01" 
+                     min="0" 
+                     value={form.totalAmount} 
+                     onChange={(e) => setForm((f) => ({ ...f, totalAmount: e.target.value }))} 
+                     className="pl-10 h-11 rounded-xl bg-emerald-50/50 border-emerald-200/50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 font-bold text-[15px] text-emerald-900 transition-all"
+                     placeholder="0.00"
+                     required 
+                   />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2 relative">
+                  <label className="text-sm font-bold text-slate-700">Bill Date <span className="text-red-500">*</span></label>
+                  <div className="relative">
+                     <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none z-10" />
+                     <Input 
+                        type="date" 
+                        value={form.billDate} 
+                        onChange={(e) => setForm((f) => ({ ...f, billDate: e.target.value }))} 
+                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        required 
+                     />
+                  </div>
+               </div>
+
+               <div className="space-y-2 relative">
+                  <label className="text-sm font-bold text-slate-700">Due Date</label>
+                  <div className="relative">
+                     <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none z-10" />
+                     <Input 
+                        type="date" 
+                        value={form.dueDate} 
+                        onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} 
+                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                     />
+                  </div>
+               </div>
+            </div>
+
+            <div className="space-y-2 relative">
+              <label className="text-sm font-bold text-slate-700 block">Description / Notes</label>
+              <div className="relative">
+                 <AlignLeft className="absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
+                 <textarea 
+                   className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 resize-y" 
+                   value={form.description} 
+                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} 
+                   rows={2} 
+                   placeholder="Describe what this bill is for..."
+                 />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Total amount (₹) *</label>
-            <Input type="number" step="0.01" min="0" value={form.totalAmount} onChange={(e) => setForm((f) => ({ ...f, totalAmount: e.target.value }))} required />
+
+          <div className="pt-6 border-t border-slate-100 flex gap-3">
+             <Button 
+                type="button" 
+                variant="outline"
+                onClick={onClose}
+                className="flex-1 h-12 rounded-xl font-bold hover:bg-slate-50 border-slate-200 text-slate-600"
+                disabled={saving}
+             >
+                Cancel
+             </Button>
+             <Button 
+                type="submit" 
+                className="flex-1 h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5"
+                disabled={saving}
+             >
+                {saving ? 'Processing…' : isEdit ? 'Update Details' : 'Save Bill Info'}
+             </Button>
           </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium">Description</label>
-            <textarea className="flex min-h-[60px] w-full rounded-md border border-gray-300 px-3 py-2 text-sm" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={2} />
-          </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          <Button type="submit" disabled={saving}>{saving ? 'Saving…' : isEdit ? 'Update' : 'Add'}</Button>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

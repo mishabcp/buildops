@@ -3,6 +3,7 @@ import { Button } from '../../components/ui/button.jsx';
 import { StatusBadge } from '../../components/shared/StatusBadge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { formatDate } from '../../utils/formatDate.js';
+import { Input } from '../../components/ui/input.jsx';
 import {
   getAssociates,
   createAssociate,
@@ -12,7 +13,8 @@ import {
 } from '../../api/associates.api.js';
 import { AssociateForm } from './AssociateForm.jsx';
 import { AssociatePaymentForm } from './AssociatePaymentForm.jsx';
-import { Plus, ChevronDown, ChevronRight, Receipt } from 'lucide-react';
+import { Plus, ChevronDown, ChevronRight, Receipt, BriefcaseBusiness, Users, User, ShieldAlert, FileText, IndianRupee, Banknote } from 'lucide-react';
+import { cn } from '../../lib/utils.js';
 
 export function ProjectAssociatesTab({ projectId, onDataChange }) {
   const [payments, setPayments] = useState([]);
@@ -80,79 +82,176 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
 
   const balance = (p) => (Number(p.agreedAmount) || 0) - (Number(p.paidAmount) || 0);
 
-  if (loading) return <p className="text-gray-500">Loading…</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading) {
+     return (
+       <div className="animate-pulse space-y-4 pt-4">
+         <div className="h-10 bg-slate-100 rounded-xl w-32 ml-auto" />
+         <div className="space-y-3">
+           <div className="h-24 bg-slate-100 rounded-2xl w-full" />
+           <div className="h-24 bg-slate-100 rounded-2xl w-full" />
+         </div>
+       </div>
+     );
+  }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button onClick={() => setShowAssignForm(true)} className="gap-2">
-          <Plus className="h-4 w-4" />
-          Add Associate
-        </Button>
+    <div className="space-y-6 animate-in fade-in duration-500">
+      
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm">
+          <p className="text-sm font-medium text-red-800">{error}</p>
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+         <div className="hidden sm:flex flex-col">
+            <h3 className="text-lg font-bold text-slate-900">Project Associates</h3>
+            <p className="text-sm font-medium text-slate-500">Manage subcontractors, consultants, and independent agencies</p>
+         </div>
+
+         <div className="flex items-center gap-4 sm:ml-auto">
+             <Button 
+               onClick={() => setShowAssignForm(true)} 
+               className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
+             >
+               <Plus className="h-4 w-4" />
+               Assign Associate
+             </Button>
+         </div>
       </div>
 
       {payments.length === 0 ? (
-        <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center">
-          <p className="text-gray-600">No associates assigned yet.</p>
-          <Button className="mt-4" onClick={() => setShowAssignForm(true)}>Add Associate</Button>
+        <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50/50 p-12 text-center flex flex-col items-center justify-center">
+          <div className="h-16 w-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4 border border-slate-100">
+             <BriefcaseBusiness className="h-8 w-8 text-slate-300" />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900 mb-1">No Associates Assigned</h3>
+          <p className="text-slate-500 font-medium max-w-sm mb-6">Assign subcontractors or agencies and track their contractual milestones.</p>
+          <Button 
+            className="h-11 px-6 rounded-xl font-bold bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 shadow-sm"
+            onClick={() => setShowAssignForm(true)} 
+          >
+             <Plus className="h-4 w-4 mr-2" />
+             Assign First Associate
+          </Button>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {payments.map((p) => {
             const isExpanded = expandedId === p.id;
+            const bal = balance(p);
+
             return (
-              <div key={p.id} className="rounded-lg border border-gray-200 bg-white overflow-hidden">
+              <div 
+                key={p.id} 
+                className={cn(
+                  "rounded-2xl border transition-all duration-200 bg-white overflow-hidden shadow-sm hover:shadow-md",
+                  isExpanded ? "border-blue-200/60 ring-4 ring-blue-500/5 shadow-md" : "border-slate-200/60"
+                )}
+              >
                 <div
-                  className="flex flex-wrap items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer"
+                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 cursor-pointer select-none relative"
                   onClick={() => setExpandedId(isExpanded ? null : p.id)}
                 >
-                  <button type="button" className="text-gray-500" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
-                    {isExpanded ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <span className="font-medium text-gray-900">{p.associate?.name}</span>
-                    {p.associate?.workType && <span className="ml-2 text-gray-500">— {p.associate.workType}</span>}
+                  <div className="flex items-center gap-4 flex-1">
+                    <button type="button" className="text-slate-400 hover:text-blue-600 transition-colors shrink-0 bg-slate-50 hover:bg-blue-50 p-1 rounded-lg">
+                      {isExpanded ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                    </button>
+                    
+                    <div className="flex items-center gap-3">
+                       <div className="h-10 w-10 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold shrink-0">
+                         {p.associate?.name?.charAt(0).toUpperCase()}
+                       </div>
+                       <div>
+                          <div className="flex items-center gap-2">
+                             <h4 className="font-bold text-slate-900">{p.associate?.name}</h4>
+                             {p.associate?.workType && (
+                               <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                                 {p.associate.workType}
+                               </span>
+                             )}
+                          </div>
+                          <p className="text-sm font-medium text-slate-500 line-clamp-1">{p.scopeOfWork ?? 'No scope defined'}</p>
+                       </div>
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-600">{p.scopeOfWork ?? '—'}</div>
-                  <div className="text-sm">
-                    <span className="text-gray-600">Agreed </span>
-                    <span className="font-medium">{formatCurrency(p.agreedAmount)}</span>
+
+                  <div className="flex flex-wrap items-center gap-x-8 gap-y-4 sm:ml-auto">
+                    <div className="flex flex-col items-end">
+                       <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Agreed Value</span>
+                       <span className="font-bold text-slate-900">{formatCurrency(p.agreedAmount)}</span>
+                    </div>
+                    
+                    <div className="flex flex-col items-end">
+                       <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-600/70">Paid Out</span>
+                       <span className="font-bold text-emerald-700 relative group">
+                          {formatCurrency(p.paidAmount)}
+                          <div className="absolute top-1/2 left-0 -translate-y-1/2 -left-3 w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                       </span>
+                    </div>
+
+                    <div className="flex flex-col items-end min-w-[100px]">
+                       <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Balance</span>
+                       <span className={cn(
+                         "font-bold",
+                         bal > 0 ? "text-amber-600" : "text-emerald-600"
+                       )}>
+                         {formatCurrency(bal)}
+                       </span>
+                    </div>
+
+                    <div className="shrink-0 flex flex-col items-end gap-2">
+                      <StatusBadge status={p.status} />
+                      <Button 
+                        size="sm" 
+                        className="h-8 rounded-lg gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 font-semibold shadow-none border border-blue-200/50" 
+                        onClick={(e) => { e.stopPropagation(); setPaymentForm(p); }}
+                      >
+                        <Receipt className="h-3.5 w-3.5" />
+                        Pay
+                      </Button>
+                    </div>
                   </div>
-                  <div className="text-sm">
-                    <span className="text-gray-600">Paid </span>
-                    <span className="font-medium">{formatCurrency(p.paidAmount)}</span>
-                  </div>
-                  <div className="text-sm font-medium">{formatCurrency(balance(p))}</div>
-                  <StatusBadge status={p.status} />
-                  <Button size="sm" variant="outline" className="gap-1" onClick={(e) => { e.stopPropagation(); setPaymentForm(p); }}>
-                    <Receipt className="h-4 w-4" />
-                    Record Payment
-                  </Button>
                 </div>
-                {isExpanded && p.transactions?.length > 0 && (
-                  <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 pl-14">
-                    <p className="mb-2 text-xs font-medium uppercase text-gray-500">Transactions</p>
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="text-left text-gray-600">
-                          <th className="pb-1 pr-4">Date</th>
-                          <th className="pb-1 pr-4">Amount</th>
-                          <th className="pb-1 pr-4">Mode</th>
-                          <th className="pb-1">Reference</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {p.transactions.map((t) => (
-                          <tr key={t.id} className="border-t border-gray-100">
-                            <td className="py-2 pr-4">{formatDate(t.paidDate)}</td>
-                            <td className="py-2 pr-4">{formatCurrency(t.amount)}</td>
-                            <td className="py-2 pr-4">{t.paymentMode?.replace(/_/g, ' ')}</td>
-                            <td className="py-2">{t.referenceNo ?? '—'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+
+                {isExpanded && (
+                  <div className="border-t border-slate-100 bg-slate-50/50 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+                     {p.transactions?.length > 0 ? (
+                       <div className="p-5 pl-14 sm:pl-[5.5rem] overflow-x-auto">
+                         <h5 className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+                           <Banknote className="h-4 w-4 opacity-50" />
+                           Transaction History
+                         </h5>
+                         <table className="w-full text-sm">
+                            <thead>
+                              <tr className="text-left text-slate-500 border-b border-slate-200/60 font-semibold">
+                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Date Logged</th>
+                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Amount</th>
+                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Mode</th>
+                                <th className="pb-2 font-semibold text-[12px] uppercase tracking-wider">Reference Info</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100/60">
+                              {p.transactions.map((t) => (
+                                <tr key={t.id} className="hover:bg-slate-100/50 transition-colors group">
+                                  <td className="py-2.5 pr-4 font-medium text-slate-600">{formatDate(t.paidDate)}</td>
+                                  <td className="py-2.5 pr-4 font-bold text-slate-900">{formatCurrency(t.amount)}</td>
+                                  <td className="py-2.5 pr-4">
+                                     <span className="inline-flex items-center bg-white border border-slate-200 rounded-md px-1.5 py-0.5 text-xs font-semibold text-slate-600 shadow-sm">
+                                       {t.paymentMode?.replace(/_/g, ' ')}
+                                     </span>
+                                  </td>
+                                  <td className="py-2.5 text-slate-500 font-medium italic">{t.referenceNo ?? '—'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                       </div>
+                     ) : (
+                       <div className="p-8 text-center bg-transparent">
+                          <p className="text-sm font-medium text-slate-500">No payment transactions recorded for this associate yet.</p>
+                       </div>
+                     )}
                   </div>
                 )}
               </div>
@@ -162,14 +261,17 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
       )}
 
       {showAssignForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <AssignAssociateModal
-            associates={associates}
-            assignedIds={payments.map((p) => p.associateId)}
-            onAssign={handleAssign}
-            onClose={() => setShowAssignForm(false)}
-            onNewAssociate={() => { setShowNewAssociateForm(true); }}
-          />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+           <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity animate-in fade-in" onClick={() => setShowAssignForm(false)} />
+           <div className="relative animate-in fade-in zoom-in-95 duration-200 w-full max-w-md">
+            <AssignAssociateModal
+              associates={associates}
+              assignedIds={payments.map((p) => p.associateId)}
+              onAssign={handleAssign}
+              onClose={() => setShowAssignForm(false)}
+              onNewAssociate={() => { setShowNewAssociateForm(true); }}
+            />
+          </div>
         </div>
       )}
 
@@ -180,12 +282,15 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
       )}
 
       {paymentForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <AssociatePaymentForm
-            payment={paymentForm}
-            onSave={(payload) => handleRecordPayment(paymentForm.id, payload)}
-            onClose={() => setPaymentForm(null)}
-          />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+           <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity animate-in fade-in" onClick={() => setPaymentForm(null)} />
+           <div className="relative animate-in fade-in zoom-in-95 duration-200 w-full max-w-md">
+            <AssociatePaymentForm
+              payment={paymentForm}
+              onSave={(payload) => handleRecordPayment(paymentForm.id, payload)}
+              onClose={() => setPaymentForm(null)}
+            />
+          </div>
         </div>
       )}
     </div>
@@ -217,7 +322,7 @@ function AssignAssociateModal({ associates, assignedIds, onAssign, onClose, onNe
         scopeOfWork: form.scopeOfWork.trim() || null,
         agreedAmount: agreed,
       });
-      onClose();
+      // onClose handled by parent
     } catch (err) {
       setError(err.response?.data?.error ?? err.message ?? 'Failed to assign');
     } finally {
@@ -226,52 +331,94 @@ function AssignAssociateModal({ associates, assignedIds, onAssign, onClose, onNe
   }
 
   return (
-    <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-6 shadow-lg">
-      <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Assign Associate to Project</h3>
-        <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
+    <div className="w-full bg-white rounded-3xl shadow-2xl border border-slate-200/60 overflow-hidden relative">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+        <h2 className="text-xl font-bold text-slate-900 leading-tight">Assign Associate</h2>
+        <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-2 rounded-xl transition-colors mt-1 self-start">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="mb-1 block text-sm font-medium">Associate *</label>
-          <select
-            className="h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-            value={form.associateId}
-            onChange={(e) => setForm((f) => ({ ...f, associateId: e.target.value }))}
-            required
-          >
-            <option value="">Select associate</option>
-            {available.map((a) => (
-              <option key={a.id} value={a.id}>{a.name} {a.workType ? `— ${a.workType}` : ''}</option>
-            ))}
-          </select>
-          <button type="button" onClick={onNewAssociate} className="mt-1 text-sm text-blue-600 hover:underline">
-            + New associate
-          </button>
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Scope of work</label>
-          <input
-            className="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-            value={form.scopeOfWork}
-            onChange={(e) => setForm((f) => ({ ...f, scopeOfWork: e.target.value }))}
-          />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium">Agreed amount (₹) *</label>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            className="flex h-10 w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-            value={form.agreedAmount}
-            onChange={(e) => setForm((f) => ({ ...f, agreedAmount: e.target.value }))}
-            required
-          />
-        </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <Button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Assign'}</Button>
-      </form>
+
+      <div className="max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          {error && (
+            <div className="rounded-xl border border-red-200 bg-red-50 p-3 shadow-sm flex items-start gap-2.5">
+              <ShieldAlert className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
+              <p className="text-sm font-medium text-red-800">{error}</p>
+            </div>
+          )}
+          
+          <div className="space-y-4">
+            <div className="space-y-2 relative">
+              <div className="flex justify-between items-center">
+                 <label className="text-sm font-bold text-slate-700">Select Associate <span className="text-red-500">*</span></label>
+                 <button type="button" onClick={onNewAssociate} className="text-[12px] font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-md">
+                   <Plus className="h-3 w-3" /> New
+                 </button>
+              </div>
+              <div className="relative">
+                <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                <select
+                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer"
+                  value={form.associateId}
+                  onChange={(e) => setForm((f) => ({ ...f, associateId: e.target.value }))}
+                  required
+                >
+                  <option value="">Select from directory...</option>
+                  {available.map((a) => (
+                    <option key={a.id} value={a.id}>{a.name} {a.workType ? `— ${a.workType}` : ''}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            
+            <div className="space-y-2 relative">
+              <label className="text-sm font-bold text-slate-700">Scope of Work</label>
+              <div className="relative">
+                 <FileText className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                 <Input
+                   placeholder="e.g. Electrical wiring for phase 2"
+                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                   value={form.scopeOfWork}
+                   onChange={(e) => setForm((f) => ({ ...f, scopeOfWork: e.target.value }))}
+                 />
+              </div>
+            </div>
+            
+            <div className="space-y-2 relative">
+              <label className="text-sm font-bold text-slate-700">Agreed Contract Value (₹) <span className="text-red-500">*</span></label>
+              <div className="relative">
+                 <IndianRupee className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                 <Input
+                   type="number"
+                   step="0.01"
+                   min="0"
+                   className="pl-10 h-11 rounded-xl bg-emerald-50/50 border-emerald-200/50 focus:bg-white focus:ring-4 focus:ring-emerald-500/10 font-bold text-emerald-900 transition-all text-[15px]"
+                   placeholder="0.00"
+                   value={form.agreedAmount}
+                   onChange={(e) => setForm((f) => ({ ...f, agreedAmount: e.target.value }))}
+                   required
+                 />
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-4 flex gap-3">
+             <Button 
+                type="button" 
+                variant="outline"
+                onClick={onClose}
+                className="flex-1 h-12 rounded-xl font-bold hover:bg-slate-50 border-slate-200 text-slate-600"
+                disabled={saving}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" className="flex-1 h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5" disabled={saving}>
+                {saving ? 'Processing…' : 'Finalize Assignment'}
+              </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

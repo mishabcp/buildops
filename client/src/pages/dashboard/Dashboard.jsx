@@ -28,16 +28,16 @@ const STAT_CARDS = [
     key: 'activeProjects',
     label: 'Active Projects',
     icon: LayoutDashboard,
-    accent: '#3b82f6',
-    iconBg: 'bg-blue-50',
+    accent: 'from-blue-500 to-indigo-500',
+    iconBg: 'bg-blue-50/50 group-hover:bg-blue-100/50',
     iconColor: 'text-blue-600',
   },
   {
     key: 'totalReceivedThisMonth',
     label: 'Received This Month',
     icon: TrendingUp,
-    accent: '#059669',
-    iconBg: 'bg-emerald-50',
+    accent: 'from-emerald-400 to-teal-500',
+    iconBg: 'bg-emerald-50/50 group-hover:bg-emerald-100/50',
     iconColor: 'text-emerald-600',
     format: (v) => formatCurrency(v ?? 0),
   },
@@ -45,8 +45,8 @@ const STAT_CARDS = [
     key: 'totalOutstandingFromClients',
     label: 'Outstanding (Clients)',
     icon: FileText,
-    accent: '#d97706',
-    iconBg: 'bg-amber-50',
+    accent: 'from-amber-400 to-orange-500',
+    iconBg: 'bg-amber-50/50 group-hover:bg-amber-100/50',
     iconColor: 'text-amber-600',
     format: (v) => formatCurrency(v ?? 0),
   },
@@ -54,8 +54,8 @@ const STAT_CARDS = [
     key: 'totalPendingToVendors',
     label: 'Pending to Vendors',
     icon: FileText,
-    accent: '#e11d48',
-    iconBg: 'bg-rose-50',
+    accent: 'from-rose-400 to-red-500',
+    iconBg: 'bg-rose-50/50 group-hover:bg-rose-100/50',
     iconColor: 'text-rose-600',
     format: (v) => formatCurrency(v ?? 0),
   },
@@ -63,8 +63,8 @@ const STAT_CARDS = [
     key: 'totalPendingToLabour',
     label: 'Pending to Labour',
     icon: Users,
-    accent: '#7c3aed',
-    iconBg: 'bg-violet-50',
+    accent: 'from-violet-400 to-purple-500',
+    iconBg: 'bg-violet-50/50 group-hover:bg-violet-100/50',
     iconColor: 'text-violet-600',
     format: (v) => formatCurrency(v ?? 0),
   },
@@ -72,9 +72,9 @@ const STAT_CARDS = [
     key: 'totalPendingToAssociates',
     label: 'Pending to Associates',
     icon: Users,
-    accent: '#0d9488',
-    iconBg: 'bg-teal-50',
-    iconColor: 'text-teal-600',
+    accent: 'from-cyan-400 to-blue-500',
+    iconBg: 'bg-cyan-50/50 group-hover:bg-cyan-100/50',
+    iconColor: 'text-cyan-600',
     format: (v) => formatCurrency(v ?? 0),
   },
 ];
@@ -84,33 +84,32 @@ function StatCard({ label, value, icon: Icon, accent, iconBg, iconColor, format,
   return (
     <div
       className={cn(
-        'dash-animate stat-card relative overflow-hidden rounded-xl border border-gray-100 bg-white p-5 shadow-sm',
+        'dash-animate group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1',
         delayClass
       )}
     >
-      {/* Colored left accent bar */}
-      <span
-        className="stat-card-accent"
-        style={{ backgroundColor: accent }}
-      />
+      <div className={`absolute top-0 left-0 h-1 w-full bg-gradient-to-r ${accent} opacity-80`} />
+      
       <div className="flex items-start justify-between">
-        <div className="min-w-0 pr-2">
-          <p className="truncate text-xs font-medium uppercase tracking-wider text-gray-500">
+        <div className="flex-1 min-w-0 pr-4">
+          <p className="truncate text-[13px] font-semibold text-slate-500/90 tracking-wide uppercase">
             {label}
           </p>
-          <p className="mt-2 truncate text-xl font-bold tracking-tight text-gray-900">
-            {display ?? '—'}
-          </p>
+          <div className="mt-3 flex items-baseline">
+            <p className="truncate font-sans text-2xl font-bold tracking-tight text-slate-900 group-hover:text-blue-950 transition-colors">
+              {display ?? '—'}
+            </p>
+          </div>
         </div>
         {Icon && (
           <div
             className={cn(
-              'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl',
+              'flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors duration-300',
               iconBg,
               iconColor
             )}
           >
-            <Icon className="h-5 w-5" />
+            <Icon className="h-6 w-6" />
           </div>
         )}
       </div>
@@ -120,12 +119,12 @@ function StatCard({ label, value, icon: Icon, accent, iconBg, iconColor, format,
 
 function SectionHeader({ title, subtitle, action }) {
   return (
-    <div className="mb-4 flex items-end justify-between">
+    <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       <div>
-        <h2 className="text-base font-semibold text-gray-800">{title}</h2>
-        {subtitle && <p className="mt-0.5 text-xs text-gray-400">{subtitle}</p>}
+        <h2 className="text-lg font-bold text-slate-900 tracking-tight">{title}</h2>
+        {subtitle && <p className="mt-1 text-sm font-medium text-slate-500">{subtitle}</p>}
       </div>
-      {action}
+      {action && <div>{action}</div>}
     </div>
   );
 }
@@ -134,21 +133,23 @@ function ChartCard({ title, subtitle, children, delayClass }) {
   return (
     <div
       className={cn(
-        'dash-animate chart-card rounded-xl border border-gray-100 bg-white p-5 shadow-sm',
+        'dash-animate flex flex-col rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all hover:shadow-md',
         delayClass
       )}
     >
       <SectionHeader title={title} subtitle={subtitle} />
-      {children}
+      <div className="flex-1 relative min-h-[300px]">
+        {children}
+      </div>
     </div>
   );
 }
 
 const STATUS_STYLES = {
-  ACTIVE: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
-  COMPLETED: 'bg-slate-100 text-slate-600 ring-1 ring-slate-200',
-  ON_HOLD: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
-  ENQUIRY: 'bg-blue-50 text-blue-700 ring-1 ring-blue-200',
+  ACTIVE: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
+  COMPLETED: 'bg-slate-100 text-slate-600 border-slate-200/80',
+  ON_HOLD: 'bg-amber-50 text-amber-700 border-amber-200/60',
+  ENQUIRY: 'bg-blue-50 text-blue-700 border-blue-200/60',
 };
 
 export function Dashboard() {
@@ -163,7 +164,11 @@ export function Dashboard() {
 
   useEffect(() => {
     load();
-    if (isSuperAdmin) getBranches().then((r) => r?.success && r?.data && setBranches(r.data));
+    if (isSuperAdmin) {
+      getBranches()
+        .then((r) => r?.success && r?.data && setBranches(r.data))
+        .catch(() => { /* Branch list failed (e.g. 500); keep dropdown empty, use "All branches" */ });
+    }
   }, [branchId, isSuperAdmin]);
 
   async function load() {
@@ -185,17 +190,17 @@ export function Dashboard() {
   if (loading && !data) {
     return (
       <PageWrapper title="Dashboard">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-24 animate-pulse rounded-xl border border-gray-200 bg-gray-100" />
+            <div key={i} className="h-32 animate-pulse rounded-2xl border border-slate-200/60 bg-slate-100/50" />
           ))}
         </div>
-        <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-72 animate-pulse rounded-xl border border-gray-200 bg-gray-100" />
+            <div key={i} className="h-96 animate-pulse rounded-2xl border border-slate-200/60 bg-slate-100/50" />
           ))}
         </div>
-        <div className="mt-6">
+        <div className="mt-8">
           <TableSkeleton rows={5} cols={5} />
         </div>
       </PageWrapper>
@@ -214,7 +219,7 @@ export function Dashboard() {
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-  const todayStr = new Date().toLocaleDateString('en-IN', {
+  const todayStr = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -223,210 +228,232 @@ export function Dashboard() {
 
   return (
     <PageWrapper>
-      {error && (
-        <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>
-      )}
+      <div className="mx-auto max-w-7xl py-2 sm:py-6">
+        {error && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm flex items-center gap-3">
+             <AlertTriangle className="h-5 w-5 text-red-500" />
+            <p className="text-sm font-medium text-red-800">{error}</p>
+          </div>
+        )}
 
-      {/* ── Header ── */}
-      <div className="dash-animate dash-delay-1 mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {greeting}, {user?.name?.split(' ')[0] ?? 'there'} 👋
-          </h1>
-          <p className="mt-0.5 text-sm text-gray-400">{todayStr}</p>
+        {/* ── Header ── */}
+        <div className="dash-animate dash-delay-1 mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl block">
+              {greeting}, <span className="text-blue-600">{user?.name?.split(' ')[0] ?? 'there'}</span> 👋
+            </h1>
+            <p className="mt-2 text-base font-medium text-slate-500">{todayStr}</p>
+          </div>
+
+          {isSuperAdmin && (
+            <div className="relative inline-flex items-center gap-2 group">
+              <div className="flex items-center justify-center p-2 rounded-lg bg-slate-100/80 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                <GitBranch className="h-4 w-4 shrink-0" />
+              </div>
+              <div className="relative min-w-[180px]">
+                <select
+                  className="w-full appearance-none rounded-xl border border-slate-200/80 bg-white/50 backdrop-blur-sm py-2.5 pl-4 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 hover:border-slate-300 cursor-pointer"
+                  value={branchId}
+                  onChange={(e) => setBranchId(e.target.value)}
+                >
+                  <option value="">All branches config</option>
+                  {branches.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 group-hover:text-blue-500 transition-colors" />
+              </div>
+            </div>
+          )}
         </div>
 
-        {isSuperAdmin && (
-          <div className="relative inline-flex items-center gap-2">
-            <GitBranch className="h-4 w-4 shrink-0 text-gray-400" />
-            <div className="relative">
-              <select
-                className="appearance-none rounded-lg border border-gray-200 bg-white py-2 pl-3 pr-8 text-sm font-medium text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                value={branchId}
-                onChange={(e) => setBranchId(e.target.value)}
-              >
-                <option value="">All branches</option>
-                {branches.map((b) => (
-                  <option key={b.id} value={b.id}>
-                    {b.name}
-                  </option>
+        {/* ── Stat cards ── */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {STAT_CARDS.map((card, i) => (
+            <StatCard
+              key={card.key}
+              label={card.label}
+              value={d[card.key]}
+              icon={card.icon}
+              accent={card.accent}
+              iconBg={card.iconBg}
+              iconColor={card.iconColor}
+              format={card.format}
+              delayClass={`dash-delay-${i + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* ── Low stock alert ── */}
+        {lowStock.length > 0 && (
+          <div className="dash-animate dash-delay-7 mt-8 flex items-start gap-5 rounded-2xl border border-orange-200/60 bg-gradient-to-br from-orange-50/80 to-amber-50/50 p-6 shadow-sm overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            
+            <div className="alert-pulse relative flex items-center justify-center rounded-xl bg-orange-100 p-3 shadow-inner shadow-orange-200/50">
+              <AlertTriangle className="h-7 w-7 text-orange-600" />
+            </div>
+            
+            <div className="min-w-0 flex-1 relative z-10">
+              <h3 className="text-base font-bold text-orange-950 tracking-tight">Attention: Low Stock Alert</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-orange-800/90 font-medium">
+                {lowStock.map((m) => (
+                  <span key={m.id} className="mr-5 inline-block">
+                    <strong className="text-orange-900">{m.name}</strong>: 
+                    <span className="opacity-80 ml-1.5">{Number(m.currentStock)} {m.unit} (min {Number(m.minThreshold)})</span>
+                  </span>
                 ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              </p>
+              <Link
+                to="/materials"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-orange-700 hover:text-orange-900 transition-colors group"
+              >
+                Manage Inventory
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         )}
-      </div>
 
-      {/* ── Stat cards ── */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {STAT_CARDS.map((card, i) => (
-          <StatCard
-            key={card.key}
-            label={card.label}
-            value={d[card.key]}
-            icon={card.icon}
-            accent={card.accent}
-            iconBg={card.iconBg}
-            iconColor={card.iconColor}
-            format={card.format}
-            delayClass={`dash-delay-${i + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* ── Low stock alert ── */}
-      {lowStock.length > 0 && (
-        <div className="dash-animate dash-delay-7 mt-6 flex items-start gap-4 rounded-xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-5 shadow-sm">
-          <div className="alert-pulse rounded-lg bg-amber-100 p-2.5">
-            <AlertTriangle className="h-6 w-6 text-amber-700" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-amber-900">Low stock alert</h3>
-            <p className="mt-1.5 text-sm text-amber-800">
-              {lowStock.map((m) => (
-                <span key={m.id} className="mr-4 inline-block">
-                  <strong>{m.name}</strong>: {Number(m.currentStock)} {m.unit} (min{' '}
-                  {Number(m.minThreshold)})
-                </span>
-              ))}
-            </p>
-            <Link
-              to="/materials"
-              className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-amber-800 underline decoration-amber-600 hover:text-amber-900"
-            >
-              Manage materials
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+        {/* ── Charts row 1 ── */}
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <ChartCard
+            title="Collections Overview"
+            subtitle="Trailing 6-month view"
+            delayClass="dash-delay-7"
+          >
+            <CollectionsChart data={collectionsByMonth} />
+          </ChartCard>
+          
+          <ChartCard
+            title="Project Pipeline"
+            subtitle="Current status distribution"
+            delayClass="dash-delay-8"
+          >
+            <StatusDonut data={projectStatusCounts} />
+          </ChartCard>
         </div>
-      )}
 
-      {/* ── Charts row 1 ── */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <ChartCard
-          title="Collections"
-          subtitle="Last 6 months"
-          delayClass="dash-delay-7"
-        >
-          <CollectionsChart data={collectionsByMonth} />
-        </ChartCard>
-        <ChartCard
-          title="Projects by Status"
-          subtitle="Current distribution"
-          delayClass="dash-delay-8"
-        >
-          <StatusDonut data={projectStatusCounts} />
-        </ChartCard>
-      </div>
+        {/* ── Charts row 2 ── */}
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <ChartCard
+            title="Accounts Payable"
+            subtitle="Outstanding liabilities breakdown"
+            delayClass="dash-delay-9"
+          >
+            <PendingBreakdownChart data={pendingBreakdown} />
+          </ChartCard>
+          
+          <ChartCard
+            title="Expense Analytics"
+            subtitle="Categorized spending distribution"
+            delayClass="dash-delay-10"
+          >
+            <ExpenseBreakdownChart data={expenseBreakdown} />
+          </ChartCard>
+        </div>
 
-      {/* ── Charts row 2 ── */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <ChartCard
-          title="Pending Payables"
-          subtitle="Breakdown by category"
-          delayClass="dash-delay-9"
-        >
-          <PendingBreakdownChart data={pendingBreakdown} />
-        </ChartCard>
-        <ChartCard
-          title="Expense Breakdown"
-          subtitle="By expense type"
-          delayClass="dash-delay-10"
-        >
-          <ExpenseBreakdownChart data={expenseBreakdown} />
-        </ChartCard>
-      </div>
+        {/* ── Recent projects ── */}
+        <div className="dash-animate dash-delay-10 mt-10 p-6 rounded-2xl border border-slate-200/60 bg-white shadow-sm">
+          <SectionHeader
+            title="Active Workflow"
+            subtitle="Recently updated projects"
+            action={
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-3.5 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900 border border-slate-200/50"
+              >
+                View Directory <ArrowRight className="h-4 w-4" />
+              </Link>
+            }
+          />
 
-      {/* ── Recent projects ── */}
-      <div className="dash-animate dash-delay-10 mt-8">
-        <SectionHeader
-          title="Recent Projects"
-          subtitle="Latest activity"
-          action={
-            <Link
-              to="/projects"
-              className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
-            >
-              View all <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          }
-        />
-
-        {recent.length === 0 ? (
-          <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-8 text-center">
-            <p className="text-gray-500">No projects yet.</p>
-            <Link
-              to="/projects/new"
-              className="mt-2 inline-block text-sm font-medium text-blue-600 hover:underline"
-            >
-              Create your first project
-            </Link>
-          </div>
-        ) : (
-          <div className="overflow-x-auto rounded-xl border border-gray-100 bg-white shadow-sm">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50/70 text-left">
-                  <th className="p-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Project
-                  </th>
-                  <th className="p-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Client
-                  </th>
-                  <th className="p-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Branch
-                  </th>
-                  <th className="p-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Status
-                  </th>
-                  <th className="p-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Contract Value
-                  </th>
-                  <th className="w-10 p-4" aria-hidden />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {recent.map((p) => (
-                  <tr key={p.id} className="project-row transition-colors hover:bg-blue-50/40">
-                    <td className="p-4">
-                      <Link
-                        to={`/projects/${p.id}`}
-                        className="font-semibold text-gray-900 hover:text-blue-600"
-                      >
-                        {p.name}
-                      </Link>
-                    </td>
-                    <td className="p-4 text-gray-500">{p.client?.name ?? '—'}</td>
-                    <td className="p-4 text-gray-500">{p.branch?.name ?? '—'}</td>
-                    <td className="p-4">
-                      <span
-                        className={cn(
-                          'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
-                          STATUS_STYLES[p.status] ?? 'bg-gray-100 text-gray-600 ring-1 ring-gray-200'
-                        )}
-                      >
-                        {p.status?.replace(/_/g, ' ')}
-                      </span>
-                    </td>
-                    <td className="p-4 text-right font-semibold text-gray-800">
-                      {formatCurrency(p.contractValue)}
-                    </td>
-                    <td className="p-4">
-                      <Link
-                        to={`/projects/${p.id}`}
-                        className="inline-flex rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-blue-100 hover:text-blue-600"
-                        aria-label="Open project"
-                      >
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </td>
+          {recent.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50/50 p-12 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                <LayoutDashboard className="h-6 w-6 text-slate-400" />
+              </div>
+              <h3 className="mt-4 text-sm font-semibold text-slate-900">No active projects</h3>
+              <p className="mt-1 text-sm text-slate-500">Get started by creating a new project workflow.</p>
+              <Link
+                to="/projects/new"
+                className="mt-6 inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all"
+              >
+                Create New Project
+              </Link>
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-xl border border-slate-200/60 bg-white/50">
+              <table className="w-full text-sm whitespace-nowrap">
+                <thead>
+                  <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
+                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
+                      Project Details
+                    </th>
+                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
+                      Client
+                    </th>
+                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
+                      Branch
+                    </th>
+                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
+                      Status
+                    </th>
+                    <th className="py-4 px-5 text-right text-xs font-bold uppercase tracking-widest text-slate-500">
+                      Contract Value
+                    </th>
+                    <th className="w-12 py-4 px-5" aria-hidden />
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody className="divide-y divide-slate-100 bg-white">
+                  {recent.map((p) => (
+                    <tr key={p.id} className="project-row group transition-colors hover:bg-slate-50/70">
+                      <td className="py-4 px-5">
+                        <Link
+                          to={`/projects/${p.id}`}
+                          className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors"
+                        >
+                          {p.name}
+                        </Link>
+                      </td>
+                      <td className="py-4 px-5 font-medium text-slate-500">{p.client?.name ?? '—'}</td>
+                      <td className="py-4 px-5 font-medium text-slate-500">
+                        <span className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-600">
+                           {p.branch?.name ?? '—'}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5">
+                        <span
+                          className={cn(
+                            'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border',
+                            STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
+                          )}
+                        >
+                          {p.status?.replace(/_/g, ' ')}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5 text-right">
+                        <span className="inline-block font-bold text-slate-700 font-mono tracking-tight bg-slate-50 px-2 py-1 rounded-lg">
+                           {formatCurrency(p.contractValue)}
+                        </span>
+                      </td>
+                      <td className="py-4 px-5 text-right">
+                        <Link
+                          to={`/projects/${p.id}`}
+                          className="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-blue-600 hover:shadow-sm ring-1 ring-slate-200/0 hover:ring-slate-200"
+                          aria-label="Open project"
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </PageWrapper>
   );

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { PageWrapper } from '../../components/layout/PageWrapper.jsx';
 import { Button } from '../../components/ui/button.jsx';
-import { StatusBadge } from '../../components/shared/StatusBadge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { getProject, getProjectSummary } from '../../api/projects.api.js';
 import { cn } from '../../lib/utils.js';
@@ -15,6 +14,12 @@ import {
   Handshake,
   FileText,
   Receipt,
+  Building2,
+  MapPin,
+  TrendingDown,
+  TrendingUp,
+  Percent,
+  WalletCards
 } from 'lucide-react';
 import { PaymentStages } from '../payments/PaymentStages.jsx';
 import { LabourList } from '../labour/LabourList.jsx';
@@ -22,6 +27,14 @@ import { ProjectMaterialsTab } from '../materials/ProjectMaterialsTab.jsx';
 import { ProjectAssociatesTab } from '../associates/ProjectAssociatesTab.jsx';
 import { ProjectBillsTab } from '../bills/ProjectBillsTab.jsx';
 import { ProjectExpensesTab } from '../expenses/ProjectExpensesTab.jsx';
+
+const STATUS_STYLES = {
+  ACTIVE: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
+  COMPLETED: 'bg-slate-100 text-slate-600 border-slate-200/80',
+  ON_HOLD: 'bg-amber-50 text-amber-700 border-amber-200/60',
+  CANCELLED: 'bg-red-50 text-red-700 border-red-200/60',
+  ENQUIRY: 'bg-blue-50 text-blue-700 border-blue-200/60',
+};
 
 const TABS = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
@@ -60,122 +73,242 @@ export function ProjectDetail() {
     }
   }
 
-  if (loading) return <PageWrapper title="Project"><p className="text-gray-500">Loading…</p></PageWrapper>;
-  if (error || !project) return <PageWrapper title="Project"><p className="text-red-600">{error || 'Project not found'}</p></PageWrapper>;
+  if (loading) {
+    return (
+      <PageWrapper title="Loading Project...">
+        <div className="animate-pulse space-y-8">
+          <div className="h-32 bg-slate-100 rounded-3xl" />
+          <div className="h-12 bg-slate-100 rounded-xl max-w-2xl" />
+          <div className="h-96 bg-slate-100 rounded-3xl" />
+        </div>
+      </PageWrapper>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <PageWrapper title="Project Error">
+        <div className="rounded-2xl border-2 border-dashed border-red-200 bg-red-50 p-12 text-center">
+          <h3 className="text-lg font-bold text-red-900">Unable to load project</h3>
+          <p className="mt-2 text-red-600 font-medium">{error || 'Project not found'}</p>
+          <Link to="/projects">
+            <Button className="mt-6 bg-red-600 hover:bg-red-700 text-white rounded-xl">Return to Directory</Button>
+          </Link>
+        </div>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper>
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">{project.name}</h1>
-          <p className="text-gray-600">{project.client?.name} · {project.branch?.name}</p>
-          <StatusBadge status={project.status} className="mt-2" />
+      <div className="mx-auto max-w-7xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+        
+        {/* ── Premium Header Card ── */}
+        <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/60 shadow-sm mb-8">
+           {/* Abstract Header Background */}
+          <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none" />
+          <div className="absolute -top-12 -right-12 h-64 w-64 bg-blue-50/50 rounded-full blur-3xl" />
+          
+          <div className="relative p-6 sm:p-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                 <span
+                  className={cn(
+                    'inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider border text-xs shadow-sm',
+                    STATUS_STYLES[project.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
+                  )}
+                >
+                  <span className={cn("w-1.5 h-1.5 rounded-full mr-2", 
+                    project.status === 'ACTIVE' ? "bg-emerald-500" :
+                    project.status === 'ON_HOLD' ? "bg-amber-500" :
+                    project.status === 'CANCELLED' ? "bg-red-500" :
+                    project.status === 'ENQUIRY' ? "bg-blue-500" : "bg-slate-400"
+                  )} />
+                  {project.status?.replace(/_/g, ' ')}
+                </span>
+                <span className="text-sm font-semibold text-slate-400 font-mono">#{String(project.id).slice(0,8).toUpperCase()}</span>
+              </div>
+              
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+                {project.name}
+              </h1>
+              
+              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm font-medium text-slate-500">
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-4 w-4 text-slate-400" />
+                  {project.client?.name ?? 'No Client Assigned'}
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-slate-400" />
+                  {project.branch?.name ?? 'Branch Undefined'}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex shrink-0">
+               <Link to={`/projects/${id}/edit`}>
+                <Button className="h-11 px-5 rounded-xl gap-2 font-semibold shadow-sm border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all hover:shadow-md">
+                  <Pencil className="h-4 w-4" />
+                  Edit Details
+                </Button>
+              </Link>
+            </div>
+          </div>
+          
+          {/* Sub Navigation / Settings Bar embedded in card */}
+          <div className="border-t border-slate-100 bg-slate-50/50 px-4 sm:px-8">
+            <nav className="-mb-px flex gap-2 overflow-x-auto hide-scrollbar" aria-label="Tabs">
+              {TABS.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    className={cn(
+                      'flex items-center gap-2.5 whitespace-nowrap border-b-2 px-1 py-4 text-[14px] font-semibold transition-all duration-200 outline-none',
+                      isActive
+                        ? 'border-blue-600 text-blue-700'
+                        : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
+                    )}
+                  >
+                    <tab.icon className={cn("h-4 w-4 shrink-0 transition-colors", isActive ? "text-blue-600" : "text-slate-400")} />
+                    {tab.label}
+                  </button>
+                )
+              })}
+            </nav>
+          </div>
         </div>
-        <Link to={`/projects/${id}/edit`}>
-          <Button variant="outline" className="gap-2">
-            <Pencil className="h-4 w-4" />
-            Edit
-          </Button>
-        </Link>
-      </div>
 
-      <div className="border-b border-gray-200">
-        <nav className="-mb-px flex gap-1 overflow-x-auto" aria-label="Tabs">
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => {
-                if (tab.id === 'bills') {
-                  console.log('[ProjectDetail] Bills tab clicked', {
-                    projectId: id,
-                    projectName: project?.name,
-                    previousTab: activeTab,
-                    timestamp: new Date().toISOString(),
-                  });
-                }
-                setActiveTab(tab.id);
-              }}
-              className={cn(
-                'flex items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors',
-                activeTab === tab.id
-                  ? 'border-gray-900 text-gray-900'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              )}
-            >
-              <tab.icon className="h-4 w-4 shrink-0" />
-              {tab.label}
-            </button>
-          ))}
-        </nav>
-      </div>
-
-      <div className="mt-6">
-        {activeTab === 'overview' && (
-          <OverviewTab project={project} summary={summary} />
-        )}
-        {activeTab === 'stages' && <PaymentStages projectId={id} onDataChange={load} />}
-        {activeTab === 'labour' && <LabourList projectId={id} onDataChange={load} />}
-        {activeTab === 'materials' && <ProjectMaterialsTab projectId={id} onDataChange={load} />}
-        {activeTab === 'associates' && <ProjectAssociatesTab projectId={id} onDataChange={load} />}
-        {activeTab === 'bills' && (() => {
-          console.log('[ProjectDetail] Rendering Bills tab content', {
-            projectId: id,
-            activeTab,
-            projectName: project?.name,
-            timestamp: new Date().toISOString(),
-          });
-          return <ProjectBillsTab projectId={id} onDataChange={load} />;
-        })()}
-        {activeTab === 'expenses' && <ProjectExpensesTab projectId={id} onDataChange={load} />}
+        {/* ── Tab Content Area ── */}
+        <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 delay-150 fill-mode-both min-h-[400px]">
+          {activeTab === 'overview' && (
+            <OverviewTab project={project} summary={summary} />
+          )}
+          {activeTab === 'stages' && <PaymentStages projectId={id} onDataChange={load} />}
+          {activeTab === 'labour' && <LabourList projectId={id} onDataChange={load} />}
+          {activeTab === 'materials' && <ProjectMaterialsTab projectId={id} onDataChange={load} />}
+          {activeTab === 'associates' && <ProjectAssociatesTab projectId={id} onDataChange={load} />}
+          {activeTab === 'bills' && <ProjectBillsTab projectId={id} onDataChange={load} />}
+          {activeTab === 'expenses' && <ProjectExpensesTab projectId={id} onDataChange={load} />}
+        </div>
       </div>
     </PageWrapper>
   );
 }
 
 function OverviewTab({ project, summary }) {
-  if (!summary) return <p className="text-gray-500">Loading summary…</p>;
+  if (!summary) return <div className="text-center py-12 text-slate-500 font-medium">Crunching numbers...</div>;
+
+  const isProfitable = summary.estimatedProfit >= 0;
+
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        <StatCard label="Contract Value" value={formatCurrency(summary.totalContractValue)} />
-        <StatCard label="Total Received" value={formatCurrency(summary.totalReceived)} />
-        <StatCard label="Outstanding" value={formatCurrency(summary.totalOutstanding)} />
-        <StatCard label="Total Expenses" value={formatCurrency(summary.totalExpenses)} />
-        <StatCard
-          label="Est. Profit"
-          value={formatCurrency(summary.estimatedProfit)}
-          valueClassName={summary.estimatedProfit >= 0 ? 'text-green-600' : 'text-red-600'}
+      {/* Top Level Financials */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <StatCard 
+          label="Contract Value" 
+          value={formatCurrency(summary.totalContractValue)} 
+          icon={WalletCards}
+          accent="from-slate-400 to-slate-500"
+          valueClass="text-slate-900"
         />
-        <StatCard label="Profit Margin" value={`${summary.profitMargin?.toFixed(1) ?? 0}%`} />
+        <StatCard 
+          label="Total Received" 
+          value={formatCurrency(summary.totalReceived)} 
+          icon={TrendingUp}
+          accent="from-emerald-400 to-teal-500"
+          valueClass="text-emerald-700"
+        />
+        <StatCard 
+          label="Outstanding Balance" 
+          value={formatCurrency(summary.totalOutstanding)} 
+          icon={TrendingDown}
+          accent="from-orange-400 to-amber-500"
+          valueClass="text-orange-700"
+        />
+        <StatCard 
+          label="Total Operating Expenses" 
+          value={formatCurrency(summary.totalExpenses)} 
+          icon={Receipt}
+          accent="from-rose-400 to-red-500"
+          valueClass="text-rose-700"
+        />
+        <StatCard 
+          label="Est. Project Profit" 
+          value={formatCurrency(summary.estimatedProfit)} 
+          icon={LayoutDashboard}
+          accent={isProfitable ? "from-blue-400 to-indigo-500" : "from-red-400 to-rose-500"}
+          valueClass={isProfitable ? "text-blue-700" : "text-red-700"}
+        />
+        <StatCard 
+          label="Gross Profit Margin" 
+          value={`${summary.profitMargin?.toFixed(1) ?? 0}%`} 
+          icon={Percent}
+          accent={isProfitable ? "from-indigo-400 to-violet-500" : "from-slate-300 to-slate-400"}
+          valueClass={isProfitable ? "text-indigo-700" : "text-slate-500"}
+        />
       </div>
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-        <h3 className="text-sm font-medium text-gray-700">Breakdown</h3>
-        <ul className="mt-2 space-y-1 text-sm text-gray-600">
-          <li>Labour: {formatCurrency(summary.totalLabourCost)}</li>
-          <li>Materials: {formatCurrency(summary.totalMaterialCost)}</li>
-          <li>Associates: {formatCurrency(summary.totalAssociateCost)}</li>
-          <li>Bills payable: {formatCurrency(summary.totalBillsPayable)}</li>
-          <li>Other expenses: {formatCurrency(summary.totalOtherExpenses)}</li>
-        </ul>
+
+      {/* Expense Allocation Breakdown */}
+      <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden mt-8">
+        <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+           <h3 className="text-sm font-bold tracking-tight text-slate-900 uppercase">Expense Allocation Breakdown</h3>
+        </div>
+        
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+            <BreakdownRow label="Labour Costs" value={summary.totalLabourCost} total={summary.totalExpenses} />
+            <BreakdownRow label="Material Procurement" value={summary.totalMaterialCost} total={summary.totalExpenses} />
+            <BreakdownRow label="Associate Fees" value={summary.totalAssociateCost} total={summary.totalExpenses} />
+            <BreakdownRow label="Bills Payable (Vendors)" value={summary.totalBillsPayable} total={summary.totalExpenses} />
+            <BreakdownRow label="Other Expenses" value={summary.totalOtherExpenses} total={summary.totalExpenses} />
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-function StatCard({ label, value, valueClassName = '' }) {
+function StatCard({ label, value, icon: Icon, accent, valueClass }) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</p>
-      <p className={cn('mt-1 text-lg font-semibold text-gray-900', valueClassName)}>{value}</p>
+    <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white p-6 shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
+       {/* Top accent bar */}
+       <div className={`absolute top-0 left-0 h-1 w-full bg-gradient-to-r ${accent} opacity-80`} />
+       
+       <div className="flex items-start justify-between">
+          <div className="pr-4">
+             <p className="text-[12px] font-bold uppercase tracking-wider text-slate-500/80 mb-2">{label}</p>
+             <p className={cn('text-2xl font-black font-sans tracking-tight', valueClass)}>{value}</p>
+          </div>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 transition-colors">
+            <Icon className="h-5 w-5" />
+          </div>
+       </div>
     </div>
   );
 }
 
-function TabPlaceholder({ title }) {
-  return (
-    <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center">
-      <p className="text-gray-600">{title} content will be built in the next steps.</p>
-    </div>
-  );
+function BreakdownRow({ label, value, total }) {
+   const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+   
+   return (
+     <div className="flex flex-col gap-2 relative group">
+       <div className="flex items-end justify-between text-sm">
+         <span className="font-semibold text-slate-600 group-hover:text-slate-900 transition-colors">{label}</span>
+         <div className="flex items-center gap-3">
+             <span className="font-bold text-slate-900 font-mono text-[15px]">{formatCurrency(value)}</span>
+             <span className="text-xs font-semibold text-slate-400 w-12 text-right">{percentage}%</span>
+         </div>
+       </div>
+       {/* Mini Progress Bar */}
+       <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-slate-300 group-hover:bg-blue-400 transition-colors duration-500 rounded-full" 
+            style={{ width: `${percentage}%` }} 
+          />
+       </div>
+     </div>
+   )
 }

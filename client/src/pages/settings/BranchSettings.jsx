@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { authStore } from '../../store/authStore.js';
 import { Button } from '../../components/ui/button.jsx';
 import { Input } from '../../components/ui/input.jsx';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card.jsx';
 import { getBranches, updateBranch } from '../../api/branches.api.js';
+import { Building2, Save, X, Pencil, MapPin } from 'lucide-react';
 
 export function BranchSettings() {
   const user = authStore((s) => s.user);
@@ -62,58 +62,125 @@ export function BranchSettings() {
     }
   }
 
-  if (!isSuperAdmin) return <p className="text-gray-500">You need Super Admin access to manage branches.</p>;
-  if (loading) return <p className="text-gray-500">Loading…</p>;
+  if (!isSuperAdmin) return null;
+
+  if (loading) {
+     return (
+       <div className="animate-pulse space-y-4">
+         <div className="h-24 bg-slate-100 rounded-2xl w-full" />
+         <div className="h-24 bg-slate-100 rounded-2xl w-full" />
+         <div className="h-24 bg-slate-100 rounded-2xl w-full" />
+       </div>
+     )
+  }
 
   return (
-    <div>
-      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
-      <Card>
-        <CardHeader>
-          <CardTitle>Branches</CardTitle>
-        </CardHeader>
-        <CardContent>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+      {error && (
+        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm">
+          <p className="text-sm font-medium text-red-800">{error}</p>
+        </div>
+      )}
+      
+      <div className="rounded-3xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
+        <div className="border-b border-slate-100 bg-slate-50/50 px-6 sm:px-8 py-5">
+          <div className="flex items-center gap-3">
+             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-blue-100/50 text-blue-600">
+                <Building2 className="h-5 w-5" />
+             </div>
+             <div>
+                <h3 className="text-lg font-bold text-slate-900 tracking-tight">Active Branches</h3>
+                <p className="text-sm text-slate-500 font-medium">Manage and organize your company branch locations</p>
+             </div>
+          </div>
+        </div>
+        
+        <div className="p-6 sm:p-8">
           <div className="space-y-4">
             {branches.length === 0 ? (
-              <p className="text-gray-500">No branches.</p>
+              <div className="text-center py-12 border-2 border-dashed border-slate-200 rounded-2xl">
+                <p className="text-slate-500 font-medium">No branches configured.</p>
+              </div>
             ) : (
               branches.map((branch) => (
                 <div
                   key={branch.id}
-                  className="flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 p-3"
+                  className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-slate-200/60 bg-white p-5 transition-all hover:shadow-md hover:border-slate-300/80"
                 >
                   {editingId === branch.id ? (
-                    <>
-                      <Input
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                        placeholder="Name"
-                        className="max-w-xs"
-                      />
-                      <Input
-                        value={editLocation}
-                        onChange={(e) => setEditLocation(e.target.value)}
-                        placeholder="Location"
-                        className="max-w-xs"
-                      />
-                      <Button size="sm" onClick={saveEdit}>Save</Button>
-                      <Button size="sm" variant="outline" onClick={cancelEdit}>Cancel</Button>
-                    </>
+                    <div className="flex-1 flex flex-col sm:flex-row gap-4 w-full animate-in fade-in zoom-in-95 duration-200">
+                      <div className="flex-1 space-y-3">
+                        <div className="relative">
+                          <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            placeholder="Branch Name (e.g. Headquarters)"
+                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-[15px] font-medium rounded-xl transition-all"
+                            autoFocus
+                          />
+                        </div>
+                        <div className="relative">
+                          <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                          <Input
+                            value={editLocation}
+                            onChange={(e) => setEditLocation(e.target.value)}
+                            placeholder="Location (Optional)"
+                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-[15px] font-medium rounded-xl transition-all"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex sm:flex-col justify-end gap-2 shrink-0">
+                        <Button 
+                          onClick={saveEdit}
+                          className="flex-1 sm:flex-none h-11 bg-slate-900 hover:bg-slate-800 text-white rounded-xl gap-2 font-semibold shadow-md hover:-translate-y-0.5 transition-all"
+                        >
+                          <Save className="h-4 w-4" />
+                          Save
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={cancelEdit}
+                          className="flex-1 sm:flex-none h-11 rounded-xl gap-2 font-medium hover:bg-slate-50"
+                        >
+                          <X className="h-4 w-4" />
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
                   ) : (
                     <>
-                      <div>
-                        <span className="font-medium">{branch.name}</span>
-                        {branch.location && <span className="ml-2 text-gray-500">— {branch.location}</span>}
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
+                           <Building2 className="h-6 w-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                        </div>
+                        <div>
+                          <h4 className="text-[16px] font-bold text-slate-900 tracking-tight">{branch.name}</h4>
+                          <div className="flex items-center gap-1.5 mt-1 text-sm font-medium text-slate-500">
+                             <MapPin className="h-3.5 w-3.5" />
+                             {branch.location || <span className="italic opacity-70">Location not specified</span>}
+                          </div>
+                        </div>
                       </div>
-                      <Button size="sm" variant="outline" onClick={() => startEdit(branch)}>Edit</Button>
+                      
+                      <Button 
+                        variant="ghost" 
+                        onClick={() => startEdit(branch)}
+                        className="h-10 w-10 sm:w-auto shrink-0 rounded-xl px-0 sm:px-4 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors self-end sm:self-center opacity-0 group-hover:opacity-100 sm:opacity-100"
+                        title="Edit Branch"
+                      >
+                        <Pencil className="h-4 w-4 sm:mr-2" />
+                        <span className="hidden sm:inline font-semibold">Edit</span>
+                      </Button>
                     </>
                   )}
                 </div>
               ))
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
