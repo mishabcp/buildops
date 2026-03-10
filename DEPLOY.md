@@ -81,7 +81,7 @@ Do these in order. Each step assumes the previous is done.
    cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma && cd .. && npx prisma migrate deploy --schema=prisma/schema.prisma
    ```
    Or run migrations once locally (Step 2) and skip in build.
-10. **Start Command:**
+10. **Start Command:** (Prisma client is generated into server/node_modules so either form works)
     ```bash
     cd server && node src/server.js
     ```
