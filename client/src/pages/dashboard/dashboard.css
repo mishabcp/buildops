@@ -1,0 +1,133 @@
+/* =============================================
+   CBMS Dashboard — Animation & Enhancement CSS
+   ============================================= */
+
+/* --- Fade + slide up entry animation --- */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dash-animate {
+  animation: fadeSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Staggered delays for stat cards (1-6) */
+.dash-delay-1 {
+  animation-delay: 0ms;
+}
+
+.dash-delay-2 {
+  animation-delay: 70ms;
+}
+
+.dash-delay-3 {
+  animation-delay: 140ms;
+}
+
+.dash-delay-4 {
+  animation-delay: 210ms;
+}
+
+.dash-delay-5 {
+  animation-delay: 280ms;
+}
+
+.dash-delay-6 {
+  animation-delay: 350ms;
+}
+
+/* Staggered delays for chart cards */
+.dash-delay-7 {
+  animation-delay: 420ms;
+}
+
+.dash-delay-8 {
+  animation-delay: 490ms;
+}
+
+.dash-delay-9 {
+  animation-delay: 560ms;
+}
+
+.dash-delay-10 {
+  animation-delay: 630ms;
+}
+
+/* --- Stat card hover: lift + glow --- */
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+}
+
+/* --- Alert icon pulse --- */
+@keyframes softPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.65;
+    transform: scale(0.95);
+  }
+}
+
+.alert-pulse {
+  animation: softPulse 2.2s ease-in-out infinite;
+}
+
+/* --- Chart section card --- */
+.chart-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.chart-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+}
+
+/* --- Recent projects table row hover bar --- */
+.project-row {
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+.project-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #3b82f6;
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.project-row:hover::before {
+  opacity: 1;
+}
+
+/* --- Stat card accent bar --- */
+.stat-card-accent {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+}
