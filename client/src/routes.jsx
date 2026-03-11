@@ -3,6 +3,7 @@ import { Layout } from './components/Layout.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import { Login } from './pages/auth/Login.jsx';
 import { Guide } from './pages/guide/Guide.jsx';
+import { GuideDetailed } from './pages/guide/GuideDetailed.jsx';
 import { Dashboard } from './pages/dashboard/Dashboard.jsx';
 import { Settings } from './pages/settings/Settings.jsx';
 import { ProjectList } from './pages/projects/ProjectList.jsx';
@@ -27,6 +28,7 @@ export function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/guide" element={<Guide />} />
+      <Route path="/guide/detailed" element={<GuideDetailed />} />
       <Route
         path="/"
         element={

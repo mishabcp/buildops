@@ -62,11 +62,20 @@ export async function runSeed() {
     { name: 'Tech Park Estates', phone: '9123450123', email: 'techpark@estates.com', address: 'Tech Park Phase 1, IT Corridor' },
     { name: 'Riverside Projects', phone: '9988765432', email: 'riverside@projects.in', address: 'Riverside Drive, West Bank' },
     { name: 'Summit Builders', phone: '9876598765', email: 'summit@builders.com', address: 'Summit House, Hill View Road' },
+    { name: 'Sunrise Realty', phone: '9432109876', email: 'sunrise@realty.in', address: 'Sunrise Tower, Business Park, City Centre' },
   ];
   const clients = [];
   for (const c of clientData) {
     const existing = await prisma.client.findFirst({ where: { name: c.name } });
-    clients.push(existing || await prisma.client.create({ data: c }));
+    if (existing) {
+      const updated = await prisma.client.update({
+        where: { id: existing.id },
+        data: { phone: c.phone ?? null, email: c.email ?? null, address: c.address ?? null },
+      });
+      clients.push(updated);
+    } else {
+      clients.push(await prisma.client.create({ data: c }));
+    }
   }
 
   // ─── PROJECTS (more, varied status) ─────────────────

@@ -15,8 +15,8 @@ import {
 
 const nav = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/projects', label: 'Projects', icon: FolderKanban },
   { to: '/clients', label: 'Clients', icon: Building2 },
+  { to: '/projects', label: 'Projects', icon: FolderKanban },
   { to: '/materials', label: 'Materials', icon: Package },
   { to: '/bills', label: 'Bills', icon: FileText },
   { to: '/reports', label: 'Reports', icon: CircleDollarSign },

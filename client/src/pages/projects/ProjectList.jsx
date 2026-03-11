@@ -63,7 +63,7 @@ export function ProjectList() {
 
   return (
     <PageWrapper>
-      <div className="mx-auto max-w-7xl">
+      <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">Projects Directory</h1>
         {error && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
@@ -143,7 +143,7 @@ export function ProjectList() {
         <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 delay-150 fill-mode-both">
           {loading ? (
              <div className="rounded-2xl border border-slate-200/60 bg-white overflow-hidden shadow-sm">
-                <TableSkeleton rows={8} cols={7} />
+                <TableSkeleton rows={8} cols={isSuperAdmin ? 8 : 7} />
              </div>
           ) : projects.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50/50 p-16 text-center">
@@ -171,38 +171,34 @@ export function ProjectList() {
                 <table className="w-full text-sm whitespace-nowrap">
                   <thead>
                     <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
-                      <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500">Project Name</th>
+                      <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500">Project Details</th>
                       <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500">Client</th>
                       {isSuperAdmin && <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500">Branch</th>}
                       <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500">Status</th>
                       <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500 text-right">Contract Value</th>
                       <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500 text-right">Received</th>
                       <th className="py-4 px-5 text-[11px] font-bold uppercase tracking-widest text-slate-500 text-right">Balance</th>
-                      <th className="py-4 px-5 w-12" aria-hidden />
+                      <th className="py-4 px-5 w-12" />
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 bg-white">
                     {projects.map((p) => (
-                      <tr
-                        key={p.id}
-                        className="group transition-colors hover:bg-slate-50/70"
-                      >
+                      <tr key={p.id} className="group transition-colors hover:bg-slate-50/70 border-b border-slate-50 last:border-0">
                         <td className="py-4 px-5">
                           <Link to={`/projects/${p.id}`} className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">
                             {p.name}
                           </Link>
                         </td>
                         <td className="py-4 px-5 font-medium text-slate-500">{p.client?.name ?? '—'}</td>
-                        {isSuperAdmin && 
+                        {isSuperAdmin && (
                           <td className="py-4 px-5">
                             <span className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-600">
                                {p.branch?.name ?? '—'}
                             </span>
                           </td>
-                        }
+                        )}
                         <td className="py-4 px-5">
-                          <span
-                            className={cn(
+                          <span className={cn(
                               'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border',
                               STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
                             )}

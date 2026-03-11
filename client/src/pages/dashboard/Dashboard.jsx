@@ -256,7 +256,7 @@ export function Dashboard() {
                   value={branchId}
                   onChange={(e) => setBranchId(e.target.value)}
                 >
-                  <option value="">All branches config</option>
+                  <option value="">All branches</option>
                   {branches.map((b) => (
                     <option key={b.id} value={b.id}>
                       {b.name}
@@ -357,8 +357,8 @@ export function Dashboard() {
         {/* ── Recent projects ── */}
         <div className="dash-animate dash-delay-10 mt-10 p-6 rounded-2xl border border-slate-200/60 bg-white shadow-sm">
           <SectionHeader
-            title="Active Workflow"
-            subtitle="Recently updated projects"
+            title="Recent projects"
+            subtitle="Last updated, any status"
             action={
               <Link
                 to="/projects"
@@ -374,8 +374,8 @@ export function Dashboard() {
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
                 <LayoutDashboard className="h-6 w-6 text-slate-400" />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-slate-900">No active projects</h3>
-              <p className="mt-1 text-sm text-slate-500">Get started by creating a new project workflow.</p>
+              <h3 className="mt-4 text-sm font-semibold text-slate-900">No recent projects</h3>
+              <p className="mt-1 text-sm text-slate-500">Create a project to see it here.</p>
               <Link
                 to="/projects/new"
                 className="mt-6 inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all"
@@ -384,7 +384,7 @@ export function Dashboard() {
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-slate-200/60 bg-white/50">
+            <div className="overflow-x-auto rounded-xl border border-slate-200/60 bg-white">
               <table className="w-full text-sm whitespace-nowrap">
                 <thead>
                   <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
@@ -409,7 +409,7 @@ export function Dashboard() {
                 <tbody className="divide-y divide-slate-100 bg-white">
                   {recent.map((p) => (
                     <tr key={p.id} className="project-row group transition-colors hover:bg-slate-50/70">
-                      <td className="py-4 px-5">
+                      <td className="py-4 px-5 border-l-4 border-l-transparent group-hover:border-l-blue-500 transition-colors">
                         <Link
                           to={`/projects/${p.id}`}
                           className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors"

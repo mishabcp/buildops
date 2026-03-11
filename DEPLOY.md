@@ -158,6 +158,7 @@ Do these in order. Each step assumes the previous is done.
 
 ## Troubleshooting
 
+- **Render build fails with "MaxClientsInSessionMode" or "max clients reached":** Your build command is likely running `prisma db push` or `prisma migrate deploy` against Supabase. Supabase free tier limits concurrent connections, so the build can hit that limit. **Fix:** Remove database commands from the Render build. Use only: `cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma`. Apply schema once locally (Step 2) against the same Supabase DB; Render does not need to touch the database during build.
 - **Login fails / CORS errors:** Ensure Render `CLIENT_URL` is exactly your Vercel URL (no trailing slash, same protocol and domain).
 - **401 or “Failed to load”:** Check `JWT_SECRET` is the same in Render and was used when you last seeded; try logging in again.
 - **Blank page or wrong API:** Ensure Vercel env has `VITE_API_URL` = Render URL (no `/api`). Redeploy Vercel after changing env.

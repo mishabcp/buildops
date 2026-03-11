@@ -1,491 +1,403 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { authStore } from '../../store/authStore.js';
 import { 
-  BookOpen, ArrowLeft, LayoutDashboard, Layers, Users, PackageOpen, 
-  Handshake, Receipt, Banknote, FileText, Settings, ShieldAlert, 
-  BadgeInfo, Building2, FolderKanban, Key, ArrowRight, ArrowDown, CircleDollarSign, 
-  CheckCircle2, BarChart3, ChevronRight, ArrowDownRight 
+  BookOpen, 
+  ArrowLeft, 
+  Layers, 
+  Workflow, 
+  Zap, 
+  Users, 
+  ChevronRight, 
+  Key, 
+  ShieldCheck, 
+  BarChart3, 
+  CheckCircle2, 
+  Activity, 
+  Wallet, 
+  HardHat, 
+  Package, 
+  Mail,
+  Box
 } from 'lucide-react';
-import { cn } from '../../lib/utils.js';
-import { motion } from 'framer-motion';
 
-const fadeUpVariant = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring", bounce: 0.4 } }
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: 'easeOut' }
 };
 
-const drawLineVariant = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: { 
-    pathLength: 1, 
-    opacity: 1, 
-    transition: { duration: 1, ease: "easeInOut", delay: 0.5 } 
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
   }
 };
 
-function PlatformAccessFlow() {
-  return (
-    <div className="w-full mt-4 py-12 px-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center overflow-hidden">
-      <motion.div 
-        variants={{ visible: { transition: { staggerChildren: 0.4 } } }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="flex flex-col md:flex-row items-center gap-6 md:gap-4 relative w-full max-w-3xl justify-between"
-      >
-        
-        {/* Step 1 */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
-           <div className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-2">
-              <Key className="h-6 w-6 text-slate-400" />
-           </div>
-           <span className="font-bold text-slate-900">Sign In</span>
-           <span className="text-xs font-medium text-slate-500">Email & Password</span>
-        </motion.div>
-        
-        {/* Animated Connector 1 */}
-        <div className="hidden md:block absolute left-[12%] right-[55%] top-7 -translate-y-1/2 -z-10">
-           <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 100 24" fill="none">
-             <motion.path 
-               variants={drawLineVariant}
-               d="M0,12 L100,12" 
-               stroke="url(#gradient-line-1)" 
-               strokeWidth="3" 
-               strokeDasharray="6 4"
-               strokeLinecap="round"
-             />
-             <defs>
-               <linearGradient id="gradient-line-1" x1="0%" y1="0%" x2="100%" y2="0%">
-                 <stop offset="0%" stopColor="#e2e8f0" />
-                 <stop offset="100%" stopColor="#94a3b8" />
-               </linearGradient>
-             </defs>
-           </svg>
-        </div>
-        <ArrowDown className="h-6 w-6 text-slate-300 block md:hidden" />
-
-        {/* Step 2 */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
-           <motion.div 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20 flex items-center justify-center mb-2 cursor-pointer"
-           >
-              <LayoutDashboard className="h-6 w-6 text-white" />
-           </motion.div>
-           <span className="font-bold text-slate-900">Dashboard</span>
-           <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600/80 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Authenticated</span>
-        </motion.div>
-
-        {/* Animated Connector 2 */}
-        <div className="hidden md:block absolute left-[55%] right-[12%] top-7 -translate-y-1/2 -z-10">
-           <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 100 24" fill="none">
-             <motion.path 
-               variants={drawLineVariant}
-               d="M0,12 L100,12" 
-               stroke="url(#gradient-line-2)" 
-               strokeWidth="3" 
-               strokeDasharray="6 4"
-               strokeLinecap="round"
-             />
-             <defs>
-               <linearGradient id="gradient-line-2" x1="0%" y1="0%" x2="100%" y2="0%">
-                 <stop offset="0%" stopColor="#94a3b8" />
-                 <stop offset="100%" stopColor="#64748b" />
-               </linearGradient>
-             </defs>
-           </svg>
-        </div>
-        <ArrowDown className="h-6 w-6 text-slate-300 block md:hidden" />
-
-        {/* Step 3 */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
-           <motion.div 
-             whileHover={{ scale: 1.05 }}
-             className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-2 cursor-pointer"
-           >
-              <BookOpen className="h-6 w-6 text-blue-500" />
-           </motion.div>
-           <span className="font-bold text-slate-900">System Guide</span>
-           <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Available</span>
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
-
-const LIFECYCLE_STEPS = [
-  { icon: Building2, label: "Create Project" },
-  { icon: Banknote, label: "Add Stages" },
-  { icon: Users, label: "Log Labour" },
-  { icon: PackageOpen, label: "Materials" },
-  { icon: Handshake, label: "Associates" },
-  { icon: Receipt, label: "Add Bills" },
-  { icon: CircleDollarSign, label: "Expenses" },
-  { icon: CheckCircle2, label: "Record Payments" },
-  { icon: BarChart3, label: "Reports" }
-];
-
-function ProjectLifecycleFlow() {
-  return (
-    <div className="w-full mt-4 p-8 bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
-      <motion.div 
-        variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="flex flex-wrap justify-center gap-x-2 gap-y-8"
-      >
-        {LIFECYCLE_STEPS.map((step, idx) => (
-          <div key={idx} className="flex items-center">
-             <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-3">
-                <motion.div 
-                  whileHover={{ scale: 1.1, y: -4 }}
-                  className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-blue-200 hover:shadow-md transition-all group"
-                >
-                  <step.icon className="h-6 w-6 text-slate-500 group-hover:text-blue-600 transition-colors" />
-                </motion.div>
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center w-24 leading-tight">
-                  {step.label}
-                </span>
-             </motion.div>
-             {idx < LIFECYCLE_STEPS.length - 1 && (
-               <motion.div 
-                 variants={{ hidden: { opacity: 0, scale: 0 }, visible: { opacity: 1, scale: 1 } }}
-                 className="mx-3 mt-[-36px] hidden sm:block relative w-8 h-px bg-slate-200"
-               >
-                 <ChevronRight className="absolute -right-3 -top-2.5 h-5 w-5 text-slate-300" />
-               </motion.div>
-             )}
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-function TransactionStateFlow() {
-  return (
-    <div className="w-full mt-4 py-16 px-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center overflow-hidden">
-      <motion.div 
-        variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="flex flex-col md:flex-row items-center gap-6 md:gap-8 lg:gap-12 relative w-full max-w-4xl justify-center"
-      >
-        {/* Not Paid State */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 z-10">
-           <div className="w-full py-3 bg-white border border-slate-200 text-center rounded-xl font-bold text-slate-600 shadow-sm mb-3">
-              Not Paid
-           </div>
-        </motion.div>
-
-        {/* Transition 1 */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 z-10 w-24">
-           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 text-center">Record Payment</span>
-           <div className="relative w-full h-2 hidden md:block">
-              <svg className="absolute w-full h-full top-0 left-0 overflow-visible" fill="none">
-                 <motion.path variants={drawLineVariant} d="M0,4 L100%,4" stroke="#cbd5e1" strokeWidth="2" />
-                 <motion.polygon variants={fadeUpVariant} points="100%,0 100%,8 100%+8,4" fill="#cbd5e1" />
-              </svg>
-           </div>
-           <ArrowDown className="h-5 w-5 text-slate-300 block md:hidden" />
-        </motion.div>
-
-        {/* Some Paid State */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 relative group z-10">
-           <motion.div 
-             whileHover={{ y: -2 }}
-             className="w-full py-3 bg-amber-50 border border-amber-200/60 text-center rounded-xl font-bold text-amber-700 shadow-sm mb-3 flex justify-center items-center gap-2 relative z-20"
-           >
-              <motion.div 
-                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="h-2 w-2 rounded-full bg-amber-500" 
-              />
-              Some Paid
-           </motion.div>
-           
-           {/* Animated Self-loop visualization */}
-           <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="absolute -top-[52px] left-1/2 -translate-x-1/2 w-32 h-14 hidden xl:block z-0"
-           >
-              <svg className="w-full h-full overflow-visible" fill="none">
-                 <motion.path 
-                   d="M16,56 Q16,0 64,0 Q112,0 112,56" 
-                   stroke="#fcd34d" 
-                   strokeWidth="2" 
-                   strokeDasharray="4 4" 
-                   fill="none"
-                   animate={{ strokeDashoffset: -20 }}
-                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                 />
-                 <polygon points="108,52 116,52 112,60" fill="#fcd34d" />
-              </svg>
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-2 text-[9px] rounded uppercase font-bold text-amber-600 whitespace-nowrap shadow-sm border border-amber-100 z-10">Partial Pay</span>
-           </motion.div>
-        </motion.div>
-
-        {/* Transition 2 */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 z-10 w-24">
-           <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600/70 text-center">Full Amount</span>
-           <div className="relative w-full h-2 hidden md:block">
-              <svg className="absolute w-full h-full top-0 left-0 overflow-visible" fill="none">
-                 <motion.path variants={drawLineVariant} d="M0,4 L100%,4" stroke="#86efac" strokeWidth="2" />
-                 <motion.polygon variants={fadeUpVariant} points="100%,0 100%,8 100%+8,4" fill="#86efac" />
-              </svg>
-           </div>
-           <ArrowDown className="h-5 w-5 text-slate-300 block md:hidden" />
-        </motion.div>
-
-        {/* Fully Paid State */}
-        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 z-10">
-           <motion.div 
-             whileHover={{ scale: 1.05 }}
-             className="w-full py-3 bg-emerald-50 border border-emerald-200/60 text-center rounded-xl font-bold text-emerald-700 shadow-sm mb-3 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden"
-           >
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: "200%" }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent w-full skew-x-12"
-              />
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", delay: 1.2, bounce: 0.6 }}
-              >
-                 <CheckCircle2 className="h-4 w-4" />
-              </motion.div>
-              Fully Paid
-           </motion.div>
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
-
-function FeatureCard({ icon: Icon, title, description }) {
-  return (
-    <div className="group flex gap-4 p-5 rounded-2xl border border-slate-200/60 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-blue-600 border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
-          <Icon className="h-6 w-6" />
-       </div>
-       <div>
-         <h3 className="font-bold text-slate-900 text-[16px] mb-1">{title}</h3>
-         <p className="text-[14px] text-slate-500 font-medium leading-relaxed">{description}</p>
-       </div>
-    </div>
-  )
-}
-
+/**
+ * Modern, animated Guide page.
+ */
 export function Guide() {
   const token = authStore((s) => s.token);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
-      {/* Premium Header */}
-      <div className="relative bg-white border-b border-slate-200/60 overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 blur-sm opacity-50" />
-        <div className="mx-auto max-w-5xl px-6 py-12 relative z-10">
-          <div className="flex flex-wrap items-start justify-between gap-6">
-            <div className="flex items-center gap-5">
-              <div className="h-16 w-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shadow-inner border border-blue-100">
-                <BookOpen className="h-8 w-8" />
+    <div className="min-h-screen bg-slate-50 pb-24 font-sans selection:bg-blue-100 selection:text-blue-900">
+      {/* Header */}
+      <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
+                <BookOpen className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">System Documentation</h1>
-                <p className="mt-1.5 text-slate-500 font-medium text-lg">
-                  Learn what you can do in CBMS and how to get started. No technical knowledge needed.
-                </p>
+                <h1 className="text-xl font-bold text-slate-900 tracking-tight">CBMS Guide</h1>
               </div>
             </div>
-            {token && (
+            <div className="flex items-center gap-2">
               <Link
-                to="/"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-slate-200 shadow-sm text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all hover:shadow-md"
+                to="/guide/detailed"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm"
               >
-                <ArrowLeft className="h-4 w-4" />
-                Return to App
+                View detailed guide
               </Link>
-            )}
+              {token && (
+                <Link
+                  to="/"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Dashboard
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="mx-auto max-w-5xl px-6 py-10 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 space-y-24">
         
-        {/* Modules Section */}
-        <section>
-          <div className="flex items-center gap-2 mb-6 text-slate-900">
-             <Layers className="h-6 w-6 text-blue-500" />
-             <h2 className="text-2xl font-bold tracking-tight">Core Modules</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             <FeatureCard 
-               icon={LayoutDashboard}
-               title="Home (Dashboard)" 
-               description="See at a glance: how many projects are active, how much money came in this month, outstanding dues, and low stock alerts." 
-             />
-             <FeatureCard 
-               icon={Building2}
-               title="Clients" 
-               description="Manage the list of organizations you work for. Add, edit, or remove clients. Assign a client to each project when creating it." 
-             />
-             <FeatureCard 
-               icon={FolderKanban}
-               title="Projects Directory" 
-               description="Create and manage construction projects. Track client payments, labour costs, materials, subcontractors, bills, and expenses." 
-             />
-             <FeatureCard 
-               icon={Banknote}
-               title="Payment Stages" 
-               description="Break contracts into stages (e.g. Advance, Foundation). Set amounts and due dates. Real-time balance tracking." 
-             />
-             <FeatureCard 
-               icon={Users}
-               title="Labour & Workforce" 
-               description="Record daily logs, wages per worker, and manage periodic payments. Track outstanding amounts directly." 
-             />
-             <FeatureCard 
-               icon={PackageOpen}
-               title="Materials Inventory" 
-               description="Maintain master catalog. Add project-specific material purchases and calculate usage vs existing global stock." 
-             />
-             <FeatureCard 
-               icon={Handshake}
-               title="Associates (Subcontractors)" 
-               description="Manage external contractors like plumbers and electricians. Record agreed amounts and ongoing payouts." 
-             />
-             <FeatureCard 
-               icon={Receipt}
-               title="Billing Ledger" 
-               description="Record accounts payable (vendors) and accounts receivable (clients). Easily link transactions to explicit projects." 
-             />
-             <FeatureCard 
-               icon={FileText}
-               title="Reports & Analytics" 
-               description="Generate dynamic P&L reports, collections tracking, operational costs, and export to PDF/Excel seamlessly." 
-             />
-             <FeatureCard 
-               icon={Settings}
-               title="Configuration" 
-               description="Super Admins can define dynamic organizational branches and orchestrate robust role-based user management limits." 
-             />
-          </div>
-        </section>
-
-        {/* Getting Started Section */}
-        <section className="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden text-slate-700">
-          <div className="bg-slate-50/50 px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-             <div className="h-8 w-8 rounded-lg bg-emerald-100/50 text-emerald-600 flex items-center justify-center">
-               <BadgeInfo className="h-5 w-5" />
-             </div>
-             <h2 className="text-xl font-bold text-slate-900 tracking-tight">Quick Start Guide</h2>
-          </div>
-          <div className="p-8 space-y-6">
-            <ol className="list-decimal list-outside ml-5 space-y-4 font-medium text-[15px] marker:text-slate-400 marker:font-bold">
-              <li className="pl-2 leading-relaxed"><strong>Log in</strong> with your email and password. Try out the system with the sample logins provided below.</li>
-              <li className="pl-2 leading-relaxed">Open <strong>Clients</strong> from the sidebar to add or select the organization (client) for your project. Then click <strong>Projects</strong> and <strong>New Project</strong> to establish baseline details (client, branch, contract value).</li>
-              <li className="pl-2 leading-relaxed"><strong>Open a project</strong> to unveil its workspace tabs: Overview, Stages, Labour, Materials, Associates, Bills, and Expenses.</li>
-              <li className="pl-2 leading-relaxed">To <strong>record a client payment</strong>: navigate to <span className="font-semibold text-slate-900">Payment Stages</span> → Add a stage → Click Record Payment. Enter amount & payment method.</li>
-              <li className="pl-2 leading-relaxed">The <strong>Materials</strong> link in the main sidebar acts as your global catalog. However, actual purchase and usage recording happens inside individual projects.</li>
-              <li className="pl-2 leading-relaxed">Dive into <strong>Reports</strong> to view intelligent financial summaries and export them for your records.</li>
-            </ol>
-            
-            <div className="mt-8 p-6 bg-blue-50/50 rounded-2xl border border-blue-100/60">
-               <h3 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                 <Building2 className="h-4 w-4" /> Usage Scenario
-               </h3>
-               <p className="mb-4 text-blue-800 leading-relaxed text-sm">
-                 Open a project → <strong>Materials tab</strong> → <strong>Add Purchase</strong>: select Cement, 100 bags. Stock increases. When 50 bags are used on site, add an <strong>Usage form</strong>. The system deducts stock and calculates real-world cost automatically.
-               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Credentials Section */}
-        <section>
-          <div className="flex items-center gap-2 mb-4 text-slate-900">
-             <ShieldAlert className="h-6 w-6 text-orange-500" />
-             <h2 className="text-2xl font-bold tracking-tight">Demo Credentials</h2>
-          </div>
-          <p className="mb-5 text-slate-500 font-medium">
-            Test the system capabilities securely. All accounts use <code className="bg-slate-100 text-slate-800 px-2 py-1 rounded-md font-bold tracking-tight">admin123</code> as the universal password.
-          </p>
-          
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm whitespace-nowrap">
-                <thead className="bg-slate-50 border-b border-slate-200/80">
-                  <tr>
-                    <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-slate-500">Access Tier</th>
-                    <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-slate-500">Demo Email</th>
-                    <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-slate-500">Auth Password</th>
-                    <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-slate-500">Visibility Scope</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-purple-700">Super Admin</td>
-                    <td className="px-6 py-4 text-slate-900">admin@company.com</td>
-                    <td className="px-6 py-4 font-mono text-slate-500">admin123</td>
-                    <td className="px-6 py-4 text-slate-600">Global (All Offices)</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-blue-700">Branch Manager</td>
-                    <td className="px-6 py-4 text-slate-900">manager-a@company.com</td>
-                    <td className="px-6 py-4 font-mono text-slate-500">admin123</td>
-                    <td className="px-6 py-4 text-slate-600">Branch A Only</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-slate-700">Standard Staff</td>
-                    <td className="px-6 py-4 text-slate-900">staff-a1@company.com</td>
-                    <td className="px-6 py-4 font-mono text-slate-500">admin123</td>
-                    <td className="px-6 py-4 text-slate-600">Branch A Only (No deletes)</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold text-slate-700">Standard Staff</td>
-                    <td className="px-6 py-4 text-slate-900">staff-b1@company.com</td>
-                    <td className="px-6 py-4 font-mono text-slate-500">admin123</td>
-                    <td className="px-6 py-4 text-slate-600">Branch B Only (No deletes)</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* Architecture & Flowcharts */}
-        <section className="mb-10">
-          <div className="mb-8">
-             <h2 className="text-2xl font-bold tracking-tight text-slate-900">Architecture Diagrams</h2>
-             <p className="mt-1 text-slate-500 font-medium">Visualize process flows and system states</p>
-          </div>
-          <div className="space-y-6">
-            <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 overflow-hidden flex flex-col w-full">
-              <h3 className="font-bold text-slate-900 text-lg">Platform Access Flow</h3>
-              <PlatformAccessFlow />
-            </div>
-            <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 overflow-hidden flex flex-col w-full">
-              <h3 className="font-bold text-slate-900 text-lg">Project Lifecycle Topology</h3>
-              <ProjectLifecycleFlow />
-            </div>
-            <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 overflow-hidden flex flex-col w-full">
-              <div className="mb-2">
-                 <h3 className="font-bold text-slate-900 text-lg">Transaction State Machine</h3>
-                 <p className="text-sm font-medium text-slate-500 mt-1">Status resolves intelligently based on recorded transaction volumes.</p>
+        {/* 1. Hero Section: What is CBMS */}
+        <motion.section 
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={fadeIn}
+          className="relative overflow-hidden rounded-3xl bg-slate-900 px-8 py-16 text-white shadow-2xl"
+        >
+          <div className="relative z-10 max-w-3xl">
+            <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
+              Overview
+            </span>
+            <h2 className="text-4xl font-extrabold mb-6 tracking-tight">What is CBMS?</h2>
+            <p className="text-lg text-slate-300 leading-relaxed mb-8">
+              CBMS is a <span className="text-white font-semibold">Construction Business Management System</span> that helps you track projects, see money in and out, and run multiple offices from one place. 
+            </p>
+            <div className="grid sm:grid-cols-2 gap-6 text-slate-300 text-sm">
+              <div className="flex items-start gap-3">
+                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                </div>
+                <span>See all your project finances in one place</span>
               </div>
-              <TransactionStateFlow />
+              <div className="flex items-start gap-3">
+                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                </div>
+                <span>Profit and loss views and reports you can export</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                </div>
+                <span>Labour, materials, and other costs per project</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                </div>
+                <span>Client payments by stage, with balances updated for you</span>
+              </div>
             </div>
+          </div>
+          {/* Decorative background element */}
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 mr-10 mb-10 opacity-10">
+            <Box className="h-64 w-64 text-white" />
+          </div>
+        </motion.section>
+
+        {/* 2. Workflow */}
+        <section className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 overflow-hidden shadow-sm">
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="mb-12"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Workflow className="h-6 w-6 text-blue-600" />
+              <h2 className="text-2xl font-bold text-slate-900">Standard Workflow</h2>
+            </div>
+            <p className="text-slate-600 max-w-2xl">
+              Use this order to set up and run your projects from start to finish.
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            {/* Connection Line (Desktop) */}
+            <div className="hidden lg:block absolute top-[2.25rem] left-[10%] right-[10%] h-0.5 bg-slate-100 z-0"></div>
+            
+            <motion.div 
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid gap-8 lg:grid-cols-5 relative z-10"
+            >
+              {[
+                { title: 'Setup', text: 'Define clients and branches', step: '01' },
+                { title: 'Initiate', text: 'Create project and budget', step: '02' },
+                { title: 'Structure', text: 'Add payment stages', step: '03' },
+                { title: 'Record', text: 'Log costs and receipts', step: '04' },
+                { title: 'Analyze', text: 'Generate P&L reports', step: '05' },
+              ].map((item, idx) => (
+                <motion.div 
+                  key={idx}
+                  variants={fadeIn}
+                  className="flex lg:flex-col items-center gap-4 lg:gap-6 text-center lg:text-center"
+                >
+                  <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] rounded-full bg-blue-50 border-4 border-white shadow-sm flex items-center justify-center text-blue-600 font-bold text-xl relative">
+                    {item.step}
+                    {idx < 4 && <ChevronRight className="hidden lg:block absolute -right-6 h-5 w-5 text-slate-300" />}
+                  </div>
+                  <div className="text-left lg:text-center">
+                    <h4 className="font-bold text-slate-900">{item.title}</h4>
+                    <p className="text-xs text-slate-500 mt-1">{item.text}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
-      </div>
+        {/* 4. Features Grid */}
+        <section>
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="flex items-end justify-between mb-12"
+          >
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <Zap className="h-6 w-6 text-amber-500" />
+                <h2 className="text-3xl font-bold text-slate-900">Key Features</h2>
+              </div>
+              <p className="text-slate-600 max-w-2xl">
+                Everything you need to run projects, track money, and see where you stand.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {[
+              { icon: Activity, title: 'Dashboard', desc: 'See active projects, money in and out, what’s still owed, and low-stock alerts at a glance.' },
+              { icon: Layers, title: 'Project Tabs', desc: 'Each project has tabs for payment stages, labour, materials, associates, bills, and expenses.' },
+              { icon: Wallet, title: 'Payment Stages', desc: 'Break the contract into stages; record when the client pays; balances update automatically.' },
+              { icon: HardHat, title: 'Labour', desc: 'Record workers, days, rates, and payments; see who still needs to be paid.' },
+              { icon: Package, title: 'Materials', desc: 'Keep a list of materials; record purchases and usage per project; stock levels update automatically.' },
+              { icon: BarChart3, title: 'Reports', desc: 'View profit and loss, collections, pending bills, and more; export to PDF or Excel.' },
+            ].map((feature, idx) => (
+              <motion.div 
+                key={idx}
+                variants={fadeIn}
+                whileHover={{ scale: 1.02 }}
+                className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-blue-200 transition-all shadow-sm hover:shadow-md"
+              >
+                <div className="h-12 w-12 rounded-xl bg-slate-50 text-slate-600 mb-6 flex items-center justify-center transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                  <feature.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">{feature.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* 5. Roles & Access Controls */}
+        <section className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <Users className="h-6 w-6 text-rose-500" />
+              <h2 className="text-3xl font-bold text-slate-900">Roles & Security</h2>
+            </div>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              Who can see and do what depends on their role. Each role is set up to match how your team works.
+            </p>
+            <div className="space-y-4">
+              {[
+                { role: 'Super Admin', access: 'Sees all offices; can change settings and delete records anywhere.' },
+                { role: 'Branch Manager', access: 'Sees only their office; can add, edit, and delete records there.' },
+                { role: 'Staff', access: 'Sees only their office; can add and edit, but cannot delete records.' },
+              ].map((role, idx) => (
+                <div key={idx} className="flex gap-4 p-4 rounded-xl bg-white border border-slate-100 shadow-sm">
+                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">{role.role}</h4>
+                    <p className="text-xs text-slate-500 mt-1">{role.access}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div 
+             initial="initial"
+             whileInView="animate"
+             viewport={{ once: true }}
+             variants={fadeIn}
+             className="relative"
+          >
+            <div className="aspect-square rounded-3xl bg-blue-600 p-8 shadow-2xl flex flex-col justify-center text-white overflow-hidden">
+               <ShieldCheck className="h-32 w-32 mb-8 opacity-20 absolute top-4 right-4" />
+               <div className="relative z-10">
+                 <h3 className="text-2xl font-bold mb-4 italic">"Your data stays in your control, with access limited by role."</h3>
+                 <div className="flex items-center gap-3">
+                   <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                     <ShieldCheck className="h-5 w-5" />
+                   </div>
+                   <span className="text-sm font-medium">Secure login; each user sees only what their role allows</span>
+                 </div>
+               </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* 6. Quick Start Guide */}
+        <section className="relative">
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="bg-indigo-900 rounded-[3rem] p-8 sm:p-16 text-white overflow-hidden shadow-2xl"
+          >
+            <div className="relative z-10 grid lg:grid-cols-2 gap-12">
+              <div>
+                <h2 className="text-3xl font-bold mb-8">Ready to get started?</h2>
+                <div className="space-y-8">
+                  {[
+                    { step: 1, title: 'Log in', text: 'Sign in with your email and password.' },
+                    { step: 2, title: 'Add clients and offices', text: 'Add the clients you work for and your branches (offices).' },
+                    { step: 3, title: 'Create a project', text: 'Start a new project; choose the client, branch, and contract value.' },
+                    { step: 4, title: 'Use the project tabs', text: 'Record payment stages, labour, materials, associates, bills, and expenses in the project.' },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex gap-6 items-start">
+                      <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center font-bold text-indigo-200 border border-white/20 shrink-0">
+                        {item.step}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-lg">{item.title}</h4>
+                        <p className="text-indigo-200 text-sm mt-1">{item.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hidden lg:flex items-center justify-center relative">
+                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
+                <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 w-full max-w-sm">
+                  <div className="space-y-4">
+                    <div className="h-3 w-3/4 rounded bg-white/20"></div>
+                    <div className="h-3 w-1/2 rounded bg-white/10"></div>
+                    <div className="pt-4 grid grid-cols-2 gap-3">
+                      <div className="h-12 rounded-lg bg-indigo-500/20"></div>
+                      <div className="h-12 rounded-lg bg-indigo-500/20"></div>
+                    </div>
+                    <div className="h-24 rounded-xl bg-indigo-500/20"></div>
+                    <div className="h-10 w-full rounded-lg bg-blue-500 flex items-center justify-center text-xs font-bold uppercase tracking-widest">
+                      Dashboard Active
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* 7. Demo Access */}
+        <section id="demo">
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="mb-12"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <Key className="h-6 w-6 text-blue-600" />
+              <h2 className="text-3xl font-bold text-slate-900">Demo Environment</h2>
+            </div>
+            <p className="text-slate-600">
+              Try the system with sample data. Use password <code className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-mono font-bold tracking-tight">admin123</code> for all accounts below.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {[
+              { role: 'Super Admin', email: 'admin@company.com', scope: 'All offices' },
+              { role: 'Branch Manager', email: 'manager-a@company.com', scope: 'Branch A only' },
+              { role: 'Staff (Branch A)', email: 'staff-a1@company.com', scope: 'Branch A only (cannot delete)' },
+              { role: 'Staff (Branch B)', email: 'staff-b1@company.com', scope: 'Branch B only (cannot delete)' },
+            ].map((creds, idx) => (
+              <motion.div 
+                key={idx}
+                variants={fadeIn}
+                whileHover={{ y: -4 }}
+                className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center text-center"
+              >
+                <div className="h-10 w-10 rounded-full bg-slate-50 flex items-center justify-center mb-4 text-slate-400">
+                  <Mail className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">{creds.role}</span>
+                <p className="font-mono text-sm text-slate-900 mb-4 truncate w-full">{creds.email}</p>
+                <div className="mt-auto pt-4 border-t border-slate-50 w-full">
+                   <span className="text-[11px] font-medium text-slate-500 bg-slate-50 px-2 py-1 rounded">{creds.scope}</span>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+      </main>
+
+      <footer className="mt-24 border-t border-slate-200 py-12 text-center">
+         <p className="text-sm text-slate-400">
+           &copy; {new Date().getFullYear()} CBMS. All rights reserved. Professional Edition.
+         </p>
+      </footer>
     </div>
   );
 }

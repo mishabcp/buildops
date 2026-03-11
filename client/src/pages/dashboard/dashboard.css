@@ -99,25 +99,7 @@
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
 }
 
-/* --- Recent projects table row hover bar --- */
+/* --- Recent projects table row hover --- */
 .project-row {
-  position: relative;
   transition: background-color 0.15s ease;
-}
-
-.project-row::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: #3b82f6;
-  border-radius: 0 2px 2px 0;
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.project-row:hover::before {
-  opacity: 1;
 }
