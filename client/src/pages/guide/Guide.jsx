@@ -58,9 +58,10 @@ export function Guide() {
             <div className="flex items-center gap-2">
               <Link
                 to="/guide/detailed"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-blue-600 text-white text-[13px] sm:text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm"
               >
-                View detailed guide
+                <span className="hidden xs:inline">View detailed guide</span>
+                <span className="xs:hidden">Details</span>
               </Link>
               {token && (
                 <Link
@@ -90,8 +91,8 @@ export function Guide() {
             <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
               Overview
             </span>
-            <h2 className="text-4xl font-extrabold mb-6 tracking-tight">What is CBMS?</h2>
-            <p className="text-lg text-slate-300 leading-relaxed mb-8">
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 sm:mb-6 tracking-tight leading-tight">What is CBMS?</h2>
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
               CBMS is a <span className="text-white font-semibold">Construction Business Management System</span> that helps you track projects, see money in and out, and run multiple offices from one place. 
             </p>
             <div className="grid sm:grid-cols-2 gap-6 text-slate-300 text-sm">
@@ -139,9 +140,9 @@ export function Guide() {
           >
             <div className="flex items-center gap-3 mb-4">
               <Workflow className="h-6 w-6 text-blue-600" />
-              <h2 className="text-2xl font-bold text-slate-900">Standard Workflow</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Standard Workflow</h2>
             </div>
-            <p className="text-slate-600 max-w-2xl">
+            <p className="text-sm sm:text-slate-600 max-w-2xl">
               Use this order to set up and run your projects from start to finish.
             </p>
           </motion.div>
@@ -171,7 +172,7 @@ export function Guide() {
                 >
                   <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] rounded-full bg-blue-50 border-4 border-white shadow-sm flex items-center justify-center text-blue-600 font-bold text-xl relative">
                     {item.step}
-                    {idx < 4 && <ChevronRight className="hidden lg:block absolute -right-6 h-5 w-5 text-slate-300" />}
+                    {idx < 4 && <ChevronRight className="hidden lg:block absolute -right-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300" />}
                   </div>
                   <div className="text-left lg:text-center">
                     <h4 className="font-bold text-slate-900">{item.title}</h4>
@@ -195,9 +196,9 @@ export function Guide() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <Zap className="h-6 w-6 text-amber-500" />
-                <h2 className="text-3xl font-bold text-slate-900">Key Features</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Key Features</h2>
               </div>
-              <p className="text-slate-600 max-w-2xl">
+              <p className="text-sm sm:text-slate-600 max-w-2xl">
                 Everything you need to run projects, track money, and see where you stand.
               </p>
             </div>

@@ -188,8 +188,8 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
       )}
 
       <div className={`
-        flex flex-wrap justify-center items-start gap-y-8 gap-x-4 lg:gap-x-8
-        ${layout === 'grid' ? 'grid grid-cols-2 sm:grid-cols-4' : ''}
+        flex flex-wrap justify-center items-start gap-y-8 gap-x-4
+        ${layout === 'grid' ? 'grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4' : ''}
       `}>
         {items.map((item, i) => (
           <React.Fragment key={i}>
@@ -223,8 +223,8 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
             </div>
             
             {(layout === 'linear') && i < items.length - 1 && (
-              <div className="hidden xl:flex items-center text-slate-200 h-16 -mt-6 mx-[-20px] relative pointer-events-none">
-                <svg width="45" height="15" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div className="hidden xl:flex items-center text-slate-200 h-16 mx-[-15px] relative pointer-events-none">
+                <svg width="40" height="12" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 10H58M58 10L50 2M58 10L50 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   <motion.path 
                     d="M0 10H58" 
@@ -316,7 +316,7 @@ export function GuideDetailed() {
   const [activeSectionId, setActiveSectionId] = useState('getting-started');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Sync active section with URL hash
+  // Sync active section with URL hash and scroll to top
   useEffect(() => {
     const hash = location.hash.replace('#', '');
     if (hash && SECTIONS.some(s => s.id === hash)) {
@@ -324,12 +324,13 @@ export function GuideDetailed() {
     } else {
       setActiveSectionId('getting-started');
     }
+    // Scroll to top on section change
+    window.scrollTo({ top: 0, behavior: 'auto' }); 
   }, [location.hash]);
 
   const handleSectionClick = (id) => {
     window.location.hash = id;
     setIsSidebarOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Mouse spotlight effect
@@ -390,46 +391,58 @@ export function GuideDetailed() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[80%] bg-blue-50/5 rounded-full blur-[200px]" />
       </div>
 
+      {/* Mobile Sidebar Backdrop */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-30 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Top Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden p-2.5 hover:bg-white rounded-xl transition-colors"
+              className="lg:hidden p-2 hover:bg-slate-100 rounded-xl transition-colors"
             >
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-md flex-shrink-0">
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-md flex-shrink-0">
                 <BookOpen className="h-5 w-5" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-2xl font-black text-slate-950 tracking-tighter uppercase leading-none">CBMS Guide</h1>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="h-1 w-1 rounded-full bg-blue-500" />
-                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em]">Master System Manual</p>
+                <h1 className="text-xl font-black text-slate-950 tracking-tighter uppercase leading-none">CBMS Guide</h1>
+                <div className="flex items-center gap-2 mt-1.5 font-bold uppercase tracking-[0.2em] text-[9px] text-slate-400">
+                  <span className="h-0.5 w-2 rounded-full bg-blue-500" />
+                  Manual
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               to="/guide"
-              className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-white hover:text-slate-900 transition-all active:scale-95"
+              className="group inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-white transition-all active:scale-95"
             >
-              <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
-              <span className="hidden sm:inline">Back to Guide</span>
-              <span className="sm:hidden">Back</span>
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden xs:inline">Back</span>
             </Link>
             {token && (
               <Link
                 to="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 hover:shadow-lg transition-all active:scale-95 shadow-sm"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-all active:scale-95 shadow-sm"
               >
                 <LayoutDashboard className="h-4 w-4" />
-                <span className="hidden sm:inline">Go to App</span>
+                <span className="hidden xs:inline">App</span>
               </Link>
             )}
           </div>
@@ -440,7 +453,7 @@ export function GuideDetailed() {
         {/* Sidebar Navigation */}
         <aside 
           className={`
-            fixed lg:sticky top-[89px] left-0 z-40 w-full lg:w-80 lg:h-[calc(100vh-89px)] bg-white/40 backdrop-blur-xl border-r border-slate-200/50 transition-transform duration-300 lg:translate-x-0
+            fixed lg:sticky top-[69px] left-0 z-40 w-72 sm:w-80 lg:h-[calc(100vh-69px)] bg-white/95 lg:bg-white/40 backdrop-blur-xl border-r border-slate-200/50 transition-transform duration-300 lg:translate-x-0 shadow-2xl lg:shadow-none
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             overflow-y-auto overflow-x-hidden
           `}
@@ -490,9 +503,9 @@ export function GuideDetailed() {
         {/* Main Content Area */}
         <main className="flex-1 min-w-0 bg-transparent min-h-screen relative z-10">
           {/* Section Progress bar */}
-          <div className="sticky top-[101px] z-40 h-1.5 w-full bg-slate-100/50 backdrop-blur-sm pointer-events-none">
+          <div className="sticky top-[69px] z-40 h-1 w-full bg-slate-100/50 backdrop-blur-sm pointer-events-none">
             <motion.div 
-              className="h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.5)]"
+              className="h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]"
               initial={{ width: 0 }}
               animate={{ width: `${((SECTIONS.findIndex(s => s.id === activeSectionId) + 1) / SECTIONS.length) * 100}%` }}
               transition={{ type: "spring", stiffness: 50, damping: 20 }}
