@@ -27,7 +27,9 @@ cd client && npm install && npm run dev
 - API: http://localhost:5000
 - Client: http://localhost:5173
 
-A **User Guide** is available at `/guide` (features, how-to, examples, seeded credentials, workflow diagrams). It is linked from the login page and from the sidebar when signed in.
+Users can manage clients (add, edit, delete) from the **Clients** page; each project is linked to a client. A **User Guide** is available at `/guide` (features, how-to, examples, seeded credentials, workflow diagrams). It is linked from the login page and from the sidebar when signed in.
+
+**Client documentation** (non-technical, diagram-led): see [docs/CBMS_OVERVIEW.md](docs/CBMS_OVERVIEW.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/QUICK_START.md](docs/QUICK_START.md).
 
 ## Build order
 

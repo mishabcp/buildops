@@ -30,7 +30,7 @@ export function ExpenseBreakdownChart({ data }) {
   return (
     <div className="flex flex-col items-center">
       <div className="relative h-56 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
           <PieChart>
             <Pie
               data={chartData}

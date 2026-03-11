@@ -39,7 +39,7 @@ export function CollectionsChart({ data }) {
           </linearGradient>
         </defs>
       </svg>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
         <BarChart data={data} margin={{ top: 8, right: 12, left: 4, bottom: 8 }} barSize={28}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
           <XAxis

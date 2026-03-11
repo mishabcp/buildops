@@ -10,6 +10,7 @@ import { ProjectForm } from './pages/projects/ProjectForm.jsx';
 import { ProjectDetail } from './pages/projects/ProjectDetail.jsx';
 import { MaterialList } from './pages/materials/MaterialList.jsx';
 import { BillList } from './pages/bills/BillList.jsx';
+import { ClientList } from './pages/clients/ClientList.jsx';
 import { Reports } from './pages/reports/Reports.jsx';
 
 function Placeholder({ name }) {
@@ -41,6 +42,7 @@ export function AppRoutes() {
           <Route path=":id/edit" element={<ProjectForm />} />
           <Route path=":id" element={<ProjectDetail />} />
         </Route>
+        <Route path="clients" element={<ClientList />} />
         <Route path="materials" element={<MaterialList />} />
         <Route path="bills" element={<BillList />} />
         <Route path="reports" element={<Reports />} />

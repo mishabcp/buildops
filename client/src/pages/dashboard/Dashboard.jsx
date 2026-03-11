@@ -240,7 +240,7 @@ export function Dashboard() {
         <div className="dash-animate dash-delay-1 mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl block">
-              {greeting}, <span className="text-blue-600">{user?.name?.split(' ')[0] ?? 'there'}</span> 👋
+              {greeting}, <span className="text-blue-600">{user?.name?.split(' ')[0] ?? 'there'}</span>
             </h1>
             <p className="mt-2 text-base font-medium text-slate-500">{todayStr}</p>
           </div>

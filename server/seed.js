@@ -52,16 +52,16 @@ export async function runSeed() {
 
   // ─── CLIENTS (more) ────────────────────────────────
   const clientData = [
-    { name: 'Rajesh Constructions', phone: '9876543210', email: 'rajesh@constructions.in' },
-    { name: 'Metro Developers', phone: '9123456789', email: 'contact@metrodev.com' },
-    { name: 'City Infrastructure Ltd', phone: '9988776655', email: 'info@cityinfra.com' },
-    { name: 'Green Valley Builders', phone: '9876501234', email: 'projects@greenvalley.in' },
-    { name: 'Prime Housing Pvt Ltd', phone: '9123409876', email: 'sales@primehousing.com' },
-    { name: 'Skyline Constructions', phone: '9988123456', email: 'enquiry@skyline.co' },
-    { name: 'Heritage Developers', phone: '9876512345', email: 'heritage@dev.in' },
-    { name: 'Tech Park Estates', phone: '9123450123', email: 'techpark@estates.com' },
-    { name: 'Riverside Projects', phone: '9988765432', email: 'riverside@projects.in' },
-    { name: 'Summit Builders', phone: '9876598765', email: 'summit@builders.com' },
+    { name: 'Rajesh Constructions', phone: '9876543210', email: 'rajesh@constructions.in', address: '12 MG Road, City Centre' },
+    { name: 'Metro Developers', phone: '9123456789', email: 'contact@metrodev.com', address: '5 Park Street, East Block' },
+    { name: 'City Infrastructure Ltd', phone: '9988776655', email: 'info@cityinfra.com', address: 'Plot 7, Industrial Area, Sector 2' },
+    { name: 'Green Valley Builders', phone: '9876501234', email: 'projects@greenvalley.in', address: 'Green Valley Complex, North Extension' },
+    { name: 'Prime Housing Pvt Ltd', phone: '9123409876', email: 'sales@primehousing.com', address: 'Prime Tower, Business District' },
+    { name: 'Skyline Constructions', phone: '9988123456', email: 'enquiry@skyline.co', address: 'Skyline Plaza, 3rd Floor, Central Ave' },
+    { name: 'Heritage Developers', phone: '9876512345', email: 'heritage@dev.in', address: 'Heritage House, Old Town' },
+    { name: 'Tech Park Estates', phone: '9123450123', email: 'techpark@estates.com', address: 'Tech Park Phase 1, IT Corridor' },
+    { name: 'Riverside Projects', phone: '9988765432', email: 'riverside@projects.in', address: 'Riverside Drive, West Bank' },
+    { name: 'Summit Builders', phone: '9876598765', email: 'summit@builders.com', address: 'Summit House, Hill View Road' },
   ];
   const clients = [];
   for (const c of clientData) {

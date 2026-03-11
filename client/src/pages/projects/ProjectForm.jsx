@@ -171,8 +171,9 @@ export function ProjectForm() {
 
   if (loading) {
      return (
-       <PageWrapper title={isEdit ? 'Edit Project' : 'New Project'}>
+       <PageWrapper>
          <div className="animate-pulse max-w-4xl mx-auto space-y-6">
+           <h1 className="text-2xl font-bold tracking-tight text-slate-900">{isEdit ? 'Edit Project' : 'New Project'}</h1>
            <div className="h-10 bg-slate-100 rounded-xl w-32" />
            <div className="h-[600px] bg-slate-100 rounded-3xl w-full" />
          </div>
@@ -181,8 +182,9 @@ export function ProjectForm() {
   }
 
   return (
-    <PageWrapper title={isEdit ? 'Edit Project Details' : 'Start a New Project'}>
+    <PageWrapper>
       <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">{isEdit ? 'Edit Project Details' : 'Start a New Project'}</h1>
         
         {/* Navigation / Back Button */}
         <div className="mb-6">

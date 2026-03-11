@@ -62,8 +62,9 @@ export function ProjectList() {
   }
 
   return (
-    <PageWrapper title="Projects Directory">
+    <PageWrapper>
       <div className="mx-auto max-w-7xl">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">Projects Directory</h1>
         {error && (
           <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
             <AlertTriangle className="h-5 w-5 text-red-500" />

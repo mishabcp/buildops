@@ -26,9 +26,9 @@ export function Settings() {
   }
 
   return (
-    <PageWrapper title="System Configuration">
+    <PageWrapper>
       <div className="mx-auto max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-        
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">System Configuration</h1>
         {/* Header & Tabs */}
         <div className="mb-8">
           <p className="mt-1 text-sm font-medium text-slate-500 mb-6">Manage global application settings, branches, and user access controls.</p>

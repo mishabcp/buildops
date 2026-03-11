@@ -16,11 +16,11 @@ Do these in order. Each step assumes the previous is done.
 8. In the left sidebar go to **Project Settings** (gear icon) → **Database**.
 9. Under **Connection string**, choose **URI**.
 10. Copy the connection string. It looks like:
-    ```
+  ```
     postgresql://postgres.[ref]:[YOUR-PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres
-    ```
-11. Replace `[YOUR-PASSWORD]` with the database password you set in step 5.  
-    (If you use **Transaction** pooler, port is often `6543`; **Session** may use `5432` — use what Supabase shows.)
+  ```
+11. Replace `[YOUR-PASSWORD]` with the database password you set in step 5.
+  (If you use **Transaction** pooler, port is often `6543`; **Session** may use `5432` — use what Supabase shows.)
 12. Save this full URI somewhere safe — this is your **DATABASE_URL** for the next steps.
 
 **Check:** You have one Supabase project and a `DATABASE_URL` (URI with password filled in).
@@ -31,34 +31,34 @@ Do these in order. Each step assumes the previous is done.
 
 1. Open your project in the terminal (repo root: `c:\Users\misha\Desktop\CBMS`).
 2. Create or edit `.env` in the **repo root** (same folder as `prisma/`). Add or set:
-   ```
+  ```
    DATABASE_URL=postgresql://postgres.[ref]:YOUR_PASSWORD@aws-0-xx.pooler.supabase.com:6543/postgres
    JWT_SECRET=your-long-random-secret-at-least-32-chars
    PORT=5000
    CLIENT_URL=http://localhost:5173
-   ```
+  ```
    Use your real Supabase URI and a strong random string for `JWT_SECRET`.
 3. Install dependencies and generate Prisma client (from repo root):
-   ```bash
+  ```bash
    cd server
    npm install
    npm run prisma:generate
    cd ..
-   ```
+  ```
 4. Apply schema (from repo root so `.env` is loaded). If you have migration files, run:
-   ```bash
+  ```bash
    npx prisma migrate deploy --schema=prisma/schema.prisma
-   ```
+  ```
    If you have no migrations (schema-only), run:
-   ```bash
+  ```bash
    npx prisma db push --schema=prisma/schema.prisma
-   ```
+  ```
 5. Run the seed (from repo root):
-   ```bash
+  ```bash
    cd server
    npm run prisma:seed
    cd ..
-   ```
+  ```
    You should see "Seed completed." Seeded data includes 2 branches, 7 users (1 admin, 2 managers, 4 staff), 10 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses. All user passwords: **admin123** (e.g. `admin@company.com`, `manager-a@company.com`, `staff-a1@company.com`).
 
 **Check:** Supabase **Table Editor** shows tables with data. Log in locally with `admin@company.com` / `admin123` once server and client run.
@@ -76,27 +76,24 @@ Do these in order. Each step assumes the previous is done.
 7. **Root Directory:** leave **empty** (repo root).
 8. **Runtime:** Node.
 9. **Build Command:** (paste exactly)
-   ```bash
+  ```bash
    cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma
-   ```
+  ```
    Optionally add migrations (run from repo root). You can use:
-   ```bash
-   cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma && cd .. && npx prisma migrate deploy --schema=prisma/schema.prisma
-   ```
    Or run migrations once locally (Step 2) and skip in build.
 10. **Start Command:** (Prisma client is generated into server/node_modules so either form works)
-    ```bash
+  ```bash
     cd server && node src/server.js
-    ```
+  ```
 11. **Instance type:** Free.
 12. **Environment variables** — click **Add Environment Variable** and add:
 
-    | Key            | Value |
-    |----------------|--------|
-    | `DATABASE_URL` | Your full Supabase URI from Step 1 |
-    | `JWT_SECRET`   | Same long random secret as in `.env` (at least 32 chars) |
-    | `CLIENT_URL`   | For now use `https://localhost:5173` or a placeholder; we’ll set the real Vercel URL in Step 6 |
-    | `NODE_ENV`     | `production` |
+  | Key            | Value                                                                                          |
+  | -------------- | ---------------------------------------------------------------------------------------------- |
+  | `DATABASE_URL` | Your full Supabase URI from Step 1                                                             |
+  | `JWT_SECRET`   | Same long random secret as in `.env` (at least 32 chars)                                       |
+  | `CLIENT_URL`   | For now use `https://localhost:5173` or a placeholder; we’ll set the real Vercel URL in Step 6 |
+  | `NODE_ENV`     | `production`                                                                                   |
 
 13. Click **Create Web Service**. Wait for the first deploy to finish (build + start).
 14. In the dashboard, open your service and copy the **URL** (e.g. `https://cbms-api.onrender.com`). This is your **API URL** for the frontend.
@@ -109,17 +106,8 @@ Do these in order. Each step assumes the previous is done.
 
 1. In the project, open `client/src/api/axios.js`.
 2. Change the axios `baseURL` so that in production the client calls your Render API, and in dev it still uses the Vite proxy (`/api`).
-
-   **Current:**
-   ```js
-   baseURL: '/api',
-   ```
-
+  **Current:**
    **New:**
-   ```js
-   baseURL: import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api',
-   ```
-
 3. Save the file. No other code changes needed for basic deployment.
 
 **Check:** Local dev still works: in `client` run `npm run dev`, in `server` run `npm run dev`; login and API calls should work as before (proxy to localhost:5000).
@@ -132,13 +120,13 @@ Do these in order. Each step assumes the previous is done.
 2. Click **Add New…** → **Project**.
 3. **Import** your CBMS repository.
 4. **Configure Project:**
-   - **Root Directory:** click **Edit**, set to `client`, confirm.
-   - **Framework Preset:** Vite (should be auto-detected).
-   - **Build Command:** `npm run build` (default).
-   - **Output Directory:** `dist` (default).
-   - **Environment Variables:** click **Add**:
-     - **Name:** `VITE_API_URL`  
-     - **Value:** Your Render API URL from Step 3 (e.g. `https://cbms-api.onrender.com`) — **no** `/api` at the end.
+  - **Root Directory:** click **Edit**, set to `client`, confirm.
+  - **Framework Preset:** Vite (should be auto-detected).
+  - **Build Command:** `npm run build` (default).
+  - **Output Directory:** `dist` (default).
+  - **Environment Variables:** click **Add**:
+    - **Name:** `VITE_API_URL`  
+    - **Value:** Your Render API URL from Step 3 (e.g. `https://cbms-api.onrender.com`) — **no** `/api` at the end.
 5. Click **Deploy**. Wait for the build to finish.
 6. Open the generated URL (e.g. `https://cbms-xxx.vercel.app`). This is your **frontend URL**.
 
@@ -152,8 +140,8 @@ Do these in order. Each step assumes the previous is done.
 2. Set **CLIENT_URL** to your **Vercel** URL (e.g. `https://cbms-xxx.vercel.app`). No trailing slash.
 3. Save. Render will redeploy automatically (or click **Manual Deploy** → **Deploy latest commit**).
 4. After the redeploy, open your **Vercel** app URL and try:
-   - Log in with `admin@company.com` / `admin123`.
-   - Open Dashboard, Projects, etc.
+  - Log in with `admin@company.com` / `admin123`.
+  - Open Dashboard, Projects, etc.
 
 **Check:** You can log in and use the app on the Vercel URL. API requests go to Render; database is Supabase. If the Render service was sleeping, the first load may take 30–60 seconds (free tier cold start).
 
@@ -174,3 +162,4 @@ Do these in order. Each step assumes the previous is done.
 - **Blank page or wrong API:** Ensure Vercel env has `VITE_API_URL` = Render URL (no `/api`). Redeploy Vercel after changing env.
 - **Database errors on Render:** Ensure `DATABASE_URL` is the full Supabase URI and migrations were run (Step 2 or in Render build).
 - **Cold start:** On Render free tier, the first request after idle can take 30–60 seconds; refresh if needed.
+

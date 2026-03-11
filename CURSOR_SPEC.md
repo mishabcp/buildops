@@ -571,6 +571,9 @@ GET    /api/reports/export/excel        → export any report as Excel
   - Tab 7: Other Expenses
 - **Project Form** — create/edit: name, client (searchable dropdown), branch, location, status, contract value, dates
 
+### Clients
+- **Clients** — list with search, add client (modal/form), edit, delete (with confirm; block delete if client has projects)
+
 ### Payment Stages (inside Project Detail → Tab 2)
 - List of stages in order (Stage 1, 2, 3...) with: stage name, expected amount, due date, paid amount, status badge
 - PaymentBar component showing % paid
