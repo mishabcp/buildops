@@ -124,6 +124,7 @@ Do these in order. Each step assumes the previous is done.
   - **Framework Preset:** Vite (should be auto-detected).
   - **Build Command:** `npm run build` (default).
   - **Output Directory:** `dist` (default).
+  - The repo includes `client/vercel.json` so all client-side routes (e.g. `/login`, `/projects`) serve `index.html` and the SPA works when users open or refresh a deep link.
   - **Environment Variables:** click **Add**:
     - **Name:** `VITE_API_URL`  
     - **Value:** Your Render API URL from Step 3 (e.g. `https://cbms-api.onrender.com`) — **no** `/api` at the end.

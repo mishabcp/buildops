@@ -7,41 +7,109 @@ import {
   CheckCircle2, BarChart3, ChevronRight, ArrowDownRight 
 } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
+import { motion } from 'framer-motion';
+
+const fadeUpVariant = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring", bounce: 0.4 } }
+};
+
+const drawLineVariant = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: { 
+    pathLength: 1, 
+    opacity: 1, 
+    transition: { duration: 1, ease: "easeInOut", delay: 0.5 } 
+  }
+};
 
 function PlatformAccessFlow() {
   return (
-    <div className="w-full mt-4 p-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center">
-      <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
-        <div className="flex flex-col items-center gap-2 text-center">
+    <div className="w-full mt-4 py-12 px-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center overflow-hidden">
+      <motion.div 
+        variants={{ visible: { transition: { staggerChildren: 0.4 } } }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="flex flex-col md:flex-row items-center gap-6 md:gap-4 relative w-full max-w-3xl justify-between"
+      >
+        
+        {/* Step 1 */}
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
            <div className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-2">
               <Key className="h-6 w-6 text-slate-400" />
            </div>
            <span className="font-bold text-slate-900">Sign In</span>
            <span className="text-xs font-medium text-slate-500">Email & Password</span>
-        </div>
+        </motion.div>
         
-        <ArrowRight className="h-6 w-6 text-slate-300 hidden md:block" />
+        {/* Animated Connector 1 */}
+        <div className="hidden md:block absolute left-[12%] right-[55%] top-7 -translate-y-1/2 -z-10">
+           <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 100 24" fill="none">
+             <motion.path 
+               variants={drawLineVariant}
+               d="M0,12 L100,12" 
+               stroke="url(#gradient-line-1)" 
+               strokeWidth="3" 
+               strokeDasharray="6 4"
+               strokeLinecap="round"
+             />
+             <defs>
+               <linearGradient id="gradient-line-1" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#e2e8f0" />
+                 <stop offset="100%" stopColor="#94a3b8" />
+               </linearGradient>
+             </defs>
+           </svg>
+        </div>
         <ArrowDown className="h-6 w-6 text-slate-300 block md:hidden" />
 
-        <div className="flex flex-col items-center gap-2 text-center">
-           <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-md flex items-center justify-center mb-2">
+        {/* Step 2 */}
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
+           <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/20 flex items-center justify-center mb-2 cursor-pointer"
+           >
               <LayoutDashboard className="h-6 w-6 text-white" />
-           </div>
+           </motion.div>
            <span className="font-bold text-slate-900">Dashboard</span>
            <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600/80 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Authenticated</span>
-        </div>
+        </motion.div>
 
-        <ArrowRight className="h-6 w-6 text-slate-300 hidden md:block" />
+        {/* Animated Connector 2 */}
+        <div className="hidden md:block absolute left-[55%] right-[12%] top-7 -translate-y-1/2 -z-10">
+           <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 100 24" fill="none">
+             <motion.path 
+               variants={drawLineVariant}
+               d="M0,12 L100,12" 
+               stroke="url(#gradient-line-2)" 
+               strokeWidth="3" 
+               strokeDasharray="6 4"
+               strokeLinecap="round"
+             />
+             <defs>
+               <linearGradient id="gradient-line-2" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <stop offset="0%" stopColor="#94a3b8" />
+                 <stop offset="100%" stopColor="#64748b" />
+               </linearGradient>
+             </defs>
+           </svg>
+        </div>
         <ArrowDown className="h-6 w-6 text-slate-300 block md:hidden" />
 
-        <div className="flex flex-col items-center gap-2 text-center">
-           <div className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-2">
+        {/* Step 3 */}
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 text-center z-10 w-32">
+           <motion.div 
+             whileHover={{ scale: 1.05 }}
+             className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-2 cursor-pointer"
+           >
               <BookOpen className="h-6 w-6 text-blue-500" />
-           </div>
+           </motion.div>
            <span className="font-bold text-slate-900">System Guide</span>
            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Available</span>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
@@ -60,75 +128,143 @@ const LIFECYCLE_STEPS = [
 
 function ProjectLifecycleFlow() {
   return (
-    <div className="w-full mt-4 p-8 bg-slate-50/50 rounded-2xl border border-slate-100">
-      <div className="flex flex-wrap justify-center gap-x-3 gap-y-6">
+    <div className="w-full mt-4 p-8 bg-slate-50/50 rounded-2xl border border-slate-100 overflow-hidden">
+      <motion.div 
+        variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="flex flex-wrap justify-center gap-x-2 gap-y-8"
+      >
         {LIFECYCLE_STEPS.map((step, idx) => (
           <div key={idx} className="flex items-center">
-             <div className="flex flex-col items-center gap-2">
-                <div className="h-12 w-12 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center">
-                  <step.icon className="h-5 w-5 text-slate-500" />
-                </div>
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center w-20 leading-tight">
+             <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-3">
+                <motion.div 
+                  whileHover={{ scale: 1.1, y: -4 }}
+                  className="h-14 w-14 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center cursor-pointer hover:border-blue-200 hover:shadow-md transition-all group"
+                >
+                  <step.icon className="h-6 w-6 text-slate-500 group-hover:text-blue-600 transition-colors" />
+                </motion.div>
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center w-24 leading-tight">
                   {step.label}
                 </span>
-             </div>
+             </motion.div>
              {idx < LIFECYCLE_STEPS.length - 1 && (
-               <ChevronRight className="h-5 w-5 text-slate-300 mx-2 mt-[-30px] hidden sm:block" />
+               <motion.div 
+                 variants={{ hidden: { opacity: 0, scale: 0 }, visible: { opacity: 1, scale: 1 } }}
+                 className="mx-3 mt-[-36px] hidden sm:block relative w-8 h-px bg-slate-200"
+               >
+                 <ChevronRight className="absolute -right-3 -top-2.5 h-5 w-5 text-slate-300" />
+               </motion.div>
              )}
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 function TransactionStateFlow() {
   return (
-    <div className="w-full mt-4 p-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center">
-      <div className="flex flex-col md:flex-row items-center gap-6">
+    <div className="w-full mt-4 py-16 px-8 bg-slate-50/50 rounded-2xl border border-slate-100 flex items-center justify-center overflow-hidden">
+      <motion.div 
+        variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="flex flex-col md:flex-row items-center gap-6 md:gap-8 lg:gap-12 relative w-full max-w-4xl justify-center"
+      >
         {/* Not Paid State */}
-        <div className="flex flex-col items-center w-40">
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 z-10">
            <div className="w-full py-3 bg-white border border-slate-200 text-center rounded-xl font-bold text-slate-600 shadow-sm mb-3">
               Not Paid
            </div>
-        </div>
+        </motion.div>
 
-        {/* Transition */}
-        <div className="flex flex-col items-center gap-1">
-           <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Record Payment</span>
-           <ArrowRight className="h-5 w-5 text-slate-300 hidden md:block" />
+        {/* Transition 1 */}
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 z-10 w-24">
+           <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 text-center">Record Payment</span>
+           <div className="relative w-full h-2 hidden md:block">
+              <svg className="absolute w-full h-full top-0 left-0 overflow-visible" fill="none">
+                 <motion.path variants={drawLineVariant} d="M0,4 L100%,4" stroke="#cbd5e1" strokeWidth="2" />
+                 <motion.polygon variants={fadeUpVariant} points="100%,0 100%,8 100%+8,4" fill="#cbd5e1" />
+              </svg>
+           </div>
            <ArrowDown className="h-5 w-5 text-slate-300 block md:hidden" />
-        </div>
+        </motion.div>
 
         {/* Some Paid State */}
-        <div className="flex flex-col items-center w-40 relative group">
-           <div className="w-full py-3 bg-amber-50 border border-amber-200/60 text-center rounded-xl font-bold text-amber-700 shadow-sm mb-3 flex justify-center items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-amber-500 animate-[pulse_1.5s_ease-in-out_infinite]" />
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 relative group z-10">
+           <motion.div 
+             whileHover={{ y: -2 }}
+             className="w-full py-3 bg-amber-50 border border-amber-200/60 text-center rounded-xl font-bold text-amber-700 shadow-sm mb-3 flex justify-center items-center gap-2 relative z-20"
+           >
+              <motion.div 
+                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="h-2 w-2 rounded-full bg-amber-500" 
+              />
               Some Paid
-           </div>
+           </motion.div>
            
-           {/* Self-loop visualization */}
-           <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-32 h-8 border-t border-x border-amber-200 border-dashed rounded-t-xl opacity-0 xl:opacity-100 transition-opacity">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-2 text-[10px] rounded uppercase font-bold text-amber-600 whitespace-nowrap">Partial Pay</span>
-              <ArrowDownRight className="absolute -bottom-1 -right-2 h-4 w-4 text-amber-300" />
-           </div>
-        </div>
+           {/* Animated Self-loop visualization */}
+           <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 1 }}
+              className="absolute -top-[52px] left-1/2 -translate-x-1/2 w-32 h-14 hidden xl:block z-0"
+           >
+              <svg className="w-full h-full overflow-visible" fill="none">
+                 <motion.path 
+                   d="M16,56 Q16,0 64,0 Q112,0 112,56" 
+                   stroke="#fcd34d" 
+                   strokeWidth="2" 
+                   strokeDasharray="4 4" 
+                   fill="none"
+                   animate={{ strokeDashoffset: -20 }}
+                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                 />
+                 <polygon points="108,52 116,52 112,60" fill="#fcd34d" />
+              </svg>
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-2 text-[9px] rounded uppercase font-bold text-amber-600 whitespace-nowrap shadow-sm border border-amber-100 z-10">Partial Pay</span>
+           </motion.div>
+        </motion.div>
 
-        {/* Transition */}
-        <div className="flex flex-col items-center gap-1">
-           <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600/70">Full Amount</span>
-           <ArrowRight className="h-5 w-5 text-slate-300 hidden md:block" />
+        {/* Transition 2 */}
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center gap-2 z-10 w-24">
+           <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600/70 text-center">Full Amount</span>
+           <div className="relative w-full h-2 hidden md:block">
+              <svg className="absolute w-full h-full top-0 left-0 overflow-visible" fill="none">
+                 <motion.path variants={drawLineVariant} d="M0,4 L100%,4" stroke="#86efac" strokeWidth="2" />
+                 <motion.polygon variants={fadeUpVariant} points="100%,0 100%,8 100%+8,4" fill="#86efac" />
+              </svg>
+           </div>
            <ArrowDown className="h-5 w-5 text-slate-300 block md:hidden" />
-        </div>
+        </motion.div>
 
         {/* Fully Paid State */}
-        <div className="flex flex-col items-center w-40">
-           <div className="w-full py-3 bg-emerald-50 border border-emerald-200/60 text-center rounded-xl font-bold text-emerald-700 shadow-sm mb-3 flex items-center justify-center gap-2">
-              <CheckCircle2 className="h-4 w-4" />
+        <motion.div variants={fadeUpVariant} className="flex flex-col items-center w-40 z-10">
+           <motion.div 
+             whileHover={{ scale: 1.05 }}
+             className="w-full py-3 bg-emerald-50 border border-emerald-200/60 text-center rounded-xl font-bold text-emerald-700 shadow-sm mb-3 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden"
+           >
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: "200%" }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent w-full skew-x-12"
+              />
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 1.2, bounce: 0.6 }}
+              >
+                 <CheckCircle2 className="h-4 w-4" />
+              </motion.div>
               Fully Paid
-           </div>
-        </div>
-      </div>
+           </motion.div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
