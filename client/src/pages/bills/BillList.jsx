@@ -147,7 +147,7 @@ export function BillList() {
 
               <Button 
                 onClick={() => { setEditingBill(null); setShowForm(true); }} 
-                className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
+                className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4" />
                 Record Bill
@@ -175,7 +175,8 @@ export function BillList() {
           </div>
         ) : (
           <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-sm text-left whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200 text-slate-500">
                   <tr>
@@ -313,9 +314,94 @@ export function BillList() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="sm:hidden divide-y divide-slate-100">
+               {bills.map((b) => {
+                 const isExpanded = expandedId === b.id;
+                 const bal = balance(b);
+                 return (
+                   <div key={b.id} className="p-4 space-y-4">
+                      <div className="flex justify-between items-start" onClick={() => setExpandedId(isExpanded ? null : b.id)}>
+                         <div className="flex gap-3">
+                            <div className="h-10 w-10 rounded-xl bg-violet-50 flex items-center justify-center border border-violet-100 shrink-0">
+                               <ReceiptText className="h-5 w-5 text-violet-600" />
+                            </div>
+                            <div>
+                               <p className="font-bold text-slate-900 text-sm">{b.partyName}</p>
+                               <div className="flex items-center gap-2 mt-0.5">
+                                  <span className="text-[10px] font-black uppercase text-slate-400">#{b.billNumber || 'NO-REF'}</span>
+                                  <span className="w-1 h-1 rounded-full bg-slate-200"></span>
+                                  <span className="text-[10px] font-bold text-slate-500 uppercase">{b.type?.replace(/_/g, ' ')}</span>
+                               </div>
+                            </div>
+                         </div>
+                         <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={(e) => { e.stopPropagation(); setExpandedId(isExpanded ? null : b.id); }}>
+                            {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                         </Button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                         <div className="flex flex-col">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Total Bill</span>
+                            <span className="font-bold text-slate-900 text-sm">{formatCurrency(b.totalAmount)}</span>
+                         </div>
+                         <div className="flex flex-col items-end">
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Balance</span>
+                            <span className={cn("font-black text-sm", bal > 0 ? "text-amber-600" : "text-emerald-600")}>
+                               {formatCurrency(bal)}
+                            </span>
+                         </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                         <StatusBadge status={b.status} />
+                         <Button 
+                           size="sm" 
+                           className="h-8 rounded-lg gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/50 shadow-none font-bold"
+                           onClick={(e) => { e.stopPropagation(); setPaymentBill(b); }}
+                         >
+                           <Banknote className="h-3.5 w-3.5" />
+                           Pay
+                         </Button>
+                      </div>
+
+                      {isExpanded && (
+                         <div className="mt-4 pt-4 border-l-4 border-slate-100 pl-3 space-y-3 animate-in fade-in slide-in-from-left-2">
+                            <h6 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Payment Logs</h6>
+                            {b.payments?.length > 0 ? (
+                               b.payments.map((p) => (
+                                 <div key={p.id} className="flex justify-between items-center text-xs bg-slate-50/50 p-2 rounded-lg border border-slate-100">
+                                    <div className="flex flex-col">
+                                       <span className="font-bold text-slate-700">{formatCurrency(p.amount)}</span>
+                                       <span className="text-[9px] text-slate-400 font-medium">{formatDate(p.paidDate)}</span>
+                                    </div>
+                                    <span className="bg-white px-1.5 py-0.5 rounded font-bold text-slate-500 uppercase text-[9px] border border-slate-200">
+                                       {p.paymentMode?.split('_')[0]}
+                                    </span>
+                                 </div>
+                               ))
+                            ) : (
+                               <p className="text-[10px] font-medium text-slate-400 italic">No payments yet</p>
+                            )}
+                         </div>
+                      )}
+                   </div>
+                 );
+               })}
+            </div>
           </div>
         )}
       </div>
+
+      {/* Floating Add Button for Mobile */}
+      <Button
+        onClick={() => { setEditingBill(null); setShowForm(true); }}
+        className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+        aria-label="Record bill"
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
 
       {showForm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">

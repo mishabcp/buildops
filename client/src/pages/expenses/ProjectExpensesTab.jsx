@@ -5,7 +5,7 @@ import { formatDate } from '../../utils/formatDate.js';
 import { getProjectExpenses, createExpense, deleteExpense } from '../../api/expenses.api.js';
 import { ExpenseForm } from './ExpenseForm.jsx';
 import { authStore } from '../../store/authStore.js';
-import { Plus, Trash2, Receipt, ReceiptText, Banknote } from 'lucide-react';
+import { Plus, Trash2, Receipt, ReceiptText, Banknote, Calendar } from 'lucide-react';
 
 export function ProjectExpensesTab({ projectId, onDataChange }) {
   const user = authStore((s) => s.user);
@@ -110,7 +110,7 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
              <Button 
                onClick={() => setShowForm(true)} 
                disabled={isStaff} 
-               className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
+               className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
              >
                <Plus className="h-4 w-4" />
                Log Expense
@@ -136,7 +136,8 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
         </div>
       ) : (
         <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View - Only on large screens */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full text-sm whitespace-nowrap">
               <thead className="bg-slate-50/80 border-b border-slate-200/80">
                 <tr className="text-left">
@@ -186,6 +187,61 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
               </tbody>
             </table>
           </div>
+
+          {/* Card View - For Tablets and Mobiles */}
+          <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-slate-100/40">
+            {expenses.map((e) => (
+              <div key={e.id} className="p-4 sm:p-5 flex flex-col gap-4 bg-white hover:bg-slate-50/50 transition-colors">
+                 {/* Card Header */}
+                 <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                       <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold shrink-0 shadow-sm">
+                          <ReceiptText className="h-5 w-5" />
+                       </div>
+                       <div className="min-w-0">
+                          <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight line-clamp-2">{e.description}</h4>
+                          <div className="flex items-center gap-1.5 mt-0.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                            <span className="truncate">{e.category || 'General Expense'}</span>
+                          </div>
+                       </div>
+                    </div>
+                    {!isStaff && (
+                      <div className="flex gap-2 shrink-0 ml-2">
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => handleDelete(e.id)} 
+                          className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
+                 </div>
+                 
+                 {/* Expense Details Grid */}
+                 <div className="grid grid-cols-2 gap-4 border-y border-slate-50 py-4">
+                    <div className="flex flex-col">
+                       <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Payment Method</span>
+                       <span className="text-[13px] sm:text-[15px] font-bold text-slate-600">{e.paymentMode?.replace(/_/g, ' ') ?? '—'}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                       <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Amount</span>
+                       <span className="text-[14px] sm:text-[18px] font-black text-slate-900 leading-none">{formatCurrency(e.amount)}</span>
+                    </div>
+                 </div>
+
+                 {/* Card Footer */}
+                 <div className="flex items-center justify-between pt-1">
+                    <div className="text-[10px] font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-widest">
+                       <Calendar className="h-3.5 w-3.5 text-slate-300" />
+                       {formatDate(e.date)}
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-300">#{String(e.id ?? '').slice(-6).toUpperCase()}</span>
+                 </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -196,6 +252,17 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
              <ExpenseForm onSave={handleAdd} onClose={() => setShowForm(false)} />
            </div>
         </div>
+      )}
+
+      {/* Floating Add Button for Mobile */}
+      {!isStaff && (
+        <Button
+          onClick={() => setShowForm(true)}
+          className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+          aria-label="Log expense"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       )}
     </div>
   );

@@ -79,7 +79,7 @@ export function MaterialList() {
          </div>
          <Button 
             onClick={() => { setEditing(null); setShowForm(true); }} 
-            className="h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 font-bold transition-all hover:-translate-y-0.5"
+            className="hidden sm:flex h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 font-bold transition-all hover:-translate-y-0.5"
          >
             <Plus className="h-4 w-4" />
             Add New Material
@@ -104,7 +104,8 @@ export function MaterialList() {
           </div>
         ) : (
           <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-sm text-left whitespace-nowrap">
                 <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 sticky top-0">
                   <tr>
@@ -154,9 +155,55 @@ export function MaterialList() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile View */}
+            <div className="sm:hidden divide-y divide-slate-100">
+              {materials.map((m) => {
+                const low = isLowStock(m);
+                return (
+                  <div key={m.id} className="p-4 space-y-3">
+                    <div className="flex justify-between items-start">
+                       <div>
+                          <h4 className="font-bold text-slate-900 text-base">{m.name}</h4>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-1 inline-block">Unit: {m.unit}</span>
+                       </div>
+                       <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => { setEditing(m); setShowForm(true); }}
+                          className="h-8 w-8 p-0 text-slate-400"
+                       >
+                          <Pencil className="h-4 w-4" />
+                       </Button>
+                    </div>
+                    <div className="flex items-center justify-between pt-2">
+                       <div className="flex flex-col">
+                          <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Current Stock</span>
+                          <span className="text-lg font-black font-mono text-slate-900 leading-none">{Number(m.currentStock).toLocaleString()}</span>
+                       </div>
+                       <span className={cn(
+                          "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide border uppercase",
+                          low ? "bg-red-50 text-red-700 border-red-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                       )}>
+                          {low ? 'Critical' : 'In Stock'}
+                       </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
+
+      {/* Floating Add Button for Mobile */}
+      <Button
+        onClick={() => { setEditing(null); setShowForm(true); }}
+        className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+        aria-label="Add material"
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
 
       {showForm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">

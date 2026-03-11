@@ -167,7 +167,8 @@ export function ProjectList() {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
+              {/* Desktop Table */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full text-sm whitespace-nowrap">
                   <thead>
                     <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
@@ -234,6 +235,38 @@ export function ProjectList() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Mobile Cards */}
+              <div className="sm:hidden divide-y divide-slate-100">
+                {projects.map((p) => (
+                  <Link key={p.id} to={`/projects/${p.id}`} className="block p-5 active:bg-slate-50 transition-colors">
+                    <div className="flex justify-between items-start mb-2">
+                       <h4 className="font-bold text-slate-900 text-base leading-tight pr-4">{p.name}</h4>
+                       <span className={cn('shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider border', STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80')}>
+                         {p.status?.replace(/_/g, ' ')}
+                       </span>
+                    </div>
+                    <div className="space-y-2">
+                       <p className="text-xs font-semibold text-slate-500 uppercase tracking-tight">{p.client?.name ?? 'Individual Client'}</p>
+                       <div className="flex items-center justify-between text-xs pt-1">
+                          <span className="text-slate-400 font-medium">{isSuperAdmin ? p.branch?.name : 'Global Branch'}</span>
+                          <span className="font-mono font-bold text-slate-900">{formatCurrency(p.contractValue)}</span>
+                       </div>
+                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50">
+                          <div className="flex flex-col">
+                             <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Balance Due</span>
+                             <span className={cn("text-sm font-black font-mono", p.balance > 0 ? "text-orange-600" : "text-emerald-600")}>
+                                {formatCurrency(p.balance)}
+                             </span>
+                          </div>
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                             <ArrowRight className="h-4 w-4" />
+                          </div>
+                       </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           )}

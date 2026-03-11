@@ -4,7 +4,7 @@ import { StatusBadge } from '../../components/shared/StatusBadge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { getLabour, createLabour, updateLabour, deleteLabour } from '../../api/labour.api.js';
 import { LabourForm } from './LabourForm.jsx';
-import { Plus, Pencil, Trash2, HardHat, Pickaxe, Hammer, User } from 'lucide-react';
+import { Plus, Pencil, Trash2, HardHat, Pickaxe, Hammer, User, Calendar } from 'lucide-react';
 import { authStore } from '../../store/authStore.js';
 import { cn } from '../../lib/utils.js';
 
@@ -94,14 +94,15 @@ export function LabourList({ projectId, onDataChange }) {
 
       <div className="flex justify-between items-center">
          <h3 className="text-lg font-bold text-slate-900 hidden sm:block">Labour Directory</h3>
-         <Button 
-           onClick={() => { setEditingEntry(null); setShowForm(true); }} 
-           className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-semibold transition-all hover:-translate-y-0.5 ml-auto" 
-           disabled={isStaff}
-         >
-           <Plus className="h-4 w-4" />
-           Add Labour Entry
-         </Button>
+         {!isStaff && (
+           <Button 
+             onClick={() => { setEditingEntry(null); setShowForm(true); }} 
+             className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-semibold transition-all hover:-translate-y-0.5 ml-auto" 
+           >
+             <Plus className="h-4 w-4" />
+             Add Labour Entry
+           </Button>
+         )}
       </div>
 
       {entries.length === 0 ? (
@@ -122,7 +123,8 @@ export function LabourList({ projectId, onDataChange }) {
         </div>
       ) : (
         <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View - Only on large screens */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full text-sm whitespace-nowrap">
               <thead className="bg-slate-50/80 border-b border-slate-200/80">
                 <tr className="text-left">
@@ -210,6 +212,72 @@ export function LabourList({ projectId, onDataChange }) {
               </tbody>
             </table>
           </div>
+
+          {/* Card View - For Desktop Small, Tablets, and Mobiles */}
+          <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-slate-100/40">
+            {entries.map((e) => {
+              const bal = balance(e);
+              return (
+                <div key={e.id} className="p-4 sm:p-5 flex flex-col gap-4 bg-white hover:bg-slate-50/50 transition-colors">
+                  {/* Card Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-bold shrink-0 shadow-sm">
+                        {e.workerName?.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight truncate">{e.workerName}</h4>
+                        <div className="flex items-center gap-1.5 mt-0.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                          <Pickaxe className="h-3.5 w-3.5 text-slate-300" />
+                          <span className="truncate">{e.workType || 'General Task'}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {!isStaff && (
+                      <div className="flex gap-2 shrink-0 ml-2">
+                        <Button size="sm" variant="ghost" className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-lg shadow-none" onClick={() => { setEditingEntry(e); setShowForm(true); }}>
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-lg shadow-none" onClick={() => handleDelete(e)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Financial & Work Details Grid */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-slate-50 py-4">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Duration</span>
+                      <span className="text-[12px] sm:text-[14px] font-bold text-slate-700 truncate">{e.days != null ? `${Number(e.days)} Days` : 'Fixed'}</span>
+                    </div>
+                    <div className="flex flex-col border-x border-slate-50 px-2 sm:px-4">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Due</span>
+                      <span className="text-[12px] sm:text-[14px] font-bold text-slate-700 truncate">{formatCurrency(e.totalAmount)}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Balance</span>
+                      <span className={cn(
+                        "text-[12px] sm:text-[14px] font-black truncate",
+                        bal > 0 ? "text-amber-600" : "text-emerald-600"
+                      )}>
+                        {formatCurrency(bal)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="flex items-center justify-between pt-1">
+                    <StatusBadge status={e.status} />
+                    <div className="text-[11px] font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-widest">
+                       <Calendar className="h-3.5 w-3.5 text-slate-300" />
+                       {e.createdAt ? new Date(e.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'Recent'}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -224,6 +292,17 @@ export function LabourList({ projectId, onDataChange }) {
              />
            </div>
         </div>
+      )}
+
+      {/* Floating Add Button for Mobile */}
+      {!isStaff && (
+        <Button
+          onClick={() => { setEditingEntry(null); setShowForm(true); }}
+          className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+          aria-label="Add labour"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       )}
     </div>
   );

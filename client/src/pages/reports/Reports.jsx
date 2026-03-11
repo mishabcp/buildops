@@ -137,56 +137,61 @@ export function Reports() {
       <div className="flex flex-col lg:flex-row gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         {/* ── Sidebar Navigation & Filters ── */}
-        <aside className="w-full lg:w-[280px] shrink-0 space-y-6">
-          {/* Report Selection Navy */}
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
-             <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
-               <BarChart3 className="h-5 w-5 text-slate-400" />
-               <h3 className="font-bold text-slate-900 leading-none tracking-tight">Report Modules</h3>
+        <aside className="w-full lg:w-[300px] shrink-0 space-y-4 lg:space-y-6">
+          {/* Report Selection Modules - Horizontal scroll on mobile, vertical on desktop */}
+          <div className="bg-white rounded-2xl lg:rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden transition-all">
+             <div className="bg-slate-50/50 px-5 lg:px-6 py-3 lg:py-4 border-b border-slate-100 flex items-center gap-2">
+               <BarChart3 className="h-4 w-4 lg:h-5 lg:w-5 text-slate-400" />
+               <h3 className="font-bold text-slate-900 text-sm lg:text-base leading-none tracking-tight">Report Modules</h3>
              </div>
-             <nav className="p-3 space-y-1">
-               {REPORT_TYPES.map((r) => {
-                 const isActive = reportType === r.id;
-                 const Icon = r.icon;
-                 return (
-                   <button
-                     key={r.id}
-                     type="button"
-                     onClick={() => setReportType(r.id)}
-                     className={cn(
-                       'w-full flex items-center gap-3 px-4 py-3 text-left text-[14px] font-bold rounded-2xl transition-all duration-200 group relative overflow-hidden',
-                       isActive ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-200/50' : 'text-slate-600 hover:bg-slate-50 border border-transparent'
-                     )}
-                   >
-                     {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-md bg-blue-600" />}
-                     <div className={cn(
-                        "h-8 w-8 rounded-xl flex items-center justify-center shrink-0 transition-all",
-                        isActive ? "bg-white text-blue-600 shadow-sm border border-blue-100" : "bg-slate-100 text-slate-400 group-hover:bg-white group-hover:text-blue-500 group-hover:shadow-sm"
-                     )}>
-                        <Icon className="h-4 w-4" />
-                     </div>
-                     {r.label}
-                   </button>
-                 );
-               })}
-             </nav>
+             
+             {/* Horizontal Scroll logic for mobile */}
+             <div className="p-2 lg:p-3 overflow-x-auto lg:overflow-x-visible custom-scrollbar">
+                <nav className="flex lg:flex-col gap-1.5 lg:gap-1 min-w-max lg:min-w-0 pb-1 lg:pb-0">
+                  {REPORT_TYPES.map((r) => {
+                    const isActive = reportType === r.id;
+                    const Icon = r.icon;
+                    return (
+                      <button
+                        key={r.id}
+                        type="button"
+                        onClick={() => setReportType(r.id)}
+                        className={cn(
+                          'flex items-center gap-2.5 lg:gap-3 px-3 lg:px-4 py-2 lg:py-3 text-left text-[13px] lg:text-[14px] font-bold rounded-xl lg:rounded-2xl transition-all duration-200 group relative whitespace-nowrap lg:whitespace-normal',
+                          isActive 
+                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-transparent'
+                        )}
+                      >
+                        <div className={cn(
+                           "h-7 w-7 lg:h-8 lg:w-8 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0 transition-all",
+                           isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500"
+                        )}>
+                           <Icon className="h-4 w-4" />
+                        </div>
+                        {r.label}
+                      </button>
+                    );
+                  })}
+                </nav>
+             </div>
           </div>
 
-          {/* Filtering Context */}
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
-            <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-100 flex items-center gap-2">
-               <Filter className="h-5 w-5 text-slate-400" />
-               <h3 className="font-bold text-slate-900 leading-none tracking-tight">Data Parameters</h3>
+          {/* Filtering Context - Collapsible on small screens? No, just more compact */}
+          <div className="bg-white rounded-2xl lg:rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden">
+            <div className="bg-slate-50/50 px-5 lg:px-6 py-3 lg:py-4 border-b border-slate-100 flex items-center gap-2">
+               <Filter className="h-4 w-4 lg:h-5 lg:w-5 text-slate-400" />
+               <h3 className="font-bold text-slate-900 text-sm lg:text-base leading-none tracking-tight">Data Parameters</h3>
             </div>
             
-            <div className="p-5 space-y-5">
+            <div className="p-4 lg:p-5 space-y-4 lg:space-y-5">
               {isSuperAdmin && (
-                <div className="space-y-2 relative">
-                  <label className="text-[12px] font-bold uppercase tracking-widest text-slate-500">Reporting Branch</label>
+                <div className="space-y-1.5 lg:space-y-2 relative">
+                  <label className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-slate-400">Reporting Branch</label>
                   <div className="relative">
                     <GitBranch className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                     <select
-                      className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all cursor-pointer"
+                      className="w-full h-10 lg:h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all cursor-pointer"
                       value={branchId}
                       onChange={(e) => setBranchId(e.target.value)}
                     >
@@ -200,14 +205,14 @@ export function Reports() {
               )}
 
               {reportType === 'project-pl' && (
-               <div className="space-y-2 relative">
-                  <label className="text-[12px] font-bold uppercase tracking-widest text-slate-500">Date Range Boundary</label>
+               <div className="space-y-1.5 lg:space-y-2 relative">
+                  <label className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-slate-400">Date Range Boundary</label>
                   <div className="relative">
                     <CalendarDays className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                     <input
                       type="text"
                       placeholder="e.g. 2026-01-01,2026-12-31"
-                      className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                      className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                       value={dateRange}
                       onChange={(e) => setDateRange(e.target.value)}
                     />
@@ -216,11 +221,11 @@ export function Reports() {
               )}
 
               {reportType === 'payment-collection' && (
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2 relative">
-                     <label className="text-[12px] font-bold uppercase tracking-widest text-slate-500">Month</label>
+                <div className="grid grid-cols-2 gap-3 lg:gap-4">
+                  <div className="space-y-1.5 lg:space-y-2 relative">
+                     <label className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-slate-400">Month</label>
                      <select
-                       className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all cursor-pointer"
                        value={month}
                        onChange={(e) => setMonth(e.target.value)}
                      >
@@ -229,13 +234,13 @@ export function Reports() {
                        ))}
                      </select>
                   </div>
-                  <div className="space-y-2 relative">
-                     <label className="text-[12px] font-bold uppercase tracking-widest text-slate-500">Year</label>
+                  <div className="space-y-1.5 lg:space-y-2 relative">
+                     <label className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-slate-400">Year</label>
                      <input
                        type="number"
                        min="2020"
                        max="2035"
-                       className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
                        value={year}
                        onChange={(e) => setYear(e.target.value)}
                      />
@@ -247,23 +252,30 @@ export function Reports() {
         </aside>
 
         {/* ── Main Data View ── */}
-        <main className="min-w-0 flex-1 flex flex-col">
+        <main className="min-w-0 flex-1 flex flex-col space-y-4 lg:space-y-6">
           {/* Header & Export Actions */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200/60 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 relative overflow-hidden">
-             <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none" />
+          <div className="bg-white p-5 lg:p-6 rounded-2xl lg:rounded-3xl border border-slate-200/60 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden">
+             <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none" />
              <div className="relative">
-                <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">{activeReport?.label}</h2>
-                <p className="text-sm font-medium text-slate-500 mt-1">
-                   {branchId ? `Filtered by ${branches.find(b => b.id == branchId)?.name ?? 'Selected Branch'}` : 'Consolidated view'}
-                   {rows.length > 0 && ` • ${rows.length} records generated`}
+                <h2 className="text-xl lg:text-2xl font-black tracking-tight text-slate-900">{activeReport?.label}</h2>
+                <p className="text-[13px] font-medium text-slate-400 mt-1 flex items-center gap-2">
+                   {branchId ? (
+                     <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md border border-blue-100/50">
+                        {branches.find(b => String(b.id) === String(branchId))?.name ?? 'Branch Filtered'}
+                     </span>
+                   ) : (
+                     <span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md">Consolidated View</span>
+                   )}
+                   {rows.length > 0 && <span className="w-1 h-1 rounded-full bg-slate-300" />}
+                   {rows.length > 0 && <span>{rows.length} records</span>}
                 </p>
              </div>
              
-             <div className="flex items-center gap-3 relative">
+             <div className="flex flex-wrap items-center gap-2 lg:gap-3 relative">
                <Button 
                   size="sm" 
                   onClick={() => loadReport()} 
-                  className="h-10 w-10 p-0 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
+                  className="h-9 lg:h-10 w-9 lg:w-10 p-0 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors"
                   title="Refresh Data"
                 >
                   <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
@@ -272,92 +284,143 @@ export function Reports() {
                   size="sm" 
                   disabled={exporting !== null || rows.length === 0} 
                   onClick={() => handleExport('pdf')}
-                  className="h-10 px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-blue-700"
+                  className="h-9 lg:h-10 px-3 lg:px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-700 transition-all"
                 >
                   <FileDown className="h-4 w-4" />
-                  {exporting === 'pdf' ? 'Formatting…' : 'Export PDF'}
+                  <span className="hidden sm:inline">{exporting === 'pdf' ? 'Exporting…' : 'PDF'}</span>
+                  <span className="sm:hidden">PDF</span>
                </Button>
                <Button 
                   size="sm" 
                   disabled={exporting !== null || rows.length === 0} 
                   onClick={() => handleExport('excel')}
-                  className="h-10 px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-emerald-700"
+                  className="h-9 lg:h-10 px-3 lg:px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-emerald-700 transition-all"
                >
                  <FileSpreadsheet className="h-4 w-4" />
-                 {exporting === 'excel' ? 'Formatting…' : 'Export Excel'}
+                 <span className="hidden sm:inline">{exporting === 'excel' ? 'Exporting…' : 'Excel'}</span>
+                 <span className="sm:hidden">Excel</span>
                </Button>
              </div>
           </div>
 
           {error && (
-             <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm">
+             <div className="rounded-xl border border-red-200 bg-red-50 p-4 shadow-sm animate-in shake">
                <p className="text-sm font-medium text-red-800">{error}</p>
              </div>
           )}
 
           {/* Table Container */}
-          <div className="flex-1 bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col min-h-[400px]">
+          <div className="flex-1 bg-white rounded-2xl lg:rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col min-h-[450px]">
             {loading ? (
-              <div className="p-6">
-                <TableSkeleton rows={8} cols={6} />
+              <div className="p-6 overflow-hidden">
+                <TableSkeleton rows={10} cols={6} />
               </div>
             ) : rows.length === 0 ? (
-              <div className="flex-1 flex flex-col items-center justify-center p-16 text-center">
-                 <div className="h-20 w-20 bg-slate-50 rounded-3xl flex items-center justify-center shadow-sm mb-5 border border-slate-100">
-                    <BarChart3 className="h-10 w-10 text-slate-300" />
+              <div className="flex-1 flex flex-col items-center justify-center p-10 lg:p-20 text-center">
+                 <div className="h-16 w-16 lg:h-20 lg:w-20 bg-slate-50 rounded-2xl lg:rounded-3xl flex items-center justify-center shadow-sm mb-5 border border-slate-100">
+                    <BarChart3 className="h-8 w-8 lg:h-10 lg:w-10 text-slate-200" />
                  </div>
-                 <h3 className="text-xl font-bold text-slate-900 mb-2">Insufficient Data Pipeline</h3>
-                 <p className="text-slate-500 font-medium max-w-sm">
-                   There are no records matching your selected parameters for this report format. 
+                 <h3 className="text-lg lg:text-xl font-bold text-slate-900 mb-2">No data generated</h3>
+                 <p className="text-slate-400 font-medium max-w-xs text-sm">
+                   We couldn't find any information for the selected report and parameters. Try adjusting your filters.
                  </p>
               </div>
             ) : (
-              <div className="overflow-x-auto flex-1 custom-scrollbar">
-                <table className="w-full text-sm whitespace-nowrap">
-                  <thead className="bg-slate-50/90 backdrop-blur-md border-b border-slate-200/60 text-slate-500 sticky top-0 z-10">
-                    <tr className="text-left">
-                      {Object.keys(rows[0]).map((k, index) => (
-                        <th key={k} className={cn(
-                           "py-4 px-5 font-bold text-[11px] uppercase tracking-widest",
-                           index === 0 && "pl-6" // extra padding for first col
-                        )}>
-                          {k.replace(/([A-Z])/g, ' $1').trim()}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {rows.map((row, i) => (
-                      <tr key={i} className="group transition-colors hover:bg-slate-50/70">
-                        {Object.keys(rows[0]).map((k, index) => {
-                          let v = row[k];
-                          let isMonetary = false;
-                          
-                          if (v instanceof Date || (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v))) {
-                             v = formatDate(v);
-                          } else if (typeof v === 'number' && /amount|value|cost|balance|received|labour|profit/i.test(k)) {
-                             v = formatCurrency(v);
-                             isMonetary = true;
-                          }
-                          
-                          return (
-                            <td key={k} className={cn(
-                               "py-4 px-5",
-                               index === 0 ? "pl-6 font-bold text-slate-900" : "font-medium text-slate-600",
-                               isMonetary && "font-mono font-bold tracking-tight text-[15px] text-slate-700",
-                               // Profit mapping color logic specifically for P&L column 'estimatedProfit'
-                               (k === 'estimatedProfit' && row[k] < 0) && "text-red-600",
-                               (k === 'estimatedProfit' && row[k] > 0) && "text-emerald-600"
-                            )}>
-                              {v ?? '—'}
-                            </td>
-                          );
-                        })}
+              <>
+                {/* Desktop View: Table */}
+                <div className="hidden sm:block overflow-x-auto custom-scrollbar flex-1">
+                  <table className="w-full text-sm whitespace-nowrap">
+                    <thead className="bg-slate-50/90 backdrop-blur-md border-b border-slate-200/60 text-slate-400 sticky top-0 z-10 font-black">
+                      <tr className="text-left">
+                        {Object.keys(rows[0]).map((k, index) => (
+                          <th key={k} className={cn(
+                             "py-4 px-5 text-[10px] uppercase tracking-widest",
+                             index === 0 && "pl-8"
+                          )}>
+                            {k.replace(/([A-Z])/g, ' $1').trim()}
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {rows.map((row, i) => (
+                        <tr key={i} className="group transition-colors hover:bg-slate-50/70 border-b border-slate-50/50 last:border-0 font-medium">
+                          {Object.keys(rows[0]).map((k, index) => {
+                            let v = row[k];
+                            let isMonetary = false;
+                            
+                            if (v instanceof Date || (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v))) {
+                               v = formatDate(v);
+                            } else if (typeof v === 'number' && /amount|value|cost|balance|received|labour|profit/i.test(k)) {
+                               v = formatCurrency(v);
+                               isMonetary = true;
+                            }
+                            
+                            return (
+                              <td key={k} className={cn(
+                                 "py-4 px-5",
+                                 index === 0 ? "pl-8 font-bold text-slate-900" : "text-slate-600",
+                                 isMonetary && "font-mono font-bold tracking-tight text-slate-900",
+                                 (k === 'estimatedProfit' && row[k] < 0) && "text-red-600 bg-red-50/30",
+                                 (k === 'estimatedProfit' && row[k] > 0) && "text-emerald-600 bg-emerald-50/30",
+                                 k === 'profitMargin' && "font-black"
+                              )}>
+                                {v ?? '—'}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile View: Cards */}
+                <div className="sm:hidden divide-y divide-slate-100 overflow-y-auto max-h-[calc(100vh-350px)] custom-scrollbar">
+                   {rows.map((row, i) => (
+                     <div key={i} className="p-5 space-y-4">
+                        <div className="flex justify-between items-start">
+                           <div className="flex items-center gap-2">
+                              <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs ring-1 ring-blue-100">
+                                 {i + 1}
+                              </div>
+                              <h4 className="font-bold text-slate-900">{row[Object.keys(row)[0]]}</h4>
+                           </div>
+                           {/* Highlight key metric if possible */}
+                           {row.status && <span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">{row.status}</span>}
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-y-4 gap-x-2">
+                           {Object.keys(row).slice(1).map((k) => {
+                             let v = row[k];
+                             let isMonetary = false;
+                             
+                             if (v instanceof Date || (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v))) {
+                                v = formatDate(v);
+                             } else if (typeof v === 'number' && /amount|value|cost|balance|received|labour|profit/i.test(k)) {
+                                v = formatCurrency(v);
+                                isMonetary = true;
+                             }
+
+                             return (
+                               <div key={k} className="flex flex-col space-y-1">
+                                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">{k.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                  <span className={cn(
+                                    "text-[13px] font-bold text-slate-700 leading-none",
+                                    isMonetary && "font-mono font-black",
+                                    (k === 'estimatedProfit' && row[k] < 0) && "text-red-500",
+                                    (k === 'estimatedProfit' && row[k] > 0) && "text-emerald-500"
+                                  )}>
+                                     {v ?? '—'}
+                                  </span>
+                               </div>
+                             );
+                           })}
+                        </div>
+                     </div>
+                   ))}
+                </div>
+              </>
             )}
           </div>
         </main>

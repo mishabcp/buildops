@@ -384,73 +384,74 @@ export function Dashboard() {
               </Link>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-slate-200/60 bg-white">
-              <table className="w-full text-sm whitespace-nowrap">
-                <thead>
-                  <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
-                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Project Details
-                    </th>
-                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Client
-                    </th>
-                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Branch
-                    </th>
-                    <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Status
-                    </th>
-                    <th className="py-4 px-5 text-right text-xs font-bold uppercase tracking-widest text-slate-500">
-                      Contract Value
-                    </th>
-                    <th className="w-12 py-4 px-5" aria-hidden />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 bg-white">
-                  {recent.map((p) => (
-                    <tr key={p.id} className="project-row group transition-colors hover:bg-slate-50/70">
-                      <td className="py-4 px-5 border-l-4 border-l-transparent group-hover:border-l-blue-500 transition-colors">
-                        <Link
-                          to={`/projects/${p.id}`}
-                          className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors"
-                        >
-                          {p.name}
-                        </Link>
-                      </td>
-                      <td className="py-4 px-5 font-medium text-slate-500">{p.client?.name ?? '—'}</td>
-                      <td className="py-4 px-5 font-medium text-slate-500">
-                        <span className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-600">
-                           {p.branch?.name ?? '—'}
-                        </span>
-                      </td>
-                      <td className="py-4 px-5">
-                        <span
-                          className={cn(
-                            'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border',
-                            STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
-                          )}
-                        >
-                          {p.status?.replace(/_/g, ' ')}
-                        </span>
-                      </td>
-                      <td className="py-4 px-5 text-right">
-                        <span className="inline-block font-bold text-slate-700 font-mono tracking-tight bg-slate-50 px-2 py-1 rounded-lg">
-                           {formatCurrency(p.contractValue)}
-                        </span>
-                      </td>
-                      <td className="py-4 px-5 text-right">
-                        <Link
-                          to={`/projects/${p.id}`}
-                          className="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-blue-600 hover:shadow-sm ring-1 ring-slate-200/0 hover:ring-slate-200"
-                          aria-label="Open project"
-                        >
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </td>
+            <div className="rounded-xl border border-slate-200/60 bg-white overflow-hidden">
+              {/* Desktop Table View */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full text-sm whitespace-nowrap">
+                  <thead>
+                    <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
+                      <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">Project Details</th>
+                      <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">Client</th>
+                      <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">Branch</th>
+                      <th className="py-4 px-5 text-xs font-bold uppercase tracking-widest text-slate-500">Status</th>
+                      <th className="py-4 px-5 text-right text-xs font-bold uppercase tracking-widest text-slate-500">Contract Value</th>
+                      <th className="w-12 py-4 px-5" aria-hidden />
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 bg-white">
+                    {recent.map((p) => (
+                      <tr key={p.id} className="project-row group transition-colors hover:bg-slate-50/70">
+                        <td className="py-4 px-5 border-l-4 border-l-transparent group-hover:border-l-blue-500 transition-colors">
+                          <Link to={`/projects/${p.id}`} className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{p.name}</Link>
+                        </td>
+                        <td className="py-4 px-5 font-medium text-slate-500">{p.client?.name ?? '—'}</td>
+                        <td className="py-4 px-5 font-medium text-slate-500">
+                          <span className="inline-flex items-center px-2 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-600">{p.branch?.name ?? '—'}</span>
+                        </td>
+                        <td className="py-4 px-5">
+                          <span className={cn('inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border', STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80')}>
+                            {p.status?.replace(/_/g, ' ')}
+                          </span>
+                        </td>
+                        <td className="py-4 px-5 text-right">
+                          <span className="inline-block font-bold text-slate-700 font-mono tracking-tight bg-slate-50 px-2 py-1 rounded-lg">
+                            {formatCurrency(p.contractValue)}
+                          </span>
+                        </td>
+                        <td className="py-4 px-5 text-right">
+                          <Link to={`/projects/${p.id}`} className="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-blue-600 hover:shadow-sm ring-1 ring-slate-200/0 hover:ring-slate-200">
+                            <ArrowRight className="h-4 w-4" />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="sm:hidden divide-y divide-slate-100">
+                {recent.map((p) => (
+                  <Link key={p.id} to={`/projects/${p.id}`} className="block p-5 active:bg-slate-50 transition-colors">
+                    <div className="flex justify-between items-start mb-2">
+                       <h4 className="font-bold text-slate-900 text-base leading-tight pr-4">{p.name}</h4>
+                       <span className={cn('shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider border', STATUS_STYLES[p.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80')}>
+                         {p.status?.replace(/_/g, ' ')}
+                       </span>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                       <p className="text-xs font-medium text-slate-500 flex items-center gap-2">
+                         <Users className="h-3 w-3" />
+                         {p.client?.name ?? '—'}
+                       </p>
+                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50">
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{p.branch?.name ?? 'Global'}</span>
+                          <span className="text-sm font-black text-blue-600 font-mono italic">{formatCurrency(p.contractValue)}</span>
+                       </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </div>

@@ -1,0 +1,42 @@
+---
+description: When user reports issues, bugs, or asks for solutions — gather full clarity before solving
+alwaysApply: true
+---
+
+# Problem & Issue Clarity — MANDATORY (DO NOT SKIP)
+
+**This rule is non-negotiable. Follow it every time the user describes an issue, problem, bug, or asks for a solution.**
+
+---
+
+## Default behavior
+
+**When the user mentions any of:** issue, problem, bug, fix, solution, "doesn't work", "not working", error, broken, troubleshoot, help with…
+
+**Your first response MUST be to gather clarity.** Do NOT write code, do NOT suggest a fix, do NOT assume the cause. Ask exactly one clear question to understand the problem better. After the user answers, ask the next question if something is still unclear. Repeat until you have full clarity, then propose or implement a solution.
+
+---
+
+## What you MUST do
+
+1. **NEVER** jump to code changes or a fix before you have enough information to solve the problem correctly.
+2. **ALWAYS** treat clarity as required. You must have:
+   - What is wrong (symptoms, error messages, unexpected behavior).
+   - Where it happens (page, component, API, environment).
+   - Expected behavior vs actual behavior.
+   - Steps to reproduce (when relevant).
+3. **ALWAYS** ask questions **one at a time**. One focused question → user answers → next question if needed. Do not ask multiple unrelated questions in one message.
+4. **ONLY AFTER** you have complete clarity: propose or implement a solution.
+
+---
+
+## What you MUST NOT do
+
+- **NEVER** assume the cause or the fix from a vague description.
+- **NEVER** reply with "I'll fix that" or start editing code before asking at least one clarifying question when the problem is not fully clear.
+
+---
+
+## If in doubt
+
+If the user's message could be an issue/bug/solution request, **default to asking one clarifying question first**. It is better to ask once than to guess and fix the wrong thing.

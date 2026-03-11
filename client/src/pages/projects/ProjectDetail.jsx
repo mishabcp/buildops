@@ -109,16 +109,16 @@ export function ProjectDetail() {
           <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none" />
           <div className="absolute -top-12 -right-12 h-64 w-64 bg-blue-50/50 rounded-full blur-3xl" />
           
-          <div className="relative p-6 sm:p-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div className="relative p-5 sm:p-8 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
             <div className="space-y-4">
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                  <span
                   className={cn(
-                    'inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider border text-xs shadow-sm',
+                    'inline-flex items-center rounded-full px-2.5 py-1 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border text-xs shadow-sm whitespace-nowrap',
                     STATUS_STYLES[project.status] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
                   )}
                 >
-                  <span className={cn("w-1.5 h-1.5 rounded-full mr-2", 
+                  <span className={cn("w-1.5 h-1.5 rounded-full mr-1.5 sm:mr-2", 
                     project.status === 'ACTIVE' ? "bg-emerald-500" :
                     project.status === 'ON_HOLD' ? "bg-amber-500" :
                     project.status === 'CANCELLED' ? "bg-red-500" :
@@ -126,30 +126,30 @@ export function ProjectDetail() {
                   )} />
                   {project.status?.replace(/_/g, ' ')}
                 </span>
-                <span className="text-sm font-semibold text-slate-400 font-mono">#{String(project.id).slice(0,8).toUpperCase()}</span>
+                <span className="text-[12px] sm:text-sm font-semibold text-slate-400 font-mono">#{String(project.id).slice(0,8).toUpperCase()}</span>
               </div>
               
-              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              <h1 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
                 {project.name}
               </h1>
               
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm font-medium text-slate-500">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-y-2 gap-x-6 text-sm font-medium text-slate-500">
                 <div className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-slate-400" />
-                  {project.client?.name ?? 'No Client Assigned'}
+                  <Building2 className="h-4 w-4 text-slate-400 shrink-0" />
+                  <span className="truncate">{project.client?.name ?? 'No Client Assigned'}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-slate-400" />
-                  {project.branch?.name ?? 'Branch Undefined'}
+                  <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
+                  <span className="truncate">{project.branch?.name ?? 'Branch Undefined'}</span>
                 </div>
               </div>
             </div>
 
             <div className="flex shrink-0">
-               <Link to={`/projects/${id}/edit`}>
-                <Button className="h-11 px-5 rounded-xl gap-2 font-semibold shadow-sm border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all hover:shadow-md">
+               <Link to={`/projects/${id}/edit`} className="w-full sm:w-auto">
+                <Button className="h-10 sm:h-11 w-full sm:w-auto px-4 sm:px-5 rounded-xl gap-2 font-semibold shadow-sm border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all hover:shadow-md">
                   <Pencil className="h-4 w-4" />
-                  Edit Details
+                  <span className="sm:inline">Edit Details</span>
                 </Button>
               </Link>
             </div>
@@ -206,7 +206,7 @@ function OverviewTab({ project, summary }) {
   return (
     <div className="space-y-6">
       {/* Top Level Financials */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <StatCard 
           label="Contract Value" 
           value={formatCurrency(summary.totalContractValue)} 
@@ -257,7 +257,7 @@ function OverviewTab({ project, summary }) {
            <h3 className="text-sm font-bold tracking-tight text-slate-900 uppercase">Expense Allocation Breakdown</h3>
         </div>
         
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
             <BreakdownRow label="Labour Costs" value={summary.totalLabourCost} total={summary.totalExpenses} />
             <BreakdownRow label="Material Procurement" value={summary.totalMaterialCost} total={summary.totalExpenses} />
@@ -278,12 +278,12 @@ function StatCard({ label, value, icon: Icon, accent, valueClass }) {
        <div className={`absolute top-0 left-0 h-1 w-full bg-gradient-to-r ${accent} opacity-80`} />
        
        <div className="flex items-start justify-between">
-          <div className="pr-4">
-             <p className="text-[12px] font-bold uppercase tracking-wider text-slate-500/80 mb-2">{label}</p>
-             <p className={cn('text-2xl font-black font-sans tracking-tight', valueClass)}>{value}</p>
+          <div className="pr-2 sm:pr-4">
+             <p className="text-[10px] sm:text-[12px] font-bold uppercase tracking-wider text-slate-500/80 mb-1.5 sm:mb-2">{label}</p>
+             <p className={cn('text-lg sm:text-2xl font-black font-sans tracking-tight', valueClass)}>{value}</p>
           </div>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 transition-colors">
-            <Icon className="h-5 w-5" />
+          <div className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600 transition-colors">
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
           </div>
        </div>
     </div>

@@ -5,7 +5,7 @@ import { formatDate } from '../../utils/formatDate.js';
 import { getProjectMaterials, createMaterialItem, deleteMaterialItem } from '../../api/materials.api.js';
 import { getMaterials } from '../../api/materials.api.js';
 import { MaterialItemForm } from './MaterialItemForm.jsx';
-import { Plus, Trash2, Package, ShoppingCart, Activity, PackageOpen, Boxes } from 'lucide-react';
+import { Plus, Trash2, Package, ShoppingCart, Activity, PackageOpen, Boxes, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
 import { authStore } from '../../store/authStore.js';
 
@@ -143,7 +143,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
               <Button 
                 onClick={() => setShowPurchaseForm(true)} 
                 disabled={isStaff} 
-                className="h-10 px-5 rounded-xl gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-900/10 font-bold transition-all hover:-translate-y-0.5"
+                className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-900/10 font-bold transition-all hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4" />
                 Add Purchase
@@ -152,7 +152,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
               <Button 
                 onClick={() => setShowUsageForm(true)} 
                 disabled={isStaff} 
-                className="h-10 px-5 rounded-xl gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-900/10 font-bold transition-all hover:-translate-y-0.5"
+                className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-900/10 font-bold transition-all hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4" />
                 Log Usage
@@ -182,7 +182,8 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden mt-4">
-              <div className="overflow-x-auto">
+              {/* Desktop Table View - Only on large screens */}
+              <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-sm whitespace-nowrap">
                   <thead className="bg-slate-50/80 border-b border-slate-200/80">
                     <tr className="text-left">
@@ -235,6 +236,70 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                   </tbody>
                 </table>
               </div>
+
+              {/* Card View - For Tablets and Mobiles */}
+              <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-slate-100/40">
+                {purchases.map((i) => (
+                <div key={i.id} className="p-4 sm:p-5 flex flex-col gap-4 bg-white hover:bg-slate-50/50 transition-colors">
+                  {/* Card Header */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 font-bold shrink-0 shadow-sm">
+                        <Boxes className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight truncate">{i.material?.name}</h4>
+                        <div className="flex items-center gap-1.5 mt-0.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                          <span className="truncate">{i.material?.category || 'General'}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {!isStaff && (
+                      <div className="flex gap-2 shrink-0 ml-2">
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => handleDelete(i)} 
+                          className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Material Details Grid */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-slate-50 py-4">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Quantity</span>
+                      <span className="text-[12px] sm:text-[14px] font-bold text-slate-700 truncate">{Number(i.quantity)} {i.material?.unit}</span>
+                    </div>
+                    <div className="flex flex-col border-x border-slate-50 px-2 sm:px-4">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Rate</span>
+                      <span className="text-[12px] sm:text-[14px] font-bold text-slate-700 truncate">{formatCurrency(i.ratePerUnit)}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-[9px] sm:text-[10px] text-blue-600/70 font-black uppercase tracking-widest mb-1">Total Cost</span>
+                      <span className="text-[12px] sm:text-[14px] font-black text-blue-600 truncate">
+                        {formatCurrency(i.totalCost)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Card Footer */}
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-1.5 text-slate-500 min-w-0">
+                       <span className="text-[10px] text-slate-300 font-black uppercase tracking-widest">Supplier:</span>
+                       <span className="text-[11px] font-bold truncate max-w-[120px]">{i.supplierName ?? 'Not stated'}</span>
+                    </div>
+                    <div className="text-[10px] font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-widest">
+                       <Calendar className="h-3.5 w-3.5 text-slate-300" />
+                       {formatDate(i.date)}
+                    </div>
+                  </div>
+                </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -260,7 +325,8 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden mt-4">
-              <div className="overflow-x-auto">
+              {/* Desktop Table View - Only on large screens */}
+              <div className="hidden lg:block overflow-x-auto">
                 <table className="w-full text-sm whitespace-nowrap">
                   <thead className="bg-slate-50/80 border-b border-slate-200/80">
                     <tr className="text-left">
@@ -304,9 +370,80 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                   </tbody>
                 </table>
               </div>
+
+              {/* Card View - For Tablets and Mobiles */}
+              <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-slate-100/40">
+                {usage.map((i) => (
+                  <div key={i.id} className="p-4 sm:p-5 flex flex-col gap-4 bg-white hover:bg-slate-50/50 transition-colors">
+                    {/* Card Header */}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 shadow-sm">
+                          <Activity className="h-5 w-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight truncate">{i.material?.name}</h4>
+                          <div className="flex items-center gap-1.5 mt-0.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                            <span className="truncate">{i.material?.category || 'General'}</span>
+                          </div>
+                        </div>
+                      </div>
+                      {!isStaff && (
+                        <div className="flex gap-2 shrink-0 ml-2">
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDelete(i)} 
+                            className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Usage Details */}
+                    <div className="grid grid-cols-2 gap-4 border-y border-slate-50 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Quantity Logged</span>
+                        <span className="text-[14px] sm:text-[16px] font-bold text-blue-700 truncate leading-none">
+                          {Number(i.quantity)} <span className="text-[10px] uppercase opacity-60">{i.material?.unit}</span>
+                        </span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                         <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Status</span>
+                         <span className="text-[11px] font-bold text-slate-600 uppercase tracking-widest leading-none">Logged</span>
+                      </div>
+                    </div>
+
+                    {/* Card Footer */}
+                    <div className="flex items-center justify-between pt-1">
+                      <div className="text-[10px] font-bold text-slate-400 flex items-center gap-1.5 uppercase tracking-widest">
+                         <Calendar className="h-3.5 w-3.5 text-slate-300" />
+                         {formatDate(i.date)}
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-300">#{i.id.slice(-6).toUpperCase()}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
+      )}
+
+      {/* Floating Add Button for Mobile */}
+      {!isStaff && (
+        <Button
+          onClick={() => subTab === 'purchases' ? setShowPurchaseForm(true) : setShowUsageForm(true)}
+          className={cn(
+            "fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full border border-white/20 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0",
+            subTab === 'purchases' ? "bg-emerald-600" : "bg-blue-600"
+          )}
+          aria-label={subTab === 'purchases' ? "Add purchase" : "Log usage"}
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       )}
 
       {showPurchaseForm && (

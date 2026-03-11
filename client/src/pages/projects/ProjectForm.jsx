@@ -209,7 +209,7 @@ export function ProjectForm() {
         <div className="rounded-3xl border border-slate-200/60 bg-white shadow-xl shadow-slate-200/20 overflow-visible relative">
            
            {/* Section Header */}
-          <div className="border-b border-slate-100 bg-slate-50/50 px-8 py-6 rounded-t-3xl relative overflow-hidden">
+          <div className="border-b border-slate-100 bg-slate-50/50 px-5 sm:px-8 py-5 sm:py-6 rounded-t-3xl relative overflow-hidden">
              <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
              <div className="relative flex items-center gap-4">
                 <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-white border border-slate-200 shadow-sm text-blue-600">
@@ -226,7 +226,7 @@ export function ProjectForm() {
              </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-8">
+          <form onSubmit={handleSubmit} className="p-5 sm:p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               
               {/* Left Column: Core Identity */}

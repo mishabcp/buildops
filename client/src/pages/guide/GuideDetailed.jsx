@@ -175,7 +175,7 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
       initial="initial"
       whileInView="whileInView"
       viewport={{ once: true }}
-      className={`my-8 p-6 lg:p-8 rounded-2xl border backdrop-blur-md shadow-sm ${styles[variant]} overflow-hidden relative group`}
+      className={`my-8 p-4 lg:p-8 rounded-2xl border backdrop-blur-md shadow-sm ${styles[variant]} overflow-hidden relative group`}
     >
       {title && (
         <div className="flex flex-col items-center mb-6">
@@ -188,12 +188,12 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
       )}
 
       <div className={`
-        flex flex-wrap justify-center items-start gap-y-8 gap-x-4
+        flex flex-wrap justify-center items-start gap-y-8 gap-x-2 sm:gap-x-4
         ${layout === 'grid' ? 'grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4' : ''}
       `}>
         {items.map((item, i) => (
           <React.Fragment key={i}>
-            <div className="flex flex-col items-center gap-3 group relative w-24">
+            <div className="flex flex-col items-center gap-2 group relative w-20 sm:w-24">
               <div className="relative">
                 {item.active && (
                    <motion.div 
@@ -203,12 +203,12 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
                    />
                 )}
                 <div className={`
-                  h-16 w-16 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative z-10
+                  h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative z-10
                   ${item.active 
-                    ? 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-[0_15px_30px_-5px_rgba(37,99,235,0.4)]' 
+                    ? 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-[0_15px_30px_-5px_rgba(37,99,233,0.4)]' 
                     : 'bg-white text-slate-400 border border-slate-100/80 shadow-[0_8px_20px_-5px_rgba(0,0,0,0.05)] group-hover:border-blue-400/30 group-hover:text-blue-600 group-hover:shadow-[0_15px_40px_-10px_rgba(37,99,235,0.15)]'}
                 `}>
-                  {item.icon && <item.icon className="h-7 w-7" />}
+                  {item.icon && <item.icon className="h-6 w-6 sm:h-7 sm:w-7" />}
                 </div>
                 {item.active && (
                    <div className="absolute -bottom-0.5 -right-0.5 h-5 w-5 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow z-20">
@@ -223,8 +223,8 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
             </div>
             
             {(layout === 'linear') && i < items.length - 1 && (
-              <div className="hidden xl:flex items-center text-slate-200 h-16 mx-[-15px] relative pointer-events-none">
-                <svg width="40" height="12" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div className="hidden md:flex items-center text-slate-200 h-14 sm:h-16 mx-[-12px] sm:mx-[-15px] relative pointer-events-none">
+                <svg width="40" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 10H58M58 10L50 2M58 10L50 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   <motion.path 
                     d="M0 10H58" 
@@ -325,7 +325,7 @@ export function GuideDetailed() {
       setActiveSectionId('getting-started');
     }
     // Scroll to top on section change
-    window.scrollTo({ top: 0, behavior: 'auto' }); 
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
   }, [location.hash]);
 
   const handleSectionClick = (id) => {

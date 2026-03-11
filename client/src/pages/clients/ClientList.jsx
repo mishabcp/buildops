@@ -97,7 +97,7 @@ export function ClientList() {
               setEditingClient(null);
               setShowForm(true);
             }}
-            className="h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 font-semibold"
+            className="hidden sm:flex h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 font-semibold"
           >
             <Plus className="h-4 w-4" />
             Add client
@@ -110,7 +110,7 @@ export function ClientList() {
               <TableSkeleton rows={8} cols={6} />
             </div>
           ) : clients.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50/50 p-16 text-center">
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50/50 p-8 sm:p-16 text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm border border-slate-100 mb-6">
                 <Building2 className="h-8 w-8 text-slate-400" />
               </div>
@@ -132,7 +132,8 @@ export function ClientList() {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
+              {/* Desktop Table */}
+              <div className="hidden sm:block overflow-x-auto">
                 <table className="w-full text-sm whitespace-nowrap">
                   <thead>
                     <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
@@ -188,9 +189,58 @@ export function ClientList() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Cards */}
+              <div className="sm:hidden divide-y divide-slate-100">
+                {clients.map((c) => (
+                  <div key={c.id} className="p-4 space-y-3">
+                    <div className="flex justify-between items-start">
+                       <h4 className="font-bold text-slate-900 text-base">{c.name}</h4>
+                       <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 text-slate-400 hover:text-blue-600"
+                            onClick={() => {
+                              setEditingClient(c);
+                              setShowForm(true);
+                            }}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 w-8 p-0 text-slate-400 hover:text-red-600"
+                            onClick={() => handleDelete(c)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                       </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs font-medium">
+                       <div className="text-slate-500">Phone: <span className="text-slate-900">{c.phone ?? '—'}</span></div>
+                       <div className="text-slate-500">Projects: <span className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-900">{c._count?.projects ?? 0}</span></div>
+                       <div className="col-span-2 text-slate-500 truncate">Email: <span className="text-slate-900">{c.email ?? '—'}</span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
+        
+        {/* Floating Add Button for Mobile */}
+        <Button
+          onClick={() => {
+            setEditingClient(null);
+            setShowForm(true);
+          }}
+          className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+          aria-label="Add client"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       </div>
 
       {showForm && (
@@ -253,7 +303,7 @@ function ClientForm({ client, onSave, onClose }) {
 
   return (
     <div className="relative w-full bg-white rounded-3xl shadow-2xl border border-slate-200/60 overflow-hidden">
-      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+      <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-100 bg-slate-50/50">
         <h2 className="text-xl font-bold text-slate-900 leading-tight">
           {isEdit ? 'Edit client' : 'Add client'}
         </h2>
@@ -267,7 +317,7 @@ function ClientForm({ client, onSave, onClose }) {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-5">
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 p-3 shadow-sm flex items-start gap-2.5">
             <AlertTriangle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />

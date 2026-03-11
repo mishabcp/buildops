@@ -13,7 +13,7 @@ import {
 } from '../../api/associates.api.js';
 import { AssociateForm } from './AssociateForm.jsx';
 import { AssociatePaymentForm } from './AssociatePaymentForm.jsx';
-import { Plus, ChevronDown, ChevronRight, Receipt, BriefcaseBusiness, Users, User, ShieldAlert, FileText, IndianRupee, Banknote } from 'lucide-react';
+import { Plus, ChevronDown, ChevronRight, Receipt, BriefcaseBusiness, Users, User, ShieldAlert, FileText, IndianRupee, Banknote, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
 
 export function ProjectAssociatesTab({ projectId, onDataChange }) {
@@ -112,7 +112,7 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
          <div className="flex items-center gap-4 sm:ml-auto">
              <Button 
                onClick={() => setShowAssignForm(true)} 
-               className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
+               className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-bold transition-all hover:-translate-y-0.5"
              >
                <Plus className="h-4 w-4" />
                Assign Associate
@@ -149,68 +149,65 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                   isExpanded ? "border-blue-200/60 ring-4 ring-blue-500/5 shadow-md" : "border-slate-200/60"
                 )}
               >
-                <div
-                  className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 cursor-pointer select-none relative"
-                  onClick={() => setExpandedId(isExpanded ? null : p.id)}
-                >
-                  <div className="flex items-center gap-4 flex-1">
-                    <button type="button" className="text-slate-400 hover:text-blue-600 transition-colors shrink-0 bg-slate-50 hover:bg-blue-50 p-1 rounded-lg">
-                      {isExpanded ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                <div className="p-4 sm:p-5 flex flex-col gap-4">
+                  {/* Card Header */}
+                  <div 
+                    className="flex items-start justify-between cursor-pointer select-none"
+                    onClick={() => setExpandedId(isExpanded ? null : p.id)}
+                  >
+                    <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold shrink-0 shadow-sm">
+                        {p.associate?.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight truncate">{p.associate?.name}</h4>
+                          {p.associate?.workType && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-[9px] font-bold uppercase tracking-widest text-slate-500 border border-slate-200/50">
+                              {p.associate.workType}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm font-medium text-slate-500 line-clamp-1 mt-0.5">{p.scopeOfWork ?? 'No scope defined'}</p>
+                      </div>
+                    </div>
+                    <button type="button" className="text-slate-300 hover:text-blue-600 transition-colors shrink-0 bg-slate-50 border border-slate-100 p-1.5 rounded-lg ml-2">
+                      {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                     </button>
-                    
-                    <div className="flex items-center gap-3">
-                       <div className="h-10 w-10 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold shrink-0">
-                         {p.associate?.name?.charAt(0).toUpperCase()}
-                       </div>
-                       <div>
-                          <div className="flex items-center gap-2">
-                             <h4 className="font-bold text-slate-900">{p.associate?.name}</h4>
-                             {p.associate?.workType && (
-                               <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                                 {p.associate.workType}
-                               </span>
-                             )}
-                          </div>
-                          <p className="text-sm font-medium text-slate-500 line-clamp-1">{p.scopeOfWork ?? 'No scope defined'}</p>
-                       </div>
+                  </div>
+
+                  {/* Financial Grid */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-slate-50 py-4">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Contract</span>
+                      <span className="text-[13px] sm:text-[15px] font-bold text-slate-700 truncate">{formatCurrency(p.agreedAmount)}</span>
+                    </div>
+                    <div className="flex flex-col border-x border-slate-50 px-2 sm:px-4">
+                      <span className="text-[9px] sm:text-[10px] text-emerald-600/70 font-black uppercase tracking-widest mb-1">Paid Out</span>
+                      <span className="text-[13px] sm:text-[15px] font-bold text-emerald-600 truncate">{formatCurrency(p.paidAmount)}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Balance</span>
+                      <span className={cn(
+                        "text-[13px] sm:text-[15px] font-black truncate",
+                        bal > 0 ? "text-amber-600" : "text-emerald-600"
+                      )}>
+                        {formatCurrency(bal)}
+                      </span>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-x-8 gap-y-4 sm:ml-auto">
-                    <div className="flex flex-col items-end">
-                       <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Agreed Value</span>
-                       <span className="font-bold text-slate-900">{formatCurrency(p.agreedAmount)}</span>
-                    </div>
-                    
-                    <div className="flex flex-col items-end">
-                       <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-600/70">Paid Out</span>
-                       <span className="font-bold text-emerald-700 relative group">
-                          {formatCurrency(p.paidAmount)}
-                          <div className="absolute top-1/2 left-0 -translate-y-1/2 -left-3 w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                       </span>
-                    </div>
-
-                    <div className="flex flex-col items-end min-w-[100px]">
-                       <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Balance</span>
-                       <span className={cn(
-                         "font-bold",
-                         bal > 0 ? "text-amber-600" : "text-emerald-600"
-                       )}>
-                         {formatCurrency(bal)}
-                       </span>
-                    </div>
-
-                    <div className="shrink-0 flex flex-col items-end gap-2">
-                      <StatusBadge status={p.status} />
-                      <Button 
-                        size="sm" 
-                        className="h-8 rounded-lg gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800 font-semibold shadow-none border border-blue-200/50" 
-                        onClick={(e) => { e.stopPropagation(); setPaymentForm(p); }}
-                      >
-                        <Receipt className="h-3.5 w-3.5" />
-                        Pay
-                      </Button>
-                    </div>
+                  {/* Card Footer Actions */}
+                  <div className="flex items-center justify-between pt-1">
+                    <StatusBadge status={p.status} />
+                    <Button 
+                      size="sm" 
+                      onClick={(e) => { e.stopPropagation(); setPaymentForm(p); }}
+                      className="h-9 rounded-xl gap-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold shadow-none border border-blue-100 px-4 transition-all" 
+                    >
+                      <Receipt className="h-3.5 w-3.5" />
+                      Make Payment
+                    </Button>
                   </div>
                 </div>
 
@@ -222,30 +219,51 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                            <Banknote className="h-4 w-4 opacity-50" />
                            Transaction History
                          </h5>
-                         <table className="w-full text-sm">
-                            <thead>
-                              <tr className="text-left text-slate-500 border-b border-slate-200/60 font-semibold">
-                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Date Logged</th>
-                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Amount</th>
-                                <th className="pb-2 pr-4 font-semibold text-[12px] uppercase tracking-wider">Mode</th>
-                                <th className="pb-2 font-semibold text-[12px] uppercase tracking-wider">Reference Info</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100/60">
-                              {p.transactions.map((t) => (
-                                <tr key={t.id} className="hover:bg-slate-100/50 transition-colors group">
-                                  <td className="py-2.5 pr-4 font-medium text-slate-600">{formatDate(t.paidDate)}</td>
-                                  <td className="py-2.5 pr-4 font-bold text-slate-900">{formatCurrency(t.amount)}</td>
-                                  <td className="py-2.5 pr-4">
-                                     <span className="inline-flex items-center bg-white border border-slate-200 rounded-md px-1.5 py-0.5 text-xs font-semibold text-slate-600 shadow-sm">
-                                       {t.paymentMode?.replace(/_/g, ' ')}
-                                     </span>
-                                  </td>
-                                  <td className="py-2.5 text-slate-500 font-medium italic">{t.referenceNo ?? '—'}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                         
+                         <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+                            {/* Desktop Table View */}
+                            <div className="hidden lg:block overflow-x-auto">
+                              <table className="w-full text-sm">
+                                 <thead>
+                                   <tr className="text-left text-slate-500 border-b border-slate-200/60 font-semibold">
+                                     <th className="pb-2 pr-4 pl-4 pt-2 font-semibold text-[12px] uppercase tracking-wider">Date Logged</th>
+                                     <th className="pb-2 pr-4 pt-2 font-semibold text-[12px] uppercase tracking-wider">Amount</th>
+                                     <th className="pb-2 pr-4 pt-2 font-semibold text-[12px] uppercase tracking-wider">Mode</th>
+                                     <th className="pb-2 pr-4 pt-2 font-semibold text-[12px] uppercase tracking-wider">Reference Info</th>
+                                   </tr>
+                                 </thead>
+                                 <tbody className="divide-y divide-slate-100/60">
+                                   {p.transactions.map((t) => (
+                                     <tr key={t.id} className="hover:bg-slate-100/50 transition-colors group">
+                                       <td className="py-2.5 pr-4 pl-4 font-medium text-slate-600">{formatDate(t.paidDate)}</td>
+                                       <td className="py-2.5 pr-4 font-bold text-slate-900">{formatCurrency(t.amount)}</td>
+                                       <td className="py-2.5 pr-4">
+                                          <span className="inline-flex items-center bg-white border border-slate-200 rounded-md px-1.5 py-0.5 text-xs font-semibold text-slate-600 shadow-sm">
+                                            {t.paymentMode?.replace(/_/g, ' ')}
+                                          </span>
+                                       </td>
+                                       <td className="py-2.5 pr-4 text-slate-500 font-medium italic">{t.referenceNo ?? '—'}</td>
+                                     </tr>
+                                   ))}
+                                 </tbody>
+                              </table>
+                            </div>
+
+                            {/* Mobile View */}
+                            <div className="lg:hidden divide-y divide-slate-100">
+                               {p.transactions.map((t) => (
+                                 <div key={t.id} className="p-3 flex justify-between items-center text-xs">
+                                    <div className="flex flex-col text-left">
+                                       <span className="font-bold text-slate-900">{formatCurrency(t.amount)}</span>
+                                       <span className="text-slate-400 font-medium tracking-tight uppercase text-[9px]">{formatDate(t.paidDate)}</span>
+                                    </div>
+                                    <span className="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-500 uppercase tracking-tighter text-[10px]">
+                                       {t.paymentMode?.split('_')[0]}
+                                    </span>
+                                 </div>
+                               ))}
+                            </div>
+                         </div>
                        </div>
                      ) : (
                        <div className="p-8 text-center bg-transparent">
@@ -259,6 +277,15 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
           })}
         </div>
       )}
+
+      {/* Floating Add Button for Mobile */}
+      <Button
+        onClick={() => setShowAssignForm(true)}
+        className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+        aria-label="Assign associate"
+      >
+        <Plus className="h-6 w-6" />
+      </Button>
 
       {showAssignForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

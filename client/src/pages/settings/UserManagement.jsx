@@ -142,7 +142,7 @@ export function UserManagement() {
       <div className="flex justify-end mb-6">
         <Button 
           onClick={openCreate}
-          className="h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-900/30 font-semibold"
+          className="hidden sm:flex h-11 px-6 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-900/30 font-semibold"
         >
           <UserPlus className="h-4 w-4" />
           Add New User
@@ -171,88 +171,150 @@ export function UserManagement() {
               <p className="text-slate-500 mt-1">Get started by creating your first user account.</p>
             </div>
           ) : (
-            <table className="w-full text-sm whitespace-nowrap">
-              <thead>
-                <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
-                  <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">User Identification</th>
-                  <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Role & Access</th>
-                  <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Assigned Branch</th>
-                  <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Account Status</th>
-                  <th className="py-4 px-6 w-32" aria-hidden />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden sm:block">
+                <table className="w-full text-sm whitespace-nowrap">
+                  <thead>
+                    <tr className="border-b border-slate-200/80 bg-slate-50/80 text-left">
+                      <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">User Identification</th>
+                      <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Role & Access</th>
+                      <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Assigned Branch</th>
+                      <th className="py-4 px-6 text-[11px] font-bold uppercase tracking-widest text-slate-500">Account Status</th>
+                      <th className="py-4 px-6 w-32" aria-hidden />
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {users.map((u) => (
+                      <tr key={u.id} className="group transition-colors hover:bg-slate-50/70">
+                        <td className="py-4 px-6">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center auto-bg rounded-full bg-slate-100 text-slate-500 font-bold border border-slate-200">
+                               {u.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <p className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">{u.name}</p>
+                              <p className="text-[13px] text-slate-500">{u.email}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6">
+                           <span className={cn(
+                              'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border',
+                              ROLE_STYLES[u.role] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
+                            )}>
+                              {u.role.replace('_', ' ')}
+                            </span>
+                        </td>
+                        <td className="py-4 px-6 font-medium text-slate-600">
+                           {u.branch ? (
+                             <div className="flex items-center gap-2">
+                               <Building2 className="h-4 w-4 text-slate-400" />
+                               {u.branch.name}
+                             </div>
+                           ) : (
+                             <span className="text-slate-400 italic">Global Access</span>
+                           )}
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className="flex items-center gap-2">
+                             <div className={cn("w-2 h-2 rounded-full", u.isActive ? "bg-emerald-500" : "bg-slate-300")} />
+                             <span className={cn("font-semibold text-[13px]", u.isActive ? 'text-emerald-700' : 'text-slate-500')}>
+                               {u.isActive ? 'Active' : 'Deactivated'}
+                             </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="h-9 w-9 p-0 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" 
+                              onClick={() => openEdit(u)}
+                              title="Edit User"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            
+                            {u.isActive && u.id !== currentUser?.id && (
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className="h-9 w-9 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg" 
+                                onClick={() => handleDeactivate(u.id)}
+                                title="Deactivate User"
+                              >
+                                <ShieldAlert className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="sm:hidden divide-y divide-slate-100">
                 {users.map((u) => (
-                  <tr key={u.id} className="group transition-colors hover:bg-slate-50/70">
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center auto-bg rounded-full bg-slate-100 text-slate-500 font-bold border border-slate-200">
-                           {u.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">{u.name}</p>
-                          <p className="text-[13px] text-slate-500">{u.email}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
+                  <div key={u.id} className="p-4 space-y-3">
+                    <div className="flex justify-between items-start">
+                       <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-500 shrink-0">
+                             {u.name.charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                             <p className="font-bold text-slate-900 text-[14px] leading-tight">{u.name}</p>
+                             <p className="text-xs text-slate-500">{u.email}</p>
+                          </div>
+                       </div>
+                       <div className="flex gap-1">
+                          <Button size="sm" variant="ghost" className="h-8 w-8 p-0" onClick={() => openEdit(u)}>
+                             <Pencil className="h-3.5 w-3.5" />
+                          </Button>
+                          {u.isActive && u.id !== currentUser?.id && (
+                             <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-500" onClick={() => handleDeactivate(u.id)}>
+                                <ShieldAlert className="h-3.5 w-3.5" />
+                             </Button>
+                          )}
+                       </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
                        <span className={cn(
-                          'inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider border',
-                          ROLE_STYLES[u.role] ?? 'bg-slate-100 text-slate-600 border-slate-200/80'
+                          'inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider border',
+                          ROLE_STYLES[u.role]
                         )}>
                           {u.role.replace('_', ' ')}
-                        </span>
-                    </td>
-                    <td className="py-4 px-6 font-medium text-slate-600">
-                       {u.branch ? (
-                         <div className="flex items-center gap-2">
-                           <Building2 className="h-4 w-4 text-slate-400" />
-                           {u.branch.name}
-                         </div>
-                       ) : (
-                         <span className="text-slate-400 italic">Global Access</span>
-                       )}
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-2">
-                         <div className={cn("w-2 h-2 rounded-full", u.isActive ? "bg-emerald-500" : "bg-slate-300")} />
-                         <span className={cn("font-semibold text-[13px]", u.isActive ? 'text-emerald-700' : 'text-slate-500')}>
-                           {u.isActive ? 'Active' : 'Deactivated'}
-                         </span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6 text-right">
-                       <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" 
-                          onClick={() => openEdit(u)}
-                          title="Edit User"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        
-                        {u.isActive && u.id !== currentUser?.id && (
-                          <Button 
-                            size="sm" 
-                            variant="ghost" 
-                            className="h-9 w-9 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg" 
-                            onClick={() => handleDeactivate(u.id)}
-                            title="Deactivate User"
-                          >
-                            <ShieldAlert className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
+                       </span>
+                       <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100 flex items-center gap-1">
+                          <Building2 className="h-3 w-3" />
+                          {u.branch?.name ?? 'Global Access'}
+                       </span>
+                       <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-50 border border-slate-100 ml-auto">
+                          <div className={cn("w-1.5 h-1.5 rounded-full", u.isActive ? "bg-emerald-500" : "bg-slate-300")} />
+                          <span className={cn("text-[10px] font-black uppercase", u.isActive ? 'text-emerald-600' : 'text-slate-400')}>
+                             {u.isActive ? 'Active' : 'Offline'}
+                          </span>
+                       </div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </>
           )}
         </div>
       </div>
+
+      {/* Floating Add Button for Mobile */}
+      <Button
+        onClick={openCreate}
+        className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+        aria-label="Add user"
+      >
+        <UserPlus className="h-6 w-6" />
+      </Button>
 
       {/* Modal Overlay */}
       {showForm && (

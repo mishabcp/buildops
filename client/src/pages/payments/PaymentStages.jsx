@@ -111,7 +111,7 @@ export function PaymentStages({ projectId, onDataChange }) {
       <div className="flex justify-end">
         <Button 
           onClick={() => { setEditingStage(null); setShowStageForm(true); }} 
-          className="h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-semibold transition-all hover:-translate-y-0.5" 
+          className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-slate-900 hover:bg-slate-800 text-white shadow-md shadow-slate-900/10 font-semibold transition-all hover:-translate-y-0.5" 
           disabled={isStaff}
         >
           <Plus className="h-4 w-4" />
@@ -151,84 +151,91 @@ export function PaymentStages({ projectId, onDataChange }) {
               >
                 <div
                   className={cn(
-                    "flex flex-col lg:flex-row lg:items-center gap-4 p-5 cursor-pointer select-none transition-colors",
-                    isExpanded ? "bg-slate-50/50" : "hover:bg-slate-50/50"
+                    "flex flex-col gap-4 p-4 sm:p-5 transition-colors cursor-pointer select-none",
+                    isExpanded ? "bg-slate-50/5" : "hover:bg-slate-50/50"
                   )}
                   onClick={() => setExpandedId(isExpanded ? null : stage.id)}
                 >
-                  <div className="flex items-center gap-3">
-                     <button 
-                       type="button" 
-                       className={cn(
-                         "flex items-center justify-center h-8 w-8 rounded-lg transition-colors border",
-                         isExpanded ? "bg-white border-slate-200 text-slate-700 shadow-sm" : "bg-transparent border-transparent text-slate-400 group-hover:bg-white group-hover:border-slate-200 group-hover:shadow-sm"
-                       )}
-                     >
-                       <ChevronRight className={cn("h-4 w-4 transition-transform duration-200", isExpanded && "rotate-90")} />
-                     </button>
-                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold tracking-tight border border-blue-100/50 shrink-0">
+                  {/* Header: Stage Info & Actions */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold tracking-tight border border-blue-100/50 shrink-0 shadow-sm text-sm sm:text-base">
                         S{stage.stageNumber}
-                     </div>
-                     <div className="min-w-0 mr-4">
-                       <h4 className="font-bold text-slate-900 text-[15px] truncate">{stage.stageName}</h4>
-                       <div className="flex items-center gap-1.5 mt-0.5 text-[13px] font-medium text-slate-500">
-                         <Calendar className="h-3.5 w-3.5" />
-                         {formatDate(stage.dueDate)}
-                       </div>
-                     </div>
-                  </div>
-
-                  <div className="flex-1 flex flex-wrap lg:grid lg:grid-cols-4 items-center gap-4 lg:gap-8 ml-11 lg:ml-0">
-                     <div className="flex flex-col gap-1 w-full lg:col-span-1">
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Target</span>
-                        <span className="font-bold text-slate-900 text-[15px]">{formatCurrency(expected)}</span>
-                     </div>
-                     <div className="flex flex-col gap-1 w-full lg:col-span-1">
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Received</span>
-                        <span className={cn("font-bold text-[15px]", paid > 0 ? "text-emerald-600" : "text-slate-900")}>{formatCurrency(paid)}</span>
-                     </div>
-                     <div className="flex flex-col justify-center w-full lg:col-span-2 space-y-2">
-                        <div className="flex justify-between items-center w-full max-w-[200px] lg:max-w-none">
-                           <StatusBadge status={stage.status} />
-                           <span className="text-xs font-bold text-slate-400">
-                             {expected > 0 ? Math.round((paid / expected) * 100) : 0}%
-                           </span>
-                        </div>
-                        <div className="w-full max-w-[200px] lg:max-w-none">
-                          <PaymentBar paid={paid} total={expected} />
-                        </div>
-                     </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 ml-11 lg:ml-auto w-full lg:w-auto justify-start border-t lg:border-t-0 border-slate-100 pt-3 lg:pt-0 mt-3 lg:mt-0" onClick={(e) => e.stopPropagation()}>
-                    <Button 
-                      size="sm" 
-                      onClick={() => setReceiptStage(stage)} 
-                      className="h-9 rounded-lg gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/50 font-semibold px-3"
-                    >
-                      <Receipt className="h-3.5 w-3.5" />
-                      Record
-                    </Button>
-                    {!isStaff && (
-                      <div className="flex gap-1 ml-auto lg:ml-2">
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          onClick={() => { setEditingStage(stage); setShowStageForm(true); }}
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          onClick={() => handleDeleteStage(stage)} 
-                          className="h-9 w-9 p-0 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
                       </div>
-                    )}
+                      <div className="min-w-0">
+                        <h4 className="font-extrabold text-slate-900 text-base sm:text-lg leading-tight truncate">{stage.stageName}</h4>
+                        <div className="flex items-center gap-1.5 mt-0.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                          <Calendar className="h-3.5 w-3.5" />
+                          {formatDate(stage.dueDate)}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                    <button 
+                        type="button" 
+                        className={cn(
+                          "flex items-center justify-center h-9 w-9 rounded-xl transition-all border shadow-sm",
+                          isExpanded ? "bg-white border-blue-200 text-blue-600 shadow-blue-100" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600 hover:border-slate-300"
+                        )}
+                      >
+                        <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isExpanded && "rotate-180")} />
+                      </button>
+                      {!isStaff && (
+                        <div className="flex gap-1.5">
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => { setEditingStage(stage); setShowStageForm(true); }}
+                            className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            onClick={() => handleDeleteStage(stage)} 
+                            className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Progressive Financial Grid */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-slate-50 py-4">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Target</span>
+                      <span className="text-[13px] sm:text-[15px] font-bold text-slate-900 truncate">{formatCurrency(expected)}</span>
+                    </div>
+                    <div className="flex flex-col border-x border-slate-50 px-2 sm:px-4">
+                      <span className="text-[9px] sm:text-[10px] text-emerald-600/70 font-black uppercase tracking-widest mb-1">Received</span>
+                      <span className="text-[13px] sm:text-[15px] font-bold text-emerald-600 truncate">{formatCurrency(paid)}</span>
+                    </div>
+                    <div className="flex flex-col text-right">
+                      <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Progress</span>
+                      <span className="text-[13px] sm:text-[15px] font-black text-slate-900 leading-none">
+                         {expected > 0 ? Math.round((paid / expected) * 100) : 0}%
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Progress Bar and Status */}
+                  <div className="space-y-3">
+                    <PaymentBar paid={paid} total={expected} />
+                    <div className="flex items-center justify-between">
+                      <StatusBadge status={stage.status} />
+                      <Button 
+                        size="sm" 
+                        onClick={(e) => { e.stopPropagation(); setReceiptStage(stage); }} 
+                        className="h-9 rounded-xl gap-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold shadow-none border border-blue-100 px-4 transition-all"
+                      >
+                        <Receipt className="h-3.5 w-3.5" />
+                        Record Receipt
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
@@ -247,41 +254,65 @@ export function PaymentStages({ projectId, onDataChange }) {
                       </div>
                       
                       {stage.receipts?.length > 0 ? (
-                        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-                          <table className="w-full text-sm whitespace-nowrap">
-                            <thead>
-                              <tr className="border-b border-slate-100 text-left bg-slate-50/80">
-                                <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
-                                <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Amount</th>
-                                <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Method</th>
-                                <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Reference / Notes</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-50">
-                              {stage.receipts.map((r) => (
-                                <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
-                                  <td className="py-3 px-4 font-medium text-slate-600">
-                                    {formatDate(r.receivedDate)}
-                                  </td>
-                                  <td className="py-3 px-4">
-                                     <span className="inline-flex items-center font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
-                                       {formatCurrency(r.amount)}
-                                     </span>
-                                  </td>
-                                  <td className="py-3 px-4">
-                                     <span className="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
-                                        {r.paymentMode?.replace(/_/g, ' ')}
-                                     </span>
-                                  </td>
-                                  <td className="py-3 px-4 text-slate-500">
-                                    <div className="truncate max-w-[200px]">
-                                      {r.referenceNo ? <span className="font-mono text-xs">{r.referenceNo}</span> : <span className="italic opacity-50">No ref</span>}
-                                    </div>
-                                  </td>
+                        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+                          {/* Desktop Table View - Only on large screens */}
+                          <div className="hidden lg:block overflow-x-auto">
+                            <table className="w-full text-sm whitespace-nowrap">
+                              <thead>
+                                <tr className="border-b border-slate-100 text-left bg-slate-50/80">
+                                  <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Date</th>
+                                  <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Amount</th>
+                                  <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Method</th>
+                                  <th className="py-3 px-4 text-[11px] font-bold uppercase tracking-widest text-slate-500">Reference / Notes</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody className="divide-y divide-slate-50">
+                                {stage.receipts.map((r) => (
+                                  <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
+                                    <td className="py-3 px-4 font-medium text-slate-600">
+                                      {formatDate(r.receivedDate)}
+                                    </td>
+                                    <td className="py-3 px-4">
+                                       <span className="inline-flex items-center font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                                         {formatCurrency(r.amount)}
+                                       </span>
+                                    </td>
+                                    <td className="py-3 px-4">
+                                       <span className="text-[12px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+                                          {r.paymentMode?.replace(/_/g, ' ')}
+                                       </span>
+                                    </td>
+                                    <td className="py-3 px-4 text-slate-500">
+                                      <div className="truncate max-w-[200px]">
+                                        {r.referenceNo ? <span className="font-mono text-xs">{r.referenceNo}</span> : <span className="italic opacity-50">No ref</span>}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+
+                          {/* Card View - For Tablets and Mobiles */}
+                          <div className="lg:hidden divide-y divide-slate-100">
+                             {stage.receipts.map((r) => (
+                               <div key={r.id} className="p-4 flex justify-between items-center text-xs bg-white hover:bg-slate-50 transition-colors">
+                                  <div className="flex flex-col gap-1">
+                                     <span className="font-extrabold text-slate-900 text-[14px]">{formatCurrency(r.amount)}</span>
+                                     <div className="flex items-center gap-1.5 text-slate-400 font-bold tracking-widest uppercase text-[10px]">
+                                        <Calendar className="h-3 w-3" />
+                                        {formatDate(r.receivedDate)}
+                                     </div>
+                                  </div>
+                                  <div className="flex flex-col items-end gap-1.5">
+                                    <span className="bg-slate-100 px-2 py-0.5 rounded font-black text-slate-500 uppercase tracking-widest text-[10px]">
+                                       {r.paymentMode?.split('_')[0]}
+                                    </span>
+                                    {r.referenceNo && <span className="text-[10px] font-mono text-slate-400 truncate max-w-[80px]">#{r.referenceNo}</span>}
+                                  </div>
+                               </div>
+                             ))}
+                          </div>
                         </div>
                       ) : (
                          <div className="text-sm font-medium text-slate-400 italic bg-white/50 border border-slate-200/60 rounded-xl p-4 text-center">
@@ -295,6 +326,17 @@ export function PaymentStages({ projectId, onDataChange }) {
             );
           })}
         </div>
+      )}
+
+      {/* Floating Add Button for Mobile */}
+      {!isStaff && (
+        <Button
+          onClick={() => { setEditingStage(null); setShowStageForm(true); }}
+          className="fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full bg-slate-900 border border-slate-700/50 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0"
+          aria-label="Add payment stage"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       )}
 
       {showStageForm && (
