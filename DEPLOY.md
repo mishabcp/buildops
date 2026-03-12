@@ -164,4 +164,5 @@ Do these in order. Each step assumes the previous is done.
 - **Blank page or wrong API:** Ensure Vercel env has `VITE_API_URL` = Render URL (no `/api`). Redeploy Vercel after changing env.
 - **Database errors on Render:** Ensure `DATABASE_URL` is the full Supabase URI and migrations were run (Step 2 or in Render build).
 - **Cold start:** On Render free tier, the first request after idle can take 30–60 seconds; refresh if needed.
+- **Slow page loads:** The app uses route-level code splitting (React.lazy) so each page loads only its own chunk. The main bottleneck is Render free-tier cold starts; consider upgrading or using an uptime ping to keep the backend warm.
 

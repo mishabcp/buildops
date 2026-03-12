@@ -1,18 +1,23 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
-import { Login } from './pages/auth/Login.jsx';
-import { Guide } from './pages/guide/Guide.jsx';
-import { GuideDetailed } from './pages/guide/GuideDetailed.jsx';
-import { Dashboard } from './pages/dashboard/Dashboard.jsx';
-import { Settings } from './pages/settings/Settings.jsx';
-import { ProjectList } from './pages/projects/ProjectList.jsx';
-import { ProjectForm } from './pages/projects/ProjectForm.jsx';
-import { ProjectDetail } from './pages/projects/ProjectDetail.jsx';
-import { MaterialList } from './pages/materials/MaterialList.jsx';
-import { BillList } from './pages/bills/BillList.jsx';
-import { ClientList } from './pages/clients/ClientList.jsx';
-import { Reports } from './pages/reports/Reports.jsx';
+import { PageLoader } from './components/shared/PageLoader.jsx';
+
+const lazyPage = (loader, name) => lazy(() => loader().then((m) => ({ default: m[name] })));
+
+const Login = lazyPage(() => import('./pages/auth/Login.jsx'), 'Login');
+const Guide = lazyPage(() => import('./pages/guide/Guide.jsx'), 'Guide');
+const GuideDetailed = lazyPage(() => import('./pages/guide/GuideDetailed.jsx'), 'GuideDetailed');
+const Dashboard = lazyPage(() => import('./pages/dashboard/Dashboard.jsx'), 'Dashboard');
+const Settings = lazyPage(() => import('./pages/settings/Settings.jsx'), 'Settings');
+const ProjectList = lazyPage(() => import('./pages/projects/ProjectList.jsx'), 'ProjectList');
+const ProjectForm = lazyPage(() => import('./pages/projects/ProjectForm.jsx'), 'ProjectForm');
+const ProjectDetail = lazyPage(() => import('./pages/projects/ProjectDetail.jsx'), 'ProjectDetail');
+const MaterialList = lazyPage(() => import('./pages/materials/MaterialList.jsx'), 'MaterialList');
+const BillList = lazyPage(() => import('./pages/bills/BillList.jsx'), 'BillList');
+const ClientList = lazyPage(() => import('./pages/clients/ClientList.jsx'), 'ClientList');
+const Reports = lazyPage(() => import('./pages/reports/Reports.jsx'), 'Reports');
 
 function Placeholder({ name }) {
   return (
@@ -25,7 +30,8 @@ function Placeholder({ name }) {
 
 export function AppRoutes() {
   return (
-    <Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/guide" element={<Guide />} />
       <Route path="/guide/detailed" element={<GuideDetailed />} />
@@ -52,5 +58,6 @@ export function AppRoutes() {
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </Suspense>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './layout/Sidebar.jsx';
 import { Topbar } from './layout/Topbar.jsx';
@@ -11,15 +11,21 @@ export function Layout() {
   const user = authStore((s) => s.user);
   const setUser = authStore((s) => s.setUser);
   const logout = authStore((s) => s.logout);
+  const meFetchedRef = useRef(false);
 
   useEffect(() => {
     if (!token) return;
     if (user) return;
+    if (meFetchedRef.current) return;
+    meFetchedRef.current = true;
     me()
       .then((res) => {
         if (res?.success && res?.data) setUser(res.data);
       })
-      .catch(() => logout());
+      .catch(() => logout())
+      .finally(() => {
+        meFetchedRef.current = false;
+      });
   }, [token, user, setUser, logout]);
 
   return (
