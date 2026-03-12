@@ -764,6 +764,29 @@ function SectionContent({ id }) {
             <p>All project costs live in one place: labour and wages, materials and stock, associates, bills (payables and receivables), and other expenses so nothing slips through unrecorded.</p>
           </AnimatedBlock>
 
+          <AnimatedBlock className="not-prose mt-6">
+            <Card variant="blue" title="How costs feed the project Overview" icon={PieChart} className="!p-5 !rounded-2xl">
+              <ul className="space-y-2 text-sm text-slate-600 list-none">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-700">Material cost</strong> = sum of both <strong>Purchase</strong> and <strong>Usage</strong> items for the project.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-700">Receivables</strong> (invoices to the client) are included in <strong>Total income</strong> and in the <strong>profit and margin</strong> formula.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>Only bills <strong>linked to the project</strong> appear in that project&apos;s Overview and totals.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-700">Outstanding</strong> = contract value − total received (from payment stages).</span>
+                </li>
+              </ul>
+            </Card>
+          </AnimatedBlock>
+
           <h3 className="text-lg font-bold text-slate-900 mt-8 mb-2 flex items-center gap-2">
             <HardHat className="h-5 w-5 text-amber-600" />
             Labour
