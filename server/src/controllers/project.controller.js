@@ -248,20 +248,22 @@ export async function getSummary(req, res) {
     );
     const totalOutstanding = totalContractValue - totalReceived;
     const totalLabourCost = project.labourPayments.reduce((s, l) => s + toNum(l.totalAmount), 0);
-    const totalMaterialCost = project.materialItems
-      .filter((i) => i.type === 'PURCHASE')
-      .reduce((s, i) => s + toNum(i.totalCost ?? 0), 0);
+    const totalMaterialCost = project.materialItems.reduce((s, i) => s + toNum(i.totalCost ?? 0), 0);
     const totalAssociateCost = project.associatePayments.reduce((s, a) => s + toNum(a.agreedAmount), 0);
     const totalBillsPayable = project.bills.filter((b) => b.type === 'PAYABLE').reduce((s, b) => s + toNum(b.totalAmount), 0);
     const totalOtherExpenses = project.otherExpenses.reduce((s, e) => s + toNum(e.amount), 0);
     const totalExpenses = totalLabourCost + totalMaterialCost + totalAssociateCost + totalBillsPayable + totalOtherExpenses;
-    const estimatedProfit = totalContractValue - totalExpenses;
-    const profitMargin = totalContractValue > 0 ? (estimatedProfit / totalContractValue) * 100 : 0;
+    const totalReceivables = project.bills.filter((b) => b.type === 'RECEIVABLE').reduce((s, b) => s + toNum(b.totalAmount), 0);
+    const totalIncome = totalContractValue + totalReceivables;
+    const estimatedProfit = totalIncome - totalExpenses;
+    const profitMargin = totalIncome > 0 ? (estimatedProfit / totalIncome) * 100 : 0;
 
     return success(res, {
       totalContractValue,
       totalReceived,
       totalOutstanding,
+      totalReceivables,
+      totalIncome,
       totalLabourCost,
       totalMaterialCost,
       totalAssociateCost,

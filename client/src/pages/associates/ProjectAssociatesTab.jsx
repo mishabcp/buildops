@@ -303,8 +303,11 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
       )}
 
       {showNewAssociateForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <AssociateForm onSave={handleCreateAssociate} onClose={() => setShowNewAssociateForm(false)} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm" onClick={() => setShowNewAssociateForm(false)} />
+          <div className="relative w-full max-w-md animate-in fade-in zoom-in-95 duration-200">
+            <AssociateForm onSave={handleCreateAssociate} onClose={() => setShowNewAssociateForm(false)} />
+          </div>
         </div>
       )}
 

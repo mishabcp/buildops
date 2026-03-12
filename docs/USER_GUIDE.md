@@ -90,7 +90,7 @@ flowchart LR
   RecordPayment --> Status[Status: Pending or Partially paid or Paid]
 ```
 
-Payment stages are how you track money coming in from the client. In the project, open the **Payment stages** tab. Add a stage (e.g. “Advance”, amount, due date). When the client pays, click **Record payment** on that stage and enter the amount received, date, and how they paid (cash, bank transfer, cheque, UPI). The stage status becomes Pending (nothing received), Partially paid (some received), or Paid (full amount received). The Overview tab and Dashboard use this to show outstanding from clients and collections.
+Payment stages are how you track money coming in from the client. In the project, open the **Payment stages** tab. Add a stage (e.g. “Advance”, amount, due date). When the client pays, click **Record payment** on that stage and enter the amount received, date, and how they paid (cash, bank transfer, cheque, UPI). The stage status becomes Pending (nothing received), Partially paid (some received), or Paid (full amount received). The Overview tab and Dashboard use this to show outstanding from clients and collections. Contract value is the single source of truth for revenue and outstanding; stage expected amounts are for tracking milestones and do not need to sum to the contract value.
 
 ---
 
@@ -102,7 +102,7 @@ flowchart LR
   RecordPayments --> Outstanding[See what is still due]
 ```
 
-All project costs work the same way: you add an entry (e.g. a worker with days and rate, a subcontractor with agreed amount, a bill to pay), then record payments as you pay. The system shows how much is still outstanding. In the project: **Labour** tab—add workers, days, rate; record payments. **Materials** tab—add purchases (stock goes up) or usage (stock goes down) for materials used on this project. **Associates** tab—add subcontractors and agreed amount; record payments. **Bills** tab—add bills linked to this project (payable or receivable); record payments. **Other expenses** tab—add any other cost (e.g. permit, transport) with description and amount. Each tab feeds the project Overview and the Reports.
+All project costs work the same way: you add an entry (e.g. a worker with days and rate, a subcontractor with agreed amount, a bill to pay), then record payments as you pay. The system shows how much is still outstanding. In the project: **Labour** tab—add workers, days, rate; record payments. Labour payments are recorded as a single paid amount and date per entry; for multiple or partial payments you can update the same entry with the cumulative paid amount and latest date (and optionally add a note). **Materials** tab—add purchases (stock goes up) or usage (stock goes down) for materials used on this project. **Associates** tab—add subcontractors and agreed amount; record payments. **Bills** tab—add bills linked to this project (payable or receivable); record payments. **Other expenses** tab—add any other cost (e.g. permit, transport) with description and amount. Each tab feeds the project Overview and the Reports.
 
 ---
 
@@ -130,7 +130,7 @@ flowchart LR
   Filter --> Record[Record payment on any bill]
 ```
 
-Click **Bills** in the left menu to see all bills—both ones you need to pay (vendors) and ones clients need to pay you. You can filter by type. Open a bill to record a payment (amount, date, mode). Bills can be linked to a project or standalone. The Dashboard “Pending to vendors” and Reports use this data.
+Click **Bills** in the left menu to see all bills—both ones you need to pay (vendors) and ones clients need to pay you. You can filter by type. Open a bill to record a payment (amount, date, mode). Bills can be linked to a project or standalone. Only bills linked to a project appear in that project's Overview and totals; unlinked bills are company-level and do not affect any project Overview. The Dashboard “Pending to vendors” and Reports use this data.
 
 ---
 

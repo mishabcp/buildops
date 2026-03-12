@@ -66,7 +66,7 @@ flowchart TB
 | **Labour** | Add workers, days, rate. Record payments; see what is still due. |
 | **Materials** | List material types and stock. From a project: add Purchase (stock goes up) or Usage (stock goes down). System warns when stock is low. |
 | **Associates** | Add subcontractors and agreed amount per project. Record payments; see outstanding. |
-| **Bills** | Record bills you need to pay or that clients need to pay you. Link to project, record payments. |
+| **Bills** | Record bills you need to pay or that clients need to pay you. Link to project, record payments. Only bills linked to a project appear in that project's Overview and totals. |
 | **Reports** | View and download reports (e.g. profit and loss, collections, pending bills) as PDF or Excel. |
 | **Settings** | Admins only: add users and manage branch names. |
 

@@ -57,7 +57,7 @@ export async function getProjectPl(req, res) {
         0
       );
       const labour = p.labourPayments.reduce((s, l) => s + toNum(l.totalAmount), 0);
-      const materials = p.materialItems.filter((i) => i.type === 'PURCHASE').reduce((s, i) => s + toNum(i.totalCost ?? 0), 0);
+      const materials = p.materialItems.reduce((s, i) => s + toNum(i.totalCost ?? 0), 0);
       const associates = p.associatePayments.reduce((s, a) => s + toNum(a.agreedAmount), 0);
       const billsPayable = p.bills.filter((b) => b.type === 'PAYABLE').reduce((s, b) => s + toNum(b.totalAmount), 0);
       const other = p.otherExpenses.reduce((s, e) => s + toNum(e.amount), 0);
@@ -225,7 +225,7 @@ async function getReportData(reportType, req) {
         );
         const totalExpenses =
           p.labourPayments.reduce((s, l) => s + toNum(l.totalAmount), 0) +
-          p.materialItems.filter((i) => i.type === 'PURCHASE').reduce((s, i) => s + toNum(i.totalCost ?? 0), 0) +
+          p.materialItems.reduce((s, i) => s + toNum(i.totalCost ?? 0), 0) +
           p.associatePayments.reduce((s, a) => s + toNum(a.agreedAmount), 0) +
           p.bills.filter((b) => b.type === 'PAYABLE').reduce((s, b) => s + toNum(b.totalAmount), 0) +
           p.otherExpenses.reduce((s, e) => s + toNum(e.amount), 0);

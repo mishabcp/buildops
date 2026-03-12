@@ -19,7 +19,8 @@ import {
   TrendingDown,
   TrendingUp,
   Percent,
-  WalletCards
+  WalletCards,
+  BookOpen
 } from 'lucide-react';
 import { PaymentStages } from '../payments/PaymentStages.jsx';
 import { LabourList } from '../labour/LabourList.jsx';
@@ -27,6 +28,7 @@ import { ProjectMaterialsTab } from '../materials/ProjectMaterialsTab.jsx';
 import { ProjectAssociatesTab } from '../associates/ProjectAssociatesTab.jsx';
 import { ProjectBillsTab } from '../bills/ProjectBillsTab.jsx';
 import { ProjectExpensesTab } from '../expenses/ProjectExpensesTab.jsx';
+import { ProjectDetailGuide } from './ProjectDetailGuide.jsx';
 
 const STATUS_STYLES = {
   ACTIVE: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
@@ -44,6 +46,7 @@ const TABS = [
   { id: 'associates', label: 'Associates', icon: Handshake },
   { id: 'bills', label: 'Bills', icon: FileText },
   { id: 'expenses', label: 'Other Expenses', icon: Receipt },
+  { id: 'guide', label: 'Guide', icon: BookOpen },
 ];
 
 export function ProjectDetail() {
@@ -192,6 +195,7 @@ export function ProjectDetail() {
           {activeTab === 'associates' && <ProjectAssociatesTab projectId={id} onDataChange={load} />}
           {activeTab === 'bills' && <ProjectBillsTab projectId={id} onDataChange={load} />}
           {activeTab === 'expenses' && <ProjectExpensesTab projectId={id} onDataChange={load} />}
+          {activeTab === 'guide' && <ProjectDetailGuide />}
         </div>
       </div>
     </PageWrapper>
@@ -228,6 +232,22 @@ function OverviewTab({ project, summary }) {
           accent="from-orange-400 to-amber-500"
           valueClass="text-orange-700"
         />
+        {summary.totalReceivables > 0 && (
+          <StatCard 
+            label="Other receivables" 
+            value={formatCurrency(summary.totalReceivables)} 
+            icon={FileText}
+            accent="from-violet-400 to-purple-500"
+            valueClass="text-violet-700"
+          />
+        )}
+        <StatCard 
+          label="Total income" 
+          value={formatCurrency(summary.totalIncome ?? summary.totalContractValue)} 
+          icon={WalletCards}
+          accent="from-slate-500 to-slate-600"
+          valueClass="text-slate-800"
+        />
         <StatCard 
           label="Total Operating Expenses" 
           value={formatCurrency(summary.totalExpenses)} 
@@ -260,7 +280,7 @@ function OverviewTab({ project, summary }) {
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
             <BreakdownRow label="Labour Costs" value={summary.totalLabourCost} total={summary.totalExpenses} />
-            <BreakdownRow label="Material Procurement" value={summary.totalMaterialCost} total={summary.totalExpenses} />
+            <BreakdownRow label="Material Cost" value={summary.totalMaterialCost} total={summary.totalExpenses} />
             <BreakdownRow label="Associate Fees" value={summary.totalAssociateCost} total={summary.totalExpenses} />
             <BreakdownRow label="Bills Payable (Vendors)" value={summary.totalBillsPayable} total={summary.totalExpenses} />
             <BreakdownRow label="Other Expenses" value={summary.totalOtherExpenses} total={summary.totalExpenses} />

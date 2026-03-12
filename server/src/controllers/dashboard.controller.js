@@ -32,12 +32,13 @@ export async function getDashboard(req, res) {
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [activeCount, stagesWithReceipts, labourPayments, associatePayments, billsPayable, materials, recentProjects] = await Promise.all([
+    const [activeCount, stagesWithReceipts, projectsWithContract, labourPayments, associatePayments, billsPayable, materials, recentProjects] = await Promise.all([
       prisma.project.count({ where: { ...projectWhere, status: 'ACTIVE' } }),
       prisma.paymentStage.findMany({
         where: { projectId: { in: projectIds } },
         include: { receipts: true },
       }),
+      projectIds.length ? prisma.project.findMany({ where: { id: { in: projectIds } }, select: { id: true, contractValue: true } }) : [],
       projectIds.length ? prisma.labourPayment.findMany({ where: { projectId: { in: projectIds } } }) : [],
       projectIds.length ? prisma.associatePayment.findMany({ where: { projectId: { in: projectIds } } }) : [],
       prisma.bill.findMany({
@@ -57,16 +58,18 @@ export async function getDashboard(req, res) {
     ]);
 
     let totalReceivedThisMonth = 0;
-    let totalOutstandingFromClients = 0;
     for (const stage of stagesWithReceipts) {
-      const expected = toNum(stage.expectedAmount);
-      const received = stage.receipts.reduce((s, r) => s + toNum(r.amount), 0);
-      totalOutstandingFromClients += expected - received;
       for (const r of stage.receipts) {
         const d = new Date(r.receivedDate);
         if (d >= startOfMonth && d <= now) totalReceivedThisMonth += toNum(r.amount);
       }
     }
+    const totalOutstandingFromClients = (projectsWithContract || []).reduce((sum, p) => {
+      const totalReceived = stagesWithReceipts
+        .filter((s) => s.projectId === p.id)
+        .reduce((s, st) => s + st.receipts.reduce((r, rec) => r + toNum(rec.amount), 0), 0);
+      return sum + Math.max(0, toNum(p.contractValue) - totalReceived);
+    }, 0);
 
     const totalPendingToLabour = labourPayments.reduce((s, l) => s + Math.max(0, toNum(l.totalAmount) - toNum(l.paidAmount)), 0);
     const totalPendingToAssociates = associatePayments.reduce((s, a) => s + Math.max(0, toNum(a.agreedAmount) - toNum(a.paidAmount)), 0);
