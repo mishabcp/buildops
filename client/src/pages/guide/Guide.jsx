@@ -52,7 +52,7 @@ export function Guide() {
                 <BookOpen className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900 tracking-tight">CBMS Guide</h1>
+                <h1 className="text-xl font-bold text-slate-900 tracking-tight">Buildops Guide</h1>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export function Guide() {
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-12 space-y-24">
         
-        {/* 1. Hero Section: What is CBMS */}
+        {/* 1. Hero Section: What is Buildops */}
         <motion.section 
           initial="initial"
           whileInView="animate"
@@ -91,9 +91,9 @@ export function Guide() {
             <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
               Overview
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 sm:mb-6 tracking-tight leading-tight">What is CBMS?</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 sm:mb-6 tracking-tight leading-tight">What is Buildops?</h2>
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
-              CBMS is a <span className="text-white font-semibold">Construction Business Management System</span> that helps you track projects, see money in and out, and run multiple offices from one place. 
+              Buildops is <span className="text-white font-semibold">construction business management software</span> that helps you track projects, see money in and out, and run multiple offices from one place. 
             </p>
             <div className="grid sm:grid-cols-2 gap-6 text-slate-300 text-sm">
               <div className="flex items-start gap-3">
@@ -396,7 +396,7 @@ export function Guide() {
 
       <footer className="mt-24 border-t border-slate-200 py-12 text-center">
          <p className="text-sm text-slate-400">
-           &copy; {new Date().getFullYear()} CBMS. All rights reserved. Professional Edition.
+           &copy; {new Date().getFullYear()} Buildops. All rights reserved. Professional Edition.
          </p>
       </footer>
     </div>

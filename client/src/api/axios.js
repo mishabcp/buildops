@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = authStore.getState().token ?? (typeof localStorage !== 'undefined' ? localStorage.getItem('cbms-token') : null);
+  const token = authStore.getState().token ?? (typeof localStorage !== 'undefined' ? localStorage.getItem('buildops-token') : null);
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

@@ -419,7 +419,7 @@ export function GuideDetailed() {
                 <BookOpen className="h-5 w-5" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-black text-slate-950 tracking-tighter uppercase leading-none">CBMS Guide</h1>
+                <h1 className="text-xl font-black text-slate-950 tracking-tighter uppercase leading-none">Buildops Guide</h1>
                 <div className="flex items-center gap-2 mt-1.5 font-bold uppercase tracking-[0.2em] text-[9px] text-slate-400">
                   <span className="h-0.5 w-2 rounded-full bg-blue-500" />
                   Manual
@@ -575,7 +575,7 @@ function SectionContent({ id }) {
             subtitle="Centralised construction management"
           />
           <AnimatedBlock className="prose prose-slate prose-lg max-w-none prose-p:text-slate-600">
-            <p>CBMS centralises your projects, client revenue, and site costs across all your office branches.</p>
+            <p>Buildops centralises your projects, client revenue, and site costs across all your office branches.</p>
           </AnimatedBlock>
           
           <ProcessFlow 
@@ -613,7 +613,7 @@ function SectionContent({ id }) {
           </AnimatedBlock>
           
           <AnimatedBlock className="text-center pt-4 border-t border-slate-100 italic text-slate-500 text-sm">
-            CBMS turns messy site data into clear financial insights.
+            Buildops turns messy site data into clear financial insights.
           </AnimatedBlock>
         </SectionWrapper>
       );
@@ -1024,7 +1024,7 @@ function SectionFooter({ currentId }) {
            <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-wider">Operational</span>
          </div>
          <p className="text-[9px] text-slate-400 uppercase tracking-widest font-medium">
-            CBMS PLATFORM &copy; {new Date().getFullYear()} &bull; ADVANCED MANAGEMENT SYSTEM
+            Buildops &copy; {new Date().getFullYear()} &bull; Construction business management
          </p>
       </div>
     </div>

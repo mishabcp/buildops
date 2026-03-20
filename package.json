@@ -1,4 +1,5 @@
 {
+  "name": "buildops",
   "devDependencies": {
     "prisma": "^5.22.0"
   },

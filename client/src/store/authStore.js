@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const TOKEN_KEY = 'cbms-token';
+const TOKEN_KEY = 'buildops-token';
 
 function getStoredToken() {
   try {

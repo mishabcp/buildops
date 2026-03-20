@@ -1,10 +1,10 @@
-# CBMS — What you have (MVP overview)
+# Buildops — What you have (MVP overview)
 
-CBMS is a Construction Business Management System. It helps you track projects, money coming in from clients, and money going out to labour, materials, subcontractors, and bills—across one or more offices (branches). This document describes what is in the current MVP and who can use it.
+Buildops is construction business management software. It helps you track projects, money coming in from clients, and money going out to labour, materials, subcontractors, and bills—across one or more offices (branches). This document describes what is in the current MVP and who can use it.
 
 ---
 
-## How CBMS works at a glance
+## How Buildops works at a glance
 
 ```mermaid
 flowchart LR

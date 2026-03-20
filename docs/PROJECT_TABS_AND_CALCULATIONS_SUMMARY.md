@@ -117,7 +117,7 @@ const totalMaterialCost = project.materialItems
 - **B) Keep current formula but add a line:**  
   - e.g. “Other receivables (not in profit)” so the user sees the number without changing profit math until product decision is made.
 
-Recommendation: implement A (or a variant) so profit reflects all billable revenue (contract + receivables); document the definition in USER_GUIDE or CBMS_OVERVIEW.
+Recommendation: implement A (or a variant) so profit reflects all billable revenue (contract + receivables); document the definition in USER_GUIDE or BUILDOPS_OVERVIEW.
 
 **Status: Implemented.** totalReceivables and totalIncome added; profit and margin use totalIncome. Overview shows "Other receivables" and "Total income" when applicable.
 
@@ -163,7 +163,7 @@ Recommendation: implement A (or a variant) so profit reflects all billable reven
 
 **Recommendation:** Document that project Overview only includes bills linked to that project. If you want project-level “pending payables” to match Bills tab, ensure the Bills tab only shows bills for that project (or show a warning when projectId is null).
 
-**Status: Documented.** Project summary uses project.bills; only project-linked bills (projectId set) affect that project's Overview and totals. See §3.5 and USER_GUIDE / CBMS_OVERVIEW.
+**Status: Documented.** Project summary uses project.bills; only project-linked bills (projectId set) affect that project's Overview and totals. See §3.5 and USER_GUIDE / BUILDOPS_OVERVIEW.
 
 ---
 

@@ -3,7 +3,7 @@ description: Core project standards — flexibility, security, docs, and module 
 alwaysApply: true
 ---
 
-# CBMS Project Standards — MANDATORY
+# Buildops Project Standards — MANDATORY
 
 **These rules are non-negotiable. Apply every one of them in every change.**
 

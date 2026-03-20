@@ -1,5 +1,5 @@
 ---
-description: Use CURSOR_SPEC.md as the canonical reference for the CBMS build
+description: Use CURSOR_SPEC.md as the canonical reference for the Buildops build
 alwaysApply: true
 ---
 
@@ -9,6 +9,6 @@ alwaysApply: true
 
 - **When implementing or changing features**: Read the relevant sections of `CURSOR_SPEC.md` first. Follow the tech stack, schema, folder structure, API contracts, and build order defined there. Do not deviate unless the spec explicitly allows or you are instructed to change the spec itself.
 - **When in doubt**: Prefer the spec over assumptions. If the spec is ambiguous, ask the user before inventing behavior.
-- **Scope**: The spec covers the Construction Business Management System (MVP)—frontend (React/Vite), backend (Node/Express), Prisma/PostgreSQL, auth, and all feature requirements. Use it for architecture, APIs, UI flows, and data models.
+- **Scope**: The spec covers Buildops (MVP)—frontend (React/Vite), backend (Node/Express), Prisma/PostgreSQL, auth, and all feature requirements. Use it for architecture, APIs, UI flows, and data models.
 
 Cite the spec when your changes align with it (e.g. "per CURSOR_SPEC.md §X").

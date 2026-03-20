@@ -1,4 +1,4 @@
-# CURSOR BUILD SPEC — Construction Business Management System (MVP)
+# CURSOR BUILD SPEC — Buildops (MVP)
 
 > This is a technical specification document. Follow it exactly to build the MVP.
 > Do not deviate from the stack, schema, or folder structure unless explicitly noted.

@@ -64,7 +64,7 @@ export function Sidebar() {
               <div className="h-8 w-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
                 <BookOpen className="h-4 w-4" />
               </div>
-              <span className="font-black text-slate-950 tracking-tighter uppercase whitespace-nowrap">CBMS</span>
+              <span className="font-black text-slate-950 tracking-tighter uppercase whitespace-nowrap">Buildops</span>
            </div>
            {/* Mobile Close Button */}
            <button 

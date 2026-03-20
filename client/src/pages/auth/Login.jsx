@@ -61,7 +61,7 @@ export function Login() {
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30">
               <Building2 className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold tracking-tight">CBMS Workspace</span>
+            <span className="text-2xl font-bold tracking-tight">Buildops Workspace</span>
           </div>
           
           {/* Hero text */}

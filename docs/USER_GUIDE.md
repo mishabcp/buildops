@@ -1,6 +1,6 @@
-# CBMS — How to use the system
+# Buildops — How to use the system
 
-This guide explains how to use CBMS step by step. Each section starts with a diagram, then a short explanation. You can also use the **Guide** inside the app (linked from the login page and the sidebar after you sign in).
+This guide explains how to use Buildops step by step. Each section starts with a diagram, then a short explanation. You can also use the **Guide** inside the app (linked from the login page and the sidebar after you sign in).
 
 ---
 
@@ -13,7 +13,7 @@ flowchart LR
   Dashboard --> Guide[Guide link in sidebar for help]
 ```
 
-Open the CBMS app in your browser and enter your email and password. After you sign in, you land on the Home (Dashboard). Use the **Guide** link in the left menu anytime to open the in-app help. If your company has set up sample accounts, you can use the logins in the table below (password **admin123** for all).
+Open the Buildops app in your browser and enter your email and password. After you sign in, you land on the Home (Dashboard). Use the **Guide** link in the left menu anytime to open the in-app help. If your company has set up sample accounts, you can use the logins in the table below (password **admin123** for all).
 
 | Who | Email | Password | Sees |
 |-----|-------|----------|------|
@@ -155,8 +155,8 @@ Click **Reports** in the left menu. Pick the report you need (e.g. profit and lo
 
 ## Settings
 
-Only **admins** can open Settings. Click **Settings** in the left menu to add or edit **users** (email, role, branch) and to manage **branches** (office names). Staff and branch managers do not see Settings. For sample logins and roles, see the table in the [Logging in](#logging-in) section or [CBMS_OVERVIEW.md](CBMS_OVERVIEW.md).
+Only **admins** can open Settings. Click **Settings** in the left menu to add or edit **users** (email, role, branch) and to manage **branches** (office names). Staff and branch managers do not see Settings. For sample logins and roles, see the table in the [Logging in](#logging-in) section or [BUILDOPS_OVERVIEW.md](BUILDOPS_OVERVIEW.md).
 
 ---
 
-For a short “first 5 minutes” path, see **[QUICK_START.md](QUICK_START.md)**. For what is in the MVP and who can use it, see **[CBMS_OVERVIEW.md](CBMS_OVERVIEW.md)**.
+For a short “first 5 minutes” path, see **[QUICK_START.md](QUICK_START.md)**. For what is in the MVP and who can use it, see **[BUILDOPS_OVERVIEW.md](BUILDOPS_OVERVIEW.md)**.

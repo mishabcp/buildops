@@ -29,7 +29,7 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'CBMS API' });
+  res.json({ success: true, message: 'Buildops API' });
 });
 
 app.use('/api/auth', authRoutes);

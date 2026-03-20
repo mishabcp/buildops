@@ -1,4 +1,4 @@
-# CBMS — Construction Business Management System
+# Buildops — Construction business management
 
 MVP monorepo: React (Vite) frontend, Node.js (Express) backend, Prisma + PostgreSQL.
 
@@ -29,7 +29,7 @@ cd client && npm install && npm run dev
 
 Users can manage clients (add, edit, delete) from the **Clients** page; each project is linked to a client. A **User Guide** is available at `/guide` (features, how-to, examples, seeded credentials, workflow diagrams). It is linked from the login page and from the sidebar when signed in.
 
-**Client documentation** (non-technical, diagram-led): see [docs/CBMS_OVERVIEW.md](docs/CBMS_OVERVIEW.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/QUICK_START.md](docs/QUICK_START.md).
+**Client documentation** (non-technical, diagram-led): see [docs/BUILDOPS_OVERVIEW.md](docs/BUILDOPS_OVERVIEW.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/QUICK_START.md](docs/QUICK_START.md).
 
 ## Build order
 

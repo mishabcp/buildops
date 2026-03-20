@@ -1,4 +1,4 @@
-# CBMS — Step-by-step deployment (GitHub + Supabase + Render + Vercel)
+# Buildops — Step-by-step deployment (GitHub + Supabase + Render + Vercel)
 
 Do these in order. Each step assumes the previous is done.
 
@@ -9,7 +9,7 @@ Do these in order. Each step assumes the previous is done.
 1. Go to [https://supabase.com](https://supabase.com) and sign in (or create account).
 2. Click **New project**.
 3. **Organization:** use default or create one.
-4. **Name:** e.g. `cbms` or `cbms-prod`.
+4. **Name:** e.g. `buildops` or `buildops-prod`.
 5. **Database password:** set a strong password and **save it** (you need it for the connection string).
 6. **Region:** pick one close to you (or to your users).
 7. Click **Create new project** and wait until the project is ready (1–2 minutes).
@@ -29,7 +29,7 @@ Do these in order. Each step assumes the previous is done.
 
 ## Step 2: Run migrations and seed (local, against Supabase)
 
-1. Open your project in the terminal (repo root: `c:\Users\misha\Desktop\CBMS`).
+1. Open your project in the terminal (repo root — the folder where you cloned this repository).
 2. Create or edit `.env` in the **repo root** (same folder as `prisma/`). Add or set:
   ```
    DATABASE_URL=postgresql://postgres.[ref]:YOUR_PASSWORD@aws-0-xx.pooler.supabase.com:6543/postgres
@@ -69,9 +69,9 @@ Do these in order. Each step assumes the previous is done.
 
 1. Go to [https://render.com](https://render.com) and sign in (or create account). Connect your **GitHub** account if prompted.
 2. Click **New +** → **Web Service**.
-3. Connect the repository that contains CBMS (if not already connected, use **Connect account** / **Configure account** and select the repo).
-4. **Repository:** select your CBMS repo.
-5. **Name:** e.g. `cbms-api`.
+3. Connect the repository that contains Buildops (if not already connected, use **Connect account** / **Configure account** and select the repo).
+4. **Repository:** select your Buildops repo.
+5. **Name:** e.g. `buildops-api`.
 6. **Region:** pick one (e.g. same as Supabase or close to users).
 7. **Root Directory:** leave **empty** (repo root).
 8. **Runtime:** Node.
@@ -96,9 +96,9 @@ Do these in order. Each step assumes the previous is done.
   | `NODE_ENV`     | `production`                                                                                   |
 
 13. Click **Create Web Service**. Wait for the first deploy to finish (build + start).
-14. In the dashboard, open your service and copy the **URL** (e.g. `https://cbms-api.onrender.com`). This is your **API URL** for the frontend.
+14. In the dashboard, open your service and copy the **URL** (e.g. `https://buildops-api.onrender.com`). This is your **API URL** for the frontend.
 
-**Check:** In the browser open `https://YOUR-RENDER-URL/api/health`. You should see something like `{"success":true,"message":"CBMS API"}`. If you didn’t run migrations on Render, run them locally (Step 2) against the same Supabase DB; then health should still work and login will work after we wire the frontend.
+**Check:** In the browser open `https://YOUR-RENDER-URL/api/health`. You should see something like `{"success":true,"message":"Buildops API"}`. If you didn’t run migrations on Render, run them locally (Step 2) against the same Supabase DB; then health should still work and login will work after we wire the frontend.
 
 ---
 
@@ -118,7 +118,7 @@ Do these in order. Each step assumes the previous is done.
 
 1. Go to [https://vercel.com](https://vercel.com) and sign in (or create account). Connect **GitHub** if prompted.
 2. Click **Add New…** → **Project**.
-3. **Import** your CBMS repository.
+3. **Import** your Buildops repository.
 4. **Configure Project:**
   - **Root Directory:** click **Edit**, set to `client`, confirm.
   - **Framework Preset:** Vite (should be auto-detected).
@@ -127,9 +127,9 @@ Do these in order. Each step assumes the previous is done.
   - The repo includes `client/vercel.json` so all client-side routes (e.g. `/login`, `/projects`) serve `index.html` and the SPA works when users open or refresh a deep link.
   - **Environment Variables:** click **Add**:
     - **Name:** `VITE_API_URL`  
-    - **Value:** Your Render API URL from Step 3 (e.g. `https://cbms-api.onrender.com`) — **no** `/api` at the end.
+    - **Value:** Your Render API URL from Step 3 (e.g. `https://buildops-api.onrender.com`) — **no** `/api` at the end.
 5. Click **Deploy**. Wait for the build to finish.
-6. Open the generated URL (e.g. `https://cbms-xxx.vercel.app`). This is your **frontend URL**.
+6. Open the generated URL (e.g. `https://buildops-xxx.vercel.app`). This is your **frontend URL**.
 
 **Check:** In the browser, open the Vercel URL. The app may load but login might fail until we set CORS (next step). If you see the login page, continue to Step 6.
 
@@ -138,7 +138,7 @@ Do these in order. Each step assumes the previous is done.
 ## Step 6: Wire CORS and final checks
 
 1. **Render:** In the Render dashboard, open your Web Service → **Environment**.
-2. Set **CLIENT_URL** to your **Vercel** URL (e.g. `https://cbms-xxx.vercel.app`). No trailing slash.
+2. Set **CLIENT_URL** to your **Vercel** URL (e.g. `https://buildops-xxx.vercel.app`). No trailing slash.
 3. Save. Render will redeploy automatically (or click **Manual Deploy** → **Deploy latest commit**).
 4. After the redeploy, open your **Vercel** app URL and try:
   - Log in with `admin@company.com` / `admin123`.
