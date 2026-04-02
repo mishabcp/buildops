@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
+    "preinstall": "node ../scripts/verify-safe-dependencies.mjs",
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "prisma:generate": "prisma generate --schema=../prisma/schema.prisma",

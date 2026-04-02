@@ -31,6 +31,12 @@ Users can manage clients (add, edit, delete) from the **Clients** page; each pro
 
 **Client documentation** (non-technical, diagram-led): see [docs/BUILDOPS_OVERVIEW.md](docs/BUILDOPS_OVERVIEW.md), [docs/USER_GUIDE.md](docs/USER_GUIDE.md), and [docs/QUICK_START.md](docs/QUICK_START.md).
 
+## Supply chain checks
+
+`client/` and `server/` run `scripts/verify-safe-dependencies.mjs` on `npm install` (`preinstall`). It aborts the install if `package-lock.json` would include known-bad npm releases (for example compromised `axios` versions or the malicious `plain-crypto-js` package). The client also uses an npm `overrides` entry to pin `axios` to `1.13.6` until you deliberately bump it after checking the registry.
+
+On GitHub, `.github/workflows/ci.yml` runs the same check on both lockfiles and then `npm ci` for `client/` and `server/` on pushes and pull requests to `main`.
+
 ## Build order
 
 See `CURSOR_SPEC.md` Section 8 for the full build order.
