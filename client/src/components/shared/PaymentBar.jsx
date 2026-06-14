@@ -11,9 +11,9 @@ export function PaymentBar({ paid = 0, total = 0, className }) {
   const paidNum = Number(paid) || 0;
   const pct = totalNum > 0 ? Math.min(100, (paidNum / totalNum) * 100) : 0;
   return (
-    <div className={cn('h-2 w-full overflow-hidden rounded-full bg-gray-200', className)}>
+    <div className={cn('h-2 w-full overflow-hidden rounded-full bg-slate-200', className)}>
       <div
-        className="h-full rounded-full bg-green-500 transition-all"
+        className="h-full rounded-full bg-emerald-500 transition-all"
         style={{ width: `${pct}%` }}
         role="progressbar"
         aria-valuenow={pct}

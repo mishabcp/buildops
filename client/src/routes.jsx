@@ -11,6 +11,7 @@ const Guide = lazyPage(() => import('./pages/guide/Guide.jsx'), 'Guide');
 const GuideDetailed = lazyPage(() => import('./pages/guide/GuideDetailed.jsx'), 'GuideDetailed');
 const Dashboard = lazyPage(() => import('./pages/dashboard/Dashboard.jsx'), 'Dashboard');
 const Settings = lazyPage(() => import('./pages/settings/Settings.jsx'), 'Settings');
+const DashboardPreview = lazyPage(() => import('./pages/preview/DashboardPreview.jsx'), 'DashboardPreview');
 const ProjectList = lazyPage(() => import('./pages/projects/ProjectList.jsx'), 'ProjectList');
 const ProjectForm = lazyPage(() => import('./pages/projects/ProjectForm.jsx'), 'ProjectForm');
 const ProjectDetail = lazyPage(() => import('./pages/projects/ProjectDetail.jsx'), 'ProjectDetail');
@@ -55,6 +56,7 @@ export function AppRoutes() {
         <Route path="bills" element={<BillList />} />
         <Route path="reports" element={<Reports />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="dashboard-preview" element={<DashboardPreview />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

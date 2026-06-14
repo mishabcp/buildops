@@ -60,7 +60,7 @@ export function PaymentStageForm({ stage, onSave, onClose }) {
               <Input 
                 value={form.stageName} 
                 onChange={(e) => setForm((f) => ({ ...f, stageName: e.target.value }))} 
-                className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                 placeholder="e.g. Milestone 1"
                 required 
                 autoFocus
@@ -78,7 +78,7 @@ export function PaymentStageForm({ stage, onSave, onClose }) {
                   min="1" 
                   value={form.stageNumber} 
                   onChange={(e) => setForm((f) => ({ ...f, stageNumber: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                   placeholder="Auto" 
                 />
               </div>
@@ -92,7 +92,7 @@ export function PaymentStageForm({ stage, onSave, onClose }) {
                   type="date" 
                   value={form.dueDate} 
                   onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                 />
               </div>
             </div>
@@ -108,7 +108,7 @@ export function PaymentStageForm({ stage, onSave, onClose }) {
                 min="0" 
                 value={form.expectedAmount} 
                 onChange={(e) => setForm((f) => ({ ...f, expectedAmount: e.target.value }))} 
-                className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-mono text-[16px] transition-all"
+                className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-mono text-[16px] transition-all"
                 placeholder="0.00"
                 required 
               />

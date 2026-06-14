@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 
-const COLORS = ['#7c3aed', '#0d9488', '#2563eb', '#d97706', '#64748b'];
+const COLORS = ['#1f5288', '#ff7a00', '#4d86bf', '#f59e0b', '#64748b'];
 
 function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -64,9 +64,9 @@ export function ExpenseBreakdownChart({ data }) {
                 className="inline-block h-2.5 w-2.5 rounded-full"
                 style={{ backgroundColor: entry.fill }}
               />
-              <span className="text-xs text-gray-500">
+              <span className="text-xs font-medium text-slate-600">
                 {entry.name}{' '}
-                <strong className="text-gray-700">({pct}%)</strong>
+                <strong className="text-slate-800">({pct}%)</strong>
               </span>
             </div>
           );

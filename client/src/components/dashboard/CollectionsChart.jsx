@@ -44,12 +44,12 @@ export function CollectionsChart({ data }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
           <XAxis
             dataKey="label"
-            tick={{ fontSize: 11, fill: '#94a3b8' }}
+            tick={{ fontSize: 11, fill: '#475569' }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: '#94a3b8' }}
+            tick={{ fontSize: 11, fill: '#475569' }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => `${(v / 1e5).toFixed(0)}L`}

@@ -188,7 +188,7 @@ export function LabourList({ projectId, onDataChange }) {
                              <Button 
                                size="sm" 
                                variant="ghost" 
-                               className="h-9 w-9 p-0 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" 
+                               className="h-9 w-9 p-0 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg" 
                                onClick={() => { setEditingEntry(e); setShowForm(true); }}
                                title="Edit Entry"
                              >
@@ -235,7 +235,7 @@ export function LabourList({ projectId, onDataChange }) {
                     </div>
                     {!isStaff && (
                       <div className="flex gap-2 shrink-0 ml-2">
-                        <Button size="sm" variant="ghost" className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-lg shadow-none" onClick={() => { setEditingEntry(e); setShowForm(true); }}>
+                        <Button size="sm" variant="ghost" className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-brand-200 hover:text-brand-600 hover:bg-brand-50 rounded-lg shadow-none" onClick={() => { setEditingEntry(e); setShowForm(true); }}>
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button size="sm" variant="ghost" className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-red-200 hover:text-red-600 hover:bg-red-50 rounded-lg shadow-none" onClick={() => handleDelete(e)}>

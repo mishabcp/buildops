@@ -59,7 +59,7 @@ export function AssociateForm({ onSave, onClose }) {
                 <Input 
                   value={form.name} 
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-bold text-[15px] transition-all"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-bold text-[15px] transition-all"
                   placeholder="e.g. John Doe / Apex Constructions"
                   required 
                   autoFocus
@@ -75,7 +75,7 @@ export function AssociateForm({ onSave, onClose }) {
                   <Input 
                     value={form.phone} 
                     onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                     placeholder="e.g. 9876543210"
                   />
                 </div>
@@ -89,7 +89,7 @@ export function AssociateForm({ onSave, onClose }) {
                     type="email" 
                     value={form.email} 
                     onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                     placeholder="e.g. name@example.com"
                   />
                 </div>
@@ -103,7 +103,7 @@ export function AssociateForm({ onSave, onClose }) {
                 <Input 
                   value={form.workType} 
                   onChange={(e) => setForm((f) => ({ ...f, workType: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                   placeholder="e.g. Electrical, Plumbing, HVAC"
                 />
               </div>

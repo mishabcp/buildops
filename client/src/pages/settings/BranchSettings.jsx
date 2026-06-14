@@ -85,7 +85,7 @@ export function BranchSettings() {
       <div className="rounded-3xl border border-slate-200/60 bg-white shadow-sm overflow-hidden">
         <div className="border-b border-slate-100 bg-slate-50/50 px-6 sm:px-8 py-5">
           <div className="flex items-center gap-3">
-             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-blue-100/50 text-blue-600">
+             <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-100/50 text-brand-600">
                 <Building2 className="h-5 w-5" />
              </div>
              <div>
@@ -116,7 +116,7 @@ export function BranchSettings() {
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
                             placeholder="Branch Name (e.g. Headquarters)"
-                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-[15px] font-medium rounded-xl transition-all"
+                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 text-[15px] font-medium rounded-xl transition-all"
                             autoFocus
                           />
                         </div>
@@ -126,7 +126,7 @@ export function BranchSettings() {
                             value={editLocation}
                             onChange={(e) => setEditLocation(e.target.value)}
                             placeholder="Location (Optional)"
-                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 text-[15px] font-medium rounded-xl transition-all"
+                            className="pl-10 h-11 bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 text-[15px] font-medium rounded-xl transition-all"
                           />
                         </div>
                       </div>
@@ -152,8 +152,8 @@ export function BranchSettings() {
                   ) : (
                     <>
                       <div className="flex items-start gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
-                           <Building2 className="h-6 w-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-slate-100 group-hover:bg-brand-50 group-hover:border-brand-100 transition-colors">
+                           <Building2 className="h-6 w-6 text-slate-400 group-hover:text-brand-500 transition-colors" />
                         </div>
                         <div>
                           <h4 className="text-[16px] font-bold text-slate-900 tracking-tight">{branch.name}</h4>
@@ -167,7 +167,7 @@ export function BranchSettings() {
                       <Button 
                         variant="ghost" 
                         onClick={() => startEdit(branch)}
-                        className="h-10 w-10 sm:w-auto shrink-0 rounded-xl px-0 sm:px-4 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors self-end sm:self-center opacity-0 group-hover:opacity-100 sm:opacity-100"
+                        className="h-10 w-10 sm:w-auto shrink-0 rounded-xl px-0 sm:px-4 text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors self-end sm:self-center opacity-0 group-hover:opacity-100 sm:opacity-100"
                         title="Edit Branch"
                       >
                         <Pencil className="h-4 w-4 sm:mr-2" />

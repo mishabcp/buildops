@@ -29,11 +29,11 @@ export function Layout() {
   }, [token, user, setUser, logout]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       <Sidebar />
       <div className="lg:pl-64">
         <Topbar />
-        <main>
+        <main className="min-h-[calc(100vh-4rem)]">
           <Outlet />
         </main>
       </div>

@@ -93,7 +93,7 @@ const FORMULA_CARDS = [
   {
     metric: 'Profit',
     icon: Calculator,
-    accent: { border: 'border-l-blue-500', bg: 'bg-blue-50/40', badge: 'bg-blue-500', text: 'text-blue-700', pill: 'bg-blue-50 border-blue-200 text-blue-700' },
+    accent: { border: 'border-l-brand-500', bg: 'bg-brand-50/40', badge: 'bg-brand-500', text: 'text-brand-700', pill: 'bg-brand-50 border-brand-200 text-brand-700' },
     parts: [
       { label: 'Total Income', type: 'result' },
       { label: '−', type: 'op' },
@@ -104,7 +104,7 @@ const FORMULA_CARDS = [
   {
     metric: 'Margin %',
     icon: Percent,
-    accent: { border: 'border-l-indigo-500', bg: 'bg-indigo-50/40', badge: 'bg-indigo-500', text: 'text-indigo-700', pill: 'bg-indigo-50 border-indigo-200 text-indigo-700' },
+    accent: { border: 'border-l-brand-500', bg: 'bg-brand-50/40', badge: 'bg-brand-500', text: 'text-brand-700', pill: 'bg-brand-50 border-brand-200 text-brand-700' },
     parts: [
       { label: 'Profit', type: 'result' },
       { label: '÷', type: 'op' },
@@ -205,8 +205,8 @@ function Term({ label, source, desc, icon: Icon, type = 'input', delay = 0 }) {
       <span className={`
         inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-lg text-[11px] sm:text-[12px] font-semibold whitespace-nowrap cursor-default transition-all duration-200
         ${isResult
-          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-200/50 hover:shadow-lg hover:shadow-blue-300/50 hover:scale-[1.03]'
-          : 'bg-white border border-slate-200/80 text-slate-700 shadow-sm hover:border-blue-300 hover:text-blue-700 hover:shadow-md hover:scale-[1.03]'}
+          ? 'bg-gradient-to-r from-brand-600 to-brand-600 text-white shadow-md shadow-brand-200/50 hover:shadow-lg hover:shadow-brand-300/50 hover:scale-[1.03]'
+          : 'bg-white border border-slate-200/80 text-slate-700 shadow-sm hover:border-brand-300 hover:text-brand-700 hover:shadow-md hover:scale-[1.03]'}
       `}>
         {Icon && <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 opacity-70" />}
         {label}
@@ -224,7 +224,7 @@ function Term({ label, source, desc, icon: Icon, type = 'input', delay = 0 }) {
           >
             <div className="bg-slate-900 text-white rounded-xl px-3.5 py-2.5 shadow-xl text-left">
               {desc && <p className="text-[11px] text-slate-300 leading-snug">{desc}</p>}
-              <p className="text-[10px] text-blue-300 font-semibold mt-1.5 uppercase tracking-wider">↳ {source}</p>
+              <p className="text-[10px] text-brand-300 font-semibold mt-1.5 uppercase tracking-wider">↳ {source}</p>
               <div className="absolute bottom-[-5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-slate-900 rotate-45" />
             </div>
           </motion.div>
@@ -247,8 +247,8 @@ function ResultTerm({ label, color = 'blue', delay = 0 }) {
   const colors = {
     green:  'from-emerald-500 to-teal-600 shadow-emerald-200/50',
     red:    'from-rose-500 to-red-600 shadow-rose-200/50',
-    blue:   'from-blue-500 to-indigo-600 shadow-blue-200/50',
-    indigo: 'from-indigo-500 to-violet-600 shadow-indigo-200/50',
+    blue:   'from-brand-500 to-brand-600 shadow-brand-200/50',
+    indigo: 'from-brand-500 to-violet-600 shadow-brand-200/50',
   };
   return (
     <motion.span
@@ -326,7 +326,7 @@ function EquationBlock() {
 
         {/* Line 3: Profit & Margin */}
         <div className="space-y-2">
-          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 pl-1">Bottom Line</p>
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-600 pl-1">Bottom Line</p>
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             <ResultTerm label="Total Income" color="green" delay={0.8} />
             <Op>−</Op>
@@ -347,9 +347,9 @@ function EquationBlock() {
 
 /* ─── Tab Card ──────────────────────────────────────────────────────────────── */
 const TAB_ACCENTS = {
-  overview:   { bg: 'bg-indigo-50',  color: 'text-indigo-600',  bar: 'from-indigo-500 to-violet-500' },
+  overview:   { bg: 'bg-brand-50',  color: 'text-brand-600',  bar: 'from-brand-500 to-violet-500' },
   stages:     { bg: 'bg-emerald-50', color: 'text-emerald-600', bar: 'from-emerald-500 to-teal-500' },
-  labour:     { bg: 'bg-blue-50',    color: 'text-blue-600',    bar: 'from-blue-500 to-sky-500' },
+  labour:     { bg: 'bg-brand-50',    color: 'text-brand-600',    bar: 'from-brand-500 to-sky-500' },
   materials:  { bg: 'bg-amber-50',   color: 'text-amber-600',   bar: 'from-amber-500 to-orange-500' },
   associates: { bg: 'bg-violet-50',  color: 'text-violet-600',  bar: 'from-violet-500 to-purple-500' },
   bills:      { bg: 'bg-rose-50',    color: 'text-rose-600',    bar: 'from-rose-500 to-pink-500' },
@@ -365,7 +365,7 @@ function TabCard({ tab, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.05 + index * 0.06, duration: 0.4 }}
       whileHover={reduced ? {} : { y: -3, transition: { duration: 0.15 } }}
-      className="group relative rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm hover:border-blue-200 hover:shadow-md transition-all duration-200 overflow-hidden"
+      className="group relative rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm hover:border-brand-200 hover:shadow-md transition-all duration-200 overflow-hidden"
     >
       <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${accent.bar}`} />
       <div className="flex items-start gap-3 sm:gap-3.5 pt-0.5">
@@ -377,7 +377,7 @@ function TabCard({ tab, index }) {
           <p className="text-[12px] sm:text-[13px] text-slate-500 mt-1 leading-relaxed">{tab.desc}</p>
           <div className="mt-2.5 sm:mt-3 flex flex-wrap items-center gap-1.5">
             <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Feeds</span>
-            <span className="text-[10px] sm:text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+            <span className="text-[10px] sm:text-[11px] font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded border border-brand-100">
               {tab.feeds}
             </span>
           </div>
@@ -402,7 +402,7 @@ export function ProjectDetailGuide() {
         className="space-y-5 sm:space-y-6"
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600">
             <Calculator className="h-4 w-4" />
           </div>
           <div>
@@ -424,7 +424,7 @@ export function ProjectDetailGuide() {
         className="space-y-5 sm:space-y-6"
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600">
             <LayoutDashboard className="h-4 w-4" />
           </div>
           <div>

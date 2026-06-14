@@ -52,7 +52,7 @@ export function MaterialForm({ material, onSave, onClose }) {
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
         <div className="flex items-center gap-3">
-           <div className="h-10 w-10 bg-white border border-slate-200 shadow-sm rounded-xl flex items-center justify-center text-blue-600">
+           <div className="h-10 w-10 bg-white border border-slate-200 shadow-sm rounded-xl flex items-center justify-center text-brand-600">
              <PackageOpen className="h-5 w-5" />
            </div>
            <div>
@@ -85,7 +85,7 @@ export function MaterialForm({ material, onSave, onClose }) {
                 <Input 
                   value={form.name} 
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-bold text-slate-900 transition-all disabled:opacity-60"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-bold text-slate-900 transition-all disabled:opacity-60"
                   placeholder="e.g. Portland Cement, River Sand..."
                   required 
                   disabled={isEdit}
@@ -101,7 +101,7 @@ export function MaterialForm({ material, onSave, onClose }) {
                 <Input 
                   value={form.unit} 
                   onChange={(e) => setForm((f) => ({ ...f, unit: e.target.value }))} 
-                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                  className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                   placeholder="e.g. bags, kg, MT, nos" 
                   required 
                 />
@@ -120,7 +120,7 @@ export function MaterialForm({ material, onSave, onClose }) {
                       min="0" 
                       value={form.currentStock} 
                       onChange={(e) => setForm((f) => ({ ...f, currentStock: e.target.value }))} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-mono text-[14px] transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-mono text-[14px] transition-all"
                     />
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export function MaterialForm({ material, onSave, onClose }) {
                       min="0" 
                       value={form.minThreshold} 
                       onChange={(e) => setForm((f) => ({ ...f, minThreshold: e.target.value }))} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-mono text-[14px] transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-mono text-[14px] transition-all"
                     />
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export function MaterialForm({ material, onSave, onClose }) {
                     min="0" 
                     value={form.minThreshold} 
                     onChange={(e) => setForm((f) => ({ ...f, minThreshold: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-mono text-[14px] transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-mono text-[14px] transition-all"
                   />
                 </div>
               </div>

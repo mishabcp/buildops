@@ -84,12 +84,12 @@ export function ClientList() {
 
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="relative w-full sm:max-w-md group">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" />
             <Input
               placeholder="Search clients..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="pl-10 h-11 bg-white border-slate-200/80 shadow-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all rounded-xl w-full text-[15px] font-medium"
+              className="pl-10 h-11 bg-white border-slate-200/80 shadow-sm focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all rounded-xl w-full text-[15px] font-medium"
             />
           </div>
           <Button
@@ -164,7 +164,7 @@ export function ClientList() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-8 w-8 p-0 text-slate-500 hover:text-blue-600 hover:bg-blue-50"
+                              className="h-8 w-8 p-0 text-slate-500 hover:text-brand-600 hover:bg-brand-50"
                               onClick={() => {
                                 setEditingClient(c);
                                 setShowForm(true);
@@ -200,7 +200,7 @@ export function ClientList() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="h-8 w-8 p-0 text-slate-400 hover:text-blue-600"
+                            className="h-8 w-8 p-0 text-slate-400 hover:text-brand-600"
                             onClick={() => {
                               setEditingClient(c);
                               setShowForm(true);

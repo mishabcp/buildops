@@ -112,11 +112,11 @@ function AnimatedBlock({ children, className = "" }) {
 function Card({ title, children, icon: Icon, variant = "light", className = "" }) {
   const shouldReduceMotion = useReducedMotion();
   const styles = {
-    light: "bg-white/70 backdrop-blur-md border-slate-200/60 text-slate-900 hover:border-blue-300/50 hover:shadow-xl hover:shadow-blue-500/5",
+    light: "bg-white/70 backdrop-blur-md border-slate-200/60 text-slate-900 hover:border-brand-300/50 hover:shadow-xl hover:shadow-brand-500/5",
     dark: "bg-slate-900 border-slate-800 text-white hover:bg-slate-800 hover:shadow-2xl hover:shadow-black/20",
-    blue: "bg-blue-50/80 backdrop-blur-sm border-blue-100/50 text-blue-900",
+    blue: "bg-brand-50/80 backdrop-blur-sm border-brand-100/50 text-brand-900",
     emerald: "bg-emerald-50/80 backdrop-blur-sm border-emerald-100/50 text-emerald-900",
-    indigo: "bg-indigo-50/80 backdrop-blur-sm border-indigo-100/50 text-indigo-900",
+    indigo: "bg-brand-50/80 backdrop-blur-sm border-brand-100/50 text-brand-900",
     amber: "bg-amber-50/80 backdrop-blur-sm border-amber-100/50 text-amber-900",
     rose: "bg-rose-50/80 backdrop-blur-sm border-rose-100/50 text-rose-900",
   };
@@ -163,8 +163,8 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
   const styles = {
     slate: "bg-white/40 border-slate-200/50",
     emerald: "bg-emerald-50/20 border-emerald-100/40",
-    blue: "bg-blue-50/20 border-blue-100/40",
-    indigo: "bg-indigo-50/20 border-indigo-100/40",
+    blue: "bg-brand-50/20 border-brand-100/40",
+    indigo: "bg-brand-50/20 border-brand-100/40",
     amber: "bg-amber-50/20 border-amber-100/40",
     rose: "bg-rose-50/20 border-rose-100/40",
   };
@@ -199,14 +199,14 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
                    <motion.div 
                      animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
                      transition={{ duration: 3, repeat: Infinity }}
-                     className="absolute inset-[-8px] bg-blue-500/10 rounded-xl blur-lg" 
+                     className="absolute inset-[-8px] bg-brand-500/10 rounded-xl blur-lg" 
                    />
                 )}
                 <div className={`
                   h-14 w-14 sm:h-16 sm:w-16 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 relative z-10
                   ${item.active 
-                    ? 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-[0_15px_30px_-5px_rgba(37,99,233,0.4)]' 
-                    : 'bg-white text-slate-400 border border-slate-100/80 shadow-[0_8px_20px_-5px_rgba(0,0,0,0.05)] group-hover:border-blue-400/30 group-hover:text-blue-600 group-hover:shadow-[0_15px_40px_-10px_rgba(37,99,235,0.15)]'}
+                    ? 'bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-[0_15px_30px_-5px_rgba(37,99,233,0.4)]' 
+                    : 'bg-white text-slate-400 border border-slate-100/80 shadow-[0_8px_20px_-5px_rgba(0,0,0,0.05)] group-hover:border-brand-400/30 group-hover:text-brand-600 group-hover:shadow-[0_15px_40px_-10px_rgba(37,99,235,0.15)]'}
                 `}>
                   {item.icon && <item.icon className="h-6 w-6 sm:h-7 sm:w-7" />}
                 </div>
@@ -217,7 +217,7 @@ function ProcessFlow({ title, items, layout = "linear", variant = "slate" }) {
                 )}
               </div>
               <div className="text-center relative z-10 w-full">
-                <span className="text-xs font-bold text-slate-900 block group-hover:text-blue-600 transition-colors uppercase tracking-tight">{item.label}</span>
+                <span className="text-xs font-bold text-slate-900 block group-hover:text-brand-600 transition-colors uppercase tracking-tight">{item.label}</span>
                 {item.desc && <span className="text-[9px] text-slate-400 uppercase tracking-wider font-medium mt-1 block">{item.desc}</span>}
               </div>
             </div>
@@ -268,7 +268,7 @@ function DataTable({ headers, data, className = "" }) {
             {data.map((row, i) => (
               <tr key={i} className="hover:bg-slate-50/50 transition-colors group">
                 {Object.values(row).map((val, j) => (
-                  <td key={j} className={`px-5 py-3 ${j === 0 ? 'font-semibold text-slate-900 group-hover:text-blue-600' : 'text-slate-500'}`}>
+                  <td key={j} className={`px-5 py-3 ${j === 0 ? 'font-semibold text-slate-900 group-hover:text-brand-600' : 'text-slate-500'}`}>
                     {val}
                   </td>
                 ))}
@@ -284,9 +284,9 @@ function DataTable({ headers, data, className = "" }) {
 function BadgeList({ items, variant = "slate" }) {
   const shouldReduceMotion = useReducedMotion();
   const styles = {
-    slate: "bg-white text-slate-500 border-slate-100 hover:border-blue-200 hover:text-blue-600",
+    slate: "bg-white text-slate-500 border-slate-100 hover:border-brand-200 hover:text-brand-600",
     amber: "bg-amber-50/50 text-amber-700 border-amber-100 hover:bg-amber-100 hover:border-amber-200",
-    blue: "bg-blue-50/50 text-blue-700 border-blue-100 hover:bg-blue-100 hover:border-blue-200",
+    blue: "bg-brand-50/50 text-brand-700 border-brand-100 hover:bg-brand-100 hover:border-brand-200",
   };
 
   return (
@@ -346,7 +346,7 @@ export function GuideDetailed() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb] font-sans selection:bg-blue-100 selection:text-blue-900 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8f9fb] font-sans selection:bg-brand-100 selection:text-brand-900 relative overflow-hidden">
       <style dangerouslySetInnerHTML={{ __html: `
         :root {
           --mouse-x: 50%;
@@ -386,9 +386,9 @@ export function GuideDetailed() {
 
       {/* Dynamic Background Decorations */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-15%] left-[-15%] w-[60%] h-[60%] bg-blue-400/10 rounded-full blur-[160px] animate-pulse-slow" />
-        <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-indigo-400/10 rounded-full blur-[160px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[80%] bg-blue-50/5 rounded-full blur-[200px]" />
+        <div className="absolute top-[-15%] left-[-15%] w-[60%] h-[60%] bg-brand-400/10 rounded-full blur-[160px] animate-pulse-slow" />
+        <div className="absolute bottom-[-15%] right-[-15%] w-[60%] h-[60%] bg-brand-400/10 rounded-full blur-[160px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[80%] bg-brand-50/5 rounded-full blur-[200px]" />
       </div>
 
       {/* Mobile Sidebar Backdrop */}
@@ -415,13 +415,13 @@ export function GuideDetailed() {
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center shadow-md flex-shrink-0">
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white flex items-center justify-center shadow-md flex-shrink-0">
                 <BookOpen className="h-5 w-5" />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-black text-slate-950 tracking-tighter uppercase leading-none">Buildops Guide</h1>
                 <div className="flex items-center gap-2 mt-1.5 font-bold uppercase tracking-[0.2em] text-[9px] text-slate-400">
-                  <span className="h-0.5 w-2 rounded-full bg-blue-500" />
+                  <span className="h-0.5 w-2 rounded-full bg-brand-500" />
                   Manual
                 </div>
               </div>
@@ -473,7 +473,7 @@ export function GuideDetailed() {
                   className={`
                     w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all group relative
                     ${isActive 
-                      ? 'text-blue-600 scale-[1.02]' 
+                      ? 'text-brand-600 scale-[1.02]' 
                       : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 hover:translate-x-1'
                     }
                   `}
@@ -481,8 +481,8 @@ export function GuideDetailed() {
                   <div className={`
                     h-9 w-9 rounded-lg flex items-center justify-center transition-all shadow-sm
                     ${isActive 
-                      ? 'bg-gradient-to-br from-blue-600 to-indigo-700 text-white' 
-                      : 'bg-white text-slate-400 group-hover:text-blue-500 group-hover:bg-blue-50/50'
+                      ? 'bg-gradient-to-br from-brand-600 to-brand-700 text-white' 
+                      : 'bg-white text-slate-400 group-hover:text-brand-500 group-hover:bg-brand-50/50'
                     }
                   `}>
                     <section.icon className={`h-4 w-4 ${isActive ? 'animate-pulse' : ''}`} />
@@ -491,7 +491,7 @@ export function GuideDetailed() {
                   {isActive && (
                     <motion.div 
                       layoutId="activeTabGlow" 
-                      className="absolute -left-2 top-1/2 -translate-y-1/2 h-10 w-1 bg-blue-600 rounded-r-full shadow-lg shadow-blue-500/50"
+                      className="absolute -left-2 top-1/2 -translate-y-1/2 h-10 w-1 bg-brand-600 rounded-r-full shadow-lg shadow-brand-500/50"
                     />
                   )}
                 </button>
@@ -505,7 +505,7 @@ export function GuideDetailed() {
           {/* Section Progress bar */}
           <div className="sticky top-[69px] z-40 h-1 w-full bg-slate-100/50 backdrop-blur-sm pointer-events-none">
             <motion.div 
-              className="h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+              className="h-full bg-brand-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]"
               initial={{ width: 0 }}
               animate={{ width: `${((SECTIONS.findIndex(s => s.id === activeSectionId) + 1) / SECTIONS.length) * 100}%` }}
               transition={{ type: "spring", stiffness: 50, damping: 20 }}
@@ -571,7 +571,7 @@ function SectionContent({ id }) {
           <SectionHeader 
             title="Getting started" 
             icon={BookOpen} 
-            color="bg-blue-100 text-blue-600"
+            color="bg-brand-100 text-brand-600"
             subtitle="Centralised construction management"
           />
           <AnimatedBlock className="prose prose-slate prose-lg max-w-none prose-p:text-slate-600">
@@ -672,7 +672,7 @@ function SectionContent({ id }) {
           <SectionHeader 
             title="Clients, projects & revenue" 
             icon={Layers} 
-            color="bg-indigo-100 text-indigo-600"
+            color="bg-brand-100 text-brand-600"
             subtitle="Who you work for and money in"
           />
           <AnimatedBlock className="prose prose-slate prose-lg max-w-none prose-p:text-slate-600">
@@ -680,7 +680,7 @@ function SectionContent({ id }) {
           </AnimatedBlock>
 
           <h3 className="text-lg font-bold text-slate-900 mt-8 mb-2 flex items-center gap-2">
-            <Users className="h-5 w-5 text-indigo-500" />
+            <Users className="h-5 w-5 text-brand-500" />
             Clients
           </h3>
           <ProcessFlow 
@@ -722,13 +722,13 @@ function SectionContent({ id }) {
             ]}
           />
           <AnimatedBlock className="not-prose flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-500">
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-500" /> Dedicated P&L</span>
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-500" /> Independent cost tracking</span>
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-500" /> Site-specific data</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-500" /> Dedicated P&L</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-500" /> Independent cost tracking</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-500" /> Site-specific data</span>
           </AnimatedBlock>
 
           <h3 className="text-lg font-bold text-slate-900 mt-8 mb-2 flex items-center gap-2">
-            <Wallet className="h-5 w-5 text-blue-600" />
+            <Wallet className="h-5 w-5 text-brand-600" />
             Payment stages
           </h3>
           <ProcessFlow 
@@ -741,12 +741,12 @@ function SectionContent({ id }) {
             ]}
           />
           <AnimatedBlock className="not-prose flex flex-wrap justify-center gap-4 text-sm font-medium text-slate-500">
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-600" /> Multi-receipt tracking</span>
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-600" /> Automatic status updates</span>
-             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-blue-600" /> Clear audit trail</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-600" /> Multi-receipt tracking</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-600" /> Automatic status updates</span>
+             <span className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand-600" /> Clear audit trail</span>
           </AnimatedBlock>
 
-          <AnimatedBlock className="text-center pt-4 italic text-indigo-600/70 text-sm border-t border-indigo-50">
+          <AnimatedBlock className="text-center pt-4 italic text-brand-600/70 text-sm border-t border-brand-50">
             Keep contact details consistent, manage by project, and always know how much the client has paid and how much is still due.
           </AnimatedBlock>
         </SectionWrapper>
@@ -824,7 +824,7 @@ function SectionContent({ id }) {
           </AnimatedBlock>
 
           <h3 className="text-lg font-bold text-slate-900 mt-8 mb-2 flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-indigo-600" />
+            <Briefcase className="h-5 w-5 text-brand-600" />
             Associates
           </h3>
           <ProcessFlow 
@@ -838,7 +838,7 @@ function SectionContent({ id }) {
           />
 
           <h3 className="text-lg font-bold text-slate-900 mt-8 mb-2 flex items-center gap-2">
-            <FileText className="h-5 w-5 text-blue-600" />
+            <FileText className="h-5 w-5 text-brand-600" />
             Bills
           </h3>
           <ProcessFlow 
@@ -852,7 +852,7 @@ function SectionContent({ id }) {
           />
           <AnimatedBlock className="not-prose grid sm:grid-cols-2 gap-3">
             <Card variant="blue" className="!p-4 !rounded-2xl">
-               <span className="font-bold text-xs uppercase tracking-wider text-blue-600">Receivables</span>
+               <span className="font-bold text-xs uppercase tracking-wider text-brand-600">Receivables</span>
                <p className="text-xs text-slate-500 mt-1">Invoices sent to clients for extra work.</p>
             </Card>
             <Card variant="rose" className="!p-4 !rounded-2xl">
@@ -988,7 +988,7 @@ function SectionFooter({ currentId }) {
               onClick={() => window.location.hash = prev.id}
               className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all text-left w-full relative overflow-hidden"
             >
-              <div className="h-10 w-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+              <div className="h-10 w-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                 <ChevronLeft className="h-5 w-5" />
               </div>
               <div className="relative z-10">
@@ -1006,7 +1006,7 @@ function SectionFooter({ currentId }) {
               onClick={() => window.location.hash = next.id}
               className="group flex flex-row-reverse items-center justify-start gap-4 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all text-right w-full relative overflow-hidden"
             >
-              <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+              <div className="h-10 w-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-600 group-hover:text-white transition-colors">
                 <ChevronRight className="h-5 w-5" />
               </div>
               <div className="relative z-10">

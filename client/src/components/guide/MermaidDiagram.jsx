@@ -5,7 +5,17 @@ import mermaid from 'mermaid';
 let mermaidInitialized = false;
 function ensureMermaidInit() {
   if (mermaidInitialized) return;
-  mermaid.initialize({ startOnLoad: false });
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#eef5fb',
+      primaryBorderColor: '#1f5288',
+      primaryTextColor: '#0a1f37',
+      lineColor: '#4d86bf',
+      fontFamily: 'Outfit, ui-sans-serif, system-ui, sans-serif',
+    },
+  });
   mermaidInitialized = true;
 }
 
@@ -46,7 +56,7 @@ export function MermaidDiagram({ chart, className = '' }) {
   return (
     <div
       ref={containerRef}
-      className={`mermaid-container flex justify-center overflow-x-auto rounded border border-gray-200 bg-gray-50 p-4 [&>svg]:max-w-full ${className}`}
+      className={`mermaid-container flex justify-center overflow-x-auto rounded-xl border border-slate-200 bg-slate-50 p-4 [&>svg]:max-w-full ${className}`}
     />
   );
 }

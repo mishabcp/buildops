@@ -10,9 +10,8 @@ import {
   Package,
   CircleDollarSign,
   Settings,
-  Menu,
   BookOpen,
-  ChevronLeft
+  ChevronLeft,
 } from 'lucide-react';
 
 const nav = [
@@ -32,14 +31,12 @@ export function Sidebar() {
   const setSidebarOpen = uiStore((s) => s.setSidebarOpen);
 
   const closeSidebar = () => setSidebarOpen(false);
-
   const closeSidebarOnNav = () => {
     if (window.innerWidth < 1024) closeSidebar();
   };
 
   return (
     <>
-      {/* Mobile Overlay */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.div
@@ -47,34 +44,45 @@ export function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeSidebar}
-            className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-brand-950/60 backdrop-blur-sm lg:hidden"
           />
         )}
       </AnimatePresence>
 
-
       <aside
         className={cn(
-          'fixed left-0 top-0 z-50 h-full w-72 border-r border-slate-200 bg-white text-slate-900 transition-all duration-300 ease-in-out lg:w-64 lg:translate-x-0',
+          'fixed left-0 top-0 z-50 flex h-full w-72 flex-col bg-brand-900 text-slate-300 transition-all duration-300 ease-in-out lg:w-64 lg:translate-x-0',
           sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'
         )}
       >
-        <div className="flex h-16 items-center justify-between gap-2 border-b border-slate-100 px-6">
-           <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
-                <BookOpen className="h-4 w-4" />
-              </div>
-              <span className="font-black text-slate-950 tracking-tighter uppercase whitespace-nowrap">Buildops</span>
-           </div>
-           {/* Mobile Close Button */}
-           <button 
-             onClick={closeSidebar}
-             className="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors"
-           >
-             <ChevronLeft className="h-5 w-5" />
-           </button>
+        {/* Decorative glow */}
+        <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 rounded-full bg-accent-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-10 bottom-24 h-40 w-40 rounded-full bg-brand-500/20 blur-3xl" />
+
+        {/* Brand */}
+        <div className="relative flex h-20 items-center justify-between gap-2 px-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-lg shadow-brand-950/40 ring-1 ring-white/20">
+              <img src="/logo.png" alt="Buildops logo" className="h-10 w-10 object-contain" />
+            </div>
+            <div className="leading-none">
+              <span className="block text-lg font-black uppercase tracking-tight text-white">Buildops</span>
+              <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.2em] text-accent-400">
+                Construction OS
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={closeSidebar}
+            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
         </div>
-        <nav className="flex flex-col gap-1.5 p-4">
+
+        {/* Nav */}
+        <nav className="relative flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
+          <p className="px-3 pb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Menu</p>
           {nav.map(({ to, label, icon: Icon }) => {
             const isActive = location.pathname === to || (to !== '/' && location.pathname.startsWith(to));
             return (
@@ -83,24 +91,37 @@ export function Sidebar() {
                 to={to}
                 onClick={closeSidebarOnNav}
                 className={cn(
-                  'flex items-center gap-3.5 rounded-xl px-3.5 py-3 text-sm font-bold transition-all group relative',
+                  'group relative flex items-center gap-3.5 rounded-xl px-3.5 py-3 text-sm font-bold transition-all',
                   isActive
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-950 hover:translate-x-1'
+                    ? 'bg-white text-brand-900 shadow-lg shadow-brand-950/30'
+                    : 'text-slate-300 hover:bg-white/10 hover:text-white'
                 )}
               >
-                <Icon className={cn("h-5 w-5 shrink-0 transition-transform group-hover:scale-110", isActive ? "text-white" : "text-slate-400 group-hover:text-blue-600")} />
-                <span className="tracking-tight uppercase text-xs">{label}</span>
+                <Icon
+                  className={cn(
+                    'h-5 w-5 shrink-0 transition-transform group-hover:scale-110',
+                    isActive ? 'text-accent-500' : 'text-slate-400 group-hover:text-accent-400'
+                  )}
+                />
+                <span className="text-xs uppercase tracking-wide">{label}</span>
                 {isActive && (
-                   <motion.div 
-                     layoutId="sidebarActiveGlow"
-                     className="absolute -right-1 top-1/2 -translate-y-1/2 h-8 w-1 bg-white rounded-l-full shadow-lg shadow-blue-500/50"
-                   />
+                  <motion.div
+                    layoutId="sidebarActiveBar"
+                    className="absolute -left-3 top-1/2 h-7 w-1 -translate-y-1/2 rounded-r-full bg-accent-400"
+                  />
                 )}
               </Link>
             );
           })}
         </nav>
+
+        {/* Footer */}
+        <div className="relative border-t border-white/10 p-4">
+          <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+            <p className="text-[11px] font-bold text-white">Buildops MVP</p>
+            <p className="mt-0.5 text-[10px] font-medium text-slate-400">Manage projects, money & materials.</p>
+          </div>
+        </div>
       </aside>
     </>
   );

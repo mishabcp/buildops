@@ -133,7 +133,7 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
                 key={b.id} 
                 className={cn(
                   "rounded-2xl border transition-all duration-200 bg-white overflow-hidden shadow-sm hover:shadow-md",
-                  isExpanded ? "border-blue-200/60 ring-4 ring-blue-500/5 shadow-md" : "border-slate-200/60"
+                  isExpanded ? "border-brand-200/60 ring-4 ring-brand-500/5 shadow-md" : "border-slate-200/60"
                 )}
               >
                 <div className="p-4 sm:p-5 flex flex-col gap-4">
@@ -162,7 +162,7 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
                         </div>
                       </div>
                     </div>
-                    <button type="button" className="text-slate-300 hover:text-blue-600 transition-colors shrink-0 bg-slate-50 border border-slate-100 p-1.5 rounded-lg ml-2">
+                    <button type="button" className="text-slate-300 hover:text-brand-600 transition-colors shrink-0 bg-slate-50 border border-slate-100 p-1.5 rounded-lg ml-2">
                       {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                     </button>
                   </div>
@@ -194,7 +194,7 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
                     <Button 
                       size="sm" 
                       onClick={(e) => { e.stopPropagation(); setPaymentBill(b); }}
-                      className="h-9 rounded-xl gap-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold shadow-none border border-blue-100 px-4 transition-all" 
+                      className="h-9 rounded-xl gap-2 bg-brand-50 text-brand-700 hover:bg-brand-600 hover:text-white font-bold shadow-none border border-brand-100 px-4 transition-all" 
                     >
                       <Receipt className="h-3.5 w-3.5" />
                       Clear Dues

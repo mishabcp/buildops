@@ -27,7 +27,7 @@ export function Settings() {
 
   return (
     <PageWrapper>
-      <div className="mx-auto max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">System Configuration</h1>
         {/* Header & Tabs */}
         <div className="mb-8">
@@ -40,11 +40,11 @@ export function Settings() {
                 className={cn(
                   'flex items-center gap-2.5 whitespace-nowrap border-b-2 py-4 text-[15px] font-semibold transition-all duration-200 outline-none',
                   tab === 'branches'
-                    ? 'border-blue-600 text-blue-700'
+                    ? 'border-brand-600 text-brand-700'
                     : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800'
                 )}
               >
-                <Building2 className={cn("h-4 w-4 shrink-0 transition-colors", tab === 'branches' ? "text-blue-600" : "text-slate-400")} />
+                <Building2 className={cn("h-4 w-4 shrink-0 transition-colors", tab === 'branches' ? "text-brand-600" : "text-slate-400")} />
                 Branch Configuration
               </button>
               
@@ -53,11 +53,11 @@ export function Settings() {
                 className={cn(
                   'flex items-center gap-2.5 whitespace-nowrap border-b-2 py-4 text-[15px] font-semibold transition-all duration-200 outline-none',
                   tab === 'users'
-                    ? 'border-blue-600 text-blue-700'
+                    ? 'border-brand-600 text-brand-700'
                     : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800'
                 )}
               >
-                <Users className={cn("h-4 w-4 shrink-0 transition-colors", tab === 'users' ? "text-blue-600" : "text-slate-400")} />
+                <Users className={cn("h-4 w-4 shrink-0 transition-colors", tab === 'users' ? "text-brand-600" : "text-slate-400")} />
                 User Management
               </button>
             </nav>

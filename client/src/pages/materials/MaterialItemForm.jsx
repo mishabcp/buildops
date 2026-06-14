@@ -84,7 +84,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
               <div className="relative">
                 <Box className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                 <select
-                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer"
+                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer"
                   value={form.materialId}
                   onChange={(e) => setForm((f) => ({ ...f, materialId: e.target.value }))}
                   required
@@ -104,7 +104,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
                   {isPurchase ? (
                      <PackagePlus className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-500" />
                   ) : (
-                     <Activity className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-500" />
+                     <Activity className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500" />
                   )}
                   <Input 
                     type="number" 
@@ -112,7 +112,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
                     min="0.01" 
                     value={form.quantity} 
                     onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-bold text-[15px] transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-bold text-[15px] transition-all"
                     placeholder="0.0"
                     required 
                   />
@@ -127,7 +127,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
                     type="date" 
                     value={form.date} 
                     onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                     required 
                   />
                 </div>
@@ -148,7 +148,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
                         min="0" 
                         value={form.ratePerUnit} 
                         onChange={(e) => setForm((f) => ({ ...f, ratePerUnit: e.target.value }))} 
-                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                         placeholder="0.00"
                       />
                     </div>
@@ -177,7 +177,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
                     <Input 
                       value={form.supplierName} 
                       onChange={(e) => setForm((f) => ({ ...f, supplierName: e.target.value }))} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       placeholder="Vendor or shop name..."
                     />
                   </div>
@@ -190,7 +190,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
               <div className="relative">
                 <FileText className="absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
                 <textarea 
-                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 resize-y" 
+                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 resize-y" 
                   value={form.notes} 
                   onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} 
                   rows={2} 
@@ -213,7 +213,7 @@ export function MaterialItemForm({ type, materials, onSave, onClose }) {
             <Button 
               type="submit" 
               className={`flex-1 h-12 rounded-xl text-white shadow-lg transition-all font-bold hover:shadow-xl hover:-translate-y-0.5 ${
-                isPurchase ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20" : "bg-blue-600 hover:bg-blue-700 shadow-blue-500/20"
+                isPurchase ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20" : "bg-brand-600 hover:bg-brand-700 shadow-brand-500/20"
               }`}
               disabled={saving}
             >

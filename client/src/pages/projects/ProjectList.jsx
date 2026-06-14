@@ -16,7 +16,7 @@ const STATUS_STYLES = {
   COMPLETED: 'bg-slate-100 text-slate-600 border-slate-200/80',
   ON_HOLD: 'bg-amber-50 text-amber-700 border-amber-200/60',
   CANCELLED: 'bg-red-50 text-red-700 border-red-200/60',
-  ENQUIRY: 'bg-blue-50 text-blue-700 border-blue-200/60',
+  ENQUIRY: 'bg-brand-50 text-brand-700 border-brand-200/60',
 };
 
 export function ProjectList() {
@@ -76,22 +76,22 @@ export function ProjectList() {
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex-1 flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
             <div className="relative w-full sm:max-w-md group">
-              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-500 transition-colors" />
               <Input
                 placeholder="Search projects or clients..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10 h-11 bg-white border-slate-200/80 shadow-sm focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all rounded-xl w-full text-[15px] font-medium"
+                className="pl-10 h-11 bg-white border-slate-200/80 shadow-sm focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 transition-all rounded-xl w-full text-[15px] font-medium"
               />
             </div>
             
             <div className="flex w-full sm:w-auto items-center gap-3">
               <div className="relative group flex-1 sm:flex-none">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-blue-500">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-brand-500">
                   <Filter className="h-4 w-4" />
                 </div>
                 <select
-                  className="w-full sm:w-auto appearance-none h-11 rounded-xl border border-slate-200/80 bg-white pl-9 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 hover:border-slate-300 cursor-pointer"
+                  className="w-full sm:w-auto appearance-none h-11 rounded-xl border border-slate-200/80 bg-white pl-9 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 hover:border-slate-300 cursor-pointer"
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 >
@@ -106,11 +106,11 @@ export function ProjectList() {
 
               {isSuperAdmin && (
                 <div className="relative group flex-1 sm:flex-none">
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-blue-500">
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-brand-500">
                     <GitBranch className="h-4 w-4" />
                   </div>
                   <select
-                    className="w-full sm:w-auto appearance-none h-11 rounded-xl border border-slate-200/80 bg-white pl-9 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 hover:border-slate-300 cursor-pointer"
+                    className="w-full sm:w-auto appearance-none h-11 rounded-xl border border-slate-200/80 bg-white pl-9 pr-10 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 hover:border-slate-300 cursor-pointer"
                     value={branchId}
                     onChange={(e) => setBranchId(e.target.value)}
                   >
@@ -186,7 +186,7 @@ export function ProjectList() {
                     {projects.map((p) => (
                       <tr key={p.id} className="group transition-colors hover:bg-slate-50/70 border-b border-slate-50 last:border-0">
                         <td className="py-4 px-5">
-                          <Link to={`/projects/${p.id}`} className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">
+                          <Link to={`/projects/${p.id}`} className="font-bold text-slate-900 group-hover:text-brand-600 transition-colors text-[15px]">
                             {p.name}
                           </Link>
                         </td>
@@ -226,7 +226,7 @@ export function ProjectList() {
                         <td className="py-4 px-5 text-right">
                           <Link 
                             to={`/projects/${p.id}`}
-                            className="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-blue-600 hover:shadow-sm ring-1 ring-slate-200/0 hover:ring-slate-200"
+                            className="inline-flex items-center justify-center h-8 w-8 rounded-lg text-slate-400 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-brand-600 hover:shadow-sm ring-1 ring-slate-200/0 hover:ring-slate-200"
                           >
                             <ArrowRight className="h-4 w-4" />
                           </Link>
@@ -260,7 +260,7 @@ export function ProjectList() {
                                 {formatCurrency(p.balance)}
                              </span>
                           </div>
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-50 text-brand-600">
                              <ArrowRight className="h-4 w-4" />
                           </div>
                        </div>

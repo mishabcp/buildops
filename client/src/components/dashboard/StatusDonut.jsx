@@ -2,9 +2,9 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const STATUS_COLORS = {
   ACTIVE: '#059669',
-  COMPLETED: '#64748b',
+  COMPLETED: '#1f5288',
   ON_HOLD: '#d97706',
-  ENQUIRY: '#2563eb',
+  ENQUIRY: '#2c69a6',
   CANCELLED: '#94a3b8',
 };
 
@@ -57,8 +57,8 @@ export function StatusDonut({ data }) {
         </ResponsiveContainer>
         {/* Center label */}
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-gray-800">{total}</span>
-          <span className="text-xs text-gray-400">Projects</span>
+          <span className="text-2xl font-bold text-brand-950 tabular">{total}</span>
+          <span className="text-xs font-medium text-slate-500">Projects</span>
         </div>
       </div>
 
@@ -70,8 +70,8 @@ export function StatusDonut({ data }) {
               className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: STATUS_COLORS[entry.rawStatus] ?? '#94a3b8' }}
             />
-            <span className="text-xs text-gray-500">
-              {entry.name} <strong className="text-gray-700">({entry.value})</strong>
+            <span className="text-xs font-medium text-slate-600">
+              {entry.name} <strong className="text-slate-800">({entry.value})</strong>
             </span>
           </div>
         ))}

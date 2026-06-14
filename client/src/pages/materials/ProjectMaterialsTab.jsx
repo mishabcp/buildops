@@ -152,7 +152,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
               <Button 
                 onClick={() => setShowUsageForm(true)} 
                 disabled={isStaff} 
-                className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-900/10 font-bold transition-all hover:-translate-y-0.5"
+                className="hidden sm:flex h-10 px-5 rounded-xl gap-2 bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-900/10 font-bold transition-all hover:-translate-y-0.5"
               >
                 <Plus className="h-4 w-4" />
                 Log Usage
@@ -279,8 +279,8 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                       <span className="text-[12px] sm:text-[14px] font-bold text-slate-700 truncate">{formatCurrency(i.ratePerUnit)}</span>
                     </div>
                     <div className="flex flex-col text-right">
-                      <span className="text-[9px] sm:text-[10px] text-blue-600/70 font-black uppercase tracking-widest mb-1">Total Cost</span>
-                      <span className="text-[12px] sm:text-[14px] font-black text-blue-600 truncate">
+                      <span className="text-[9px] sm:text-[10px] text-brand-600/70 font-black uppercase tracking-widest mb-1">Total Cost</span>
+                      <span className="text-[12px] sm:text-[14px] font-black text-brand-600 truncate">
                         {formatCurrency(i.totalCost)}
                       </span>
                     </div>
@@ -315,7 +315,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
               <h3 className="text-lg font-bold text-slate-900 mb-1">No Usage Logs</h3>
               <p className="text-slate-500 font-medium max-w-sm mb-6">Track materials withdrawn from inventory for this project.</p>
               <Button 
-                className="h-11 px-6 rounded-xl font-bold bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/50 shadow-sm"
+                className="h-11 px-6 rounded-xl font-bold bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200/50 shadow-sm"
                 onClick={() => setShowUsageForm(true)} 
                 disabled={isStaff}
               >
@@ -342,14 +342,14 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                         <td className="py-4 px-6 font-medium text-slate-600">{formatDate(i.date)}</td>
                         <td className="py-4 px-6 font-bold text-slate-900">
                             <div className="flex items-center gap-3">
-                               <div className="h-8 w-8 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-100 shrink-0">
-                                 <Activity className="h-3.5 w-3.5 text-blue-600" />
+                               <div className="h-8 w-8 rounded-lg bg-brand-50 flex items-center justify-center border border-brand-100 shrink-0">
+                                 <Activity className="h-3.5 w-3.5 text-brand-600" />
                                </div>
                                {i.material?.name}
                             </div>
                         </td>
                         <td className="py-4 px-6">
-                           <span className="inline-flex items-center font-bold text-blue-800 bg-blue-50 px-3 py-1 rounded-lg border border-blue-100/50">
+                           <span className="inline-flex items-center font-bold text-brand-800 bg-brand-50 px-3 py-1 rounded-lg border border-brand-100/50">
                              {Number(i.quantity)} <span className="text-[10px] ml-1 uppercase">{i.material?.unit}</span>
                            </span>
                         </td>
@@ -378,7 +378,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                     {/* Card Header */}
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0 shadow-sm">
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0 shadow-sm">
                           <Activity className="h-5 w-5" />
                         </div>
                         <div className="min-w-0">
@@ -406,7 +406,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                     <div className="grid grid-cols-2 gap-4 border-y border-slate-50 py-4">
                       <div className="flex flex-col">
                         <span className="text-[9px] sm:text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Quantity Logged</span>
-                        <span className="text-[14px] sm:text-[16px] font-bold text-blue-700 truncate leading-none">
+                        <span className="text-[14px] sm:text-[16px] font-bold text-brand-700 truncate leading-none">
                           {Number(i.quantity)} <span className="text-[10px] uppercase opacity-60">{i.material?.unit}</span>
                         </span>
                       </div>
@@ -438,7 +438,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
           onClick={() => subTab === 'purchases' ? setShowPurchaseForm(true) : setShowUsageForm(true)}
           className={cn(
             "fixed bottom-6 right-6 z-[60] h-14 w-14 rounded-full border border-white/20 text-white shadow-2xl transition-all hover:scale-110 active:scale-95 sm:hidden flex items-center justify-center p-0",
-            subTab === 'purchases' ? "bg-emerald-600" : "bg-blue-600"
+            subTab === 'purchases' ? "bg-emerald-600" : "bg-brand-600"
           )}
           aria-label={subTab === 'purchases' ? "Add purchase" : "Log usage"}
         >

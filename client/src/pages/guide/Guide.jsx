@@ -42,13 +42,13 @@ export function Guide() {
   const token = authStore((s) => s.token);
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-24 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-slate-50 pb-24 font-sans selection:bg-brand-100 selection:text-brand-900">
       {/* Header */}
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-200">
+              <div className="h-10 w-10 rounded-lg bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-200">
                 <BookOpen className="h-5 w-5" />
               </div>
               <div>
@@ -58,7 +58,7 @@ export function Guide() {
             <div className="flex items-center gap-2">
               <Link
                 to="/guide/detailed"
-                className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-blue-600 text-white text-[13px] sm:text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-brand-600 text-white text-[13px] sm:text-sm font-semibold hover:bg-brand-700 transition-colors shadow-sm"
               >
                 <span className="hidden xs:inline">View detailed guide</span>
                 <span className="xs:hidden">Details</span>
@@ -88,7 +88,7 @@ export function Guide() {
           className="relative overflow-hidden rounded-3xl bg-slate-900 px-8 py-16 text-white shadow-2xl"
         >
           <div className="relative z-10 max-w-3xl">
-            <span className="inline-block px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
+            <span className="inline-block px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-xs font-bold uppercase tracking-wider mb-6 border border-brand-500/30">
               Overview
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 sm:mb-6 tracking-tight leading-tight">What is Buildops?</h2>
@@ -97,33 +97,33 @@ export function Guide() {
             </p>
             <div className="grid sm:grid-cols-2 gap-6 text-slate-300 text-sm">
               <div className="flex items-start gap-3">
-                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                <div className="mt-1 h-5 w-5 rounded bg-brand-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-brand-400" />
                 </div>
                 <span>See all your project finances in one place</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                <div className="mt-1 h-5 w-5 rounded bg-brand-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-brand-400" />
                 </div>
                 <span>Profit and loss views and reports you can export</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                <div className="mt-1 h-5 w-5 rounded bg-brand-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-brand-400" />
                 </div>
                 <span>Labour, materials, and other costs per project</span>
               </div>
               <div className="flex items-start gap-3">
-                <div className="mt-1 h-5 w-5 rounded bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-3 w-3 text-blue-400" />
+                <div className="mt-1 h-5 w-5 rounded bg-brand-500/20 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="h-3 w-3 text-brand-400" />
                 </div>
                 <span>Client payments by stage, with balances updated for you</span>
               </div>
             </div>
           </div>
           {/* Decorative background element */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+          <div className="absolute top-0 right-0 -mr-20 -mt-20 h-64 w-64 rounded-full bg-brand-500/10 blur-3xl"></div>
           <div className="absolute bottom-0 right-0 mr-10 mb-10 opacity-10">
             <Box className="h-64 w-64 text-white" />
           </div>
@@ -139,7 +139,7 @@ export function Guide() {
             className="mb-12"
           >
             <div className="flex items-center gap-3 mb-4">
-              <Workflow className="h-6 w-6 text-blue-600" />
+              <Workflow className="h-6 w-6 text-brand-600" />
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Standard Workflow</h2>
             </div>
             <p className="text-sm sm:text-slate-600 max-w-2xl">
@@ -170,7 +170,7 @@ export function Guide() {
                   variants={fadeIn}
                   className="flex lg:flex-col items-center gap-4 lg:gap-6 text-center lg:text-center"
                 >
-                  <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] rounded-full bg-blue-50 border-4 border-white shadow-sm flex items-center justify-center text-blue-600 font-bold text-xl relative">
+                  <div className="flex-shrink-0 h-[4.5rem] w-[4.5rem] rounded-full bg-brand-50 border-4 border-white shadow-sm flex items-center justify-center text-brand-600 font-bold text-xl relative">
                     {item.step}
                     {idx < 4 && <ChevronRight className="hidden lg:block absolute -right-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300" />}
                   </div>
@@ -223,12 +223,12 @@ export function Guide() {
                 key={idx}
                 variants={fadeIn}
                 whileHover={{ scale: 1.02 }}
-                className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-blue-200 transition-all shadow-sm hover:shadow-md"
+                className="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-brand-200 transition-all shadow-sm hover:shadow-md"
               >
-                <div className="h-12 w-12 rounded-xl bg-slate-50 text-slate-600 mb-6 flex items-center justify-center transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                <div className="h-12 w-12 rounded-xl bg-slate-50 text-slate-600 mb-6 flex items-center justify-center transition-colors group-hover:bg-brand-50 group-hover:text-brand-600">
                   <feature.icon className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">{feature.title}</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-brand-700 transition-colors">{feature.title}</h3>
                 <p className="text-sm text-slate-500 leading-relaxed">{feature.desc}</p>
               </motion.div>
             ))}
@@ -257,7 +257,7 @@ export function Guide() {
                 { role: 'Staff', access: 'Sees only their office; can add and edit, but cannot delete records.' },
               ].map((role, idx) => (
                 <div key={idx} className="flex gap-4 p-4 rounded-xl bg-white border border-slate-100 shadow-sm">
-                  <div className="mt-1 h-2 w-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+                  <div className="mt-1 h-2 w-2 rounded-full bg-brand-500 flex-shrink-0"></div>
                   <div>
                     <h4 className="font-bold text-slate-900 text-sm">{role.role}</h4>
                     <p className="text-xs text-slate-500 mt-1">{role.access}</p>
@@ -274,7 +274,7 @@ export function Guide() {
              variants={fadeIn}
              className="relative"
           >
-            <div className="aspect-square rounded-3xl bg-blue-600 p-8 shadow-2xl flex flex-col justify-center text-white overflow-hidden">
+            <div className="aspect-square rounded-3xl bg-brand-600 p-8 shadow-2xl flex flex-col justify-center text-white overflow-hidden">
                <ShieldCheck className="h-32 w-32 mb-8 opacity-20 absolute top-4 right-4" />
                <div className="relative z-10">
                  <h3 className="text-2xl font-bold mb-4 italic">"Your data stays in your control, with access limited by role."</h3>
@@ -296,7 +296,7 @@ export function Guide() {
             whileInView="animate"
             viewport={{ once: true }}
             variants={fadeIn}
-            className="bg-indigo-900 rounded-[3rem] p-8 sm:p-16 text-white overflow-hidden shadow-2xl"
+            className="bg-brand-900 rounded-[3rem] p-8 sm:p-16 text-white overflow-hidden shadow-2xl"
           >
             <div className="relative z-10 grid lg:grid-cols-2 gap-12">
               <div>
@@ -309,12 +309,12 @@ export function Guide() {
                     { step: 4, title: 'Use the project tabs', text: 'Record payment stages, labour, materials, associates, bills, and expenses in the project.' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex gap-6 items-start">
-                      <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center font-bold text-indigo-200 border border-white/20 shrink-0">
+                      <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center font-bold text-brand-200 border border-white/20 shrink-0">
                         {item.step}
                       </div>
                       <div>
                         <h4 className="font-bold text-lg">{item.title}</h4>
-                        <p className="text-indigo-200 text-sm mt-1">{item.text}</p>
+                        <p className="text-brand-200 text-sm mt-1">{item.text}</p>
                       </div>
                     </div>
                   ))}
@@ -322,17 +322,17 @@ export function Guide() {
               </div>
 
               <div className="hidden lg:flex items-center justify-center relative">
-                <div className="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
+                <div className="absolute inset-0 bg-brand-500/20 blur-[100px] rounded-full"></div>
                 <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 w-full max-w-sm">
                   <div className="space-y-4">
                     <div className="h-3 w-3/4 rounded bg-white/20"></div>
                     <div className="h-3 w-1/2 rounded bg-white/10"></div>
                     <div className="pt-4 grid grid-cols-2 gap-3">
-                      <div className="h-12 rounded-lg bg-indigo-500/20"></div>
-                      <div className="h-12 rounded-lg bg-indigo-500/20"></div>
+                      <div className="h-12 rounded-lg bg-brand-500/20"></div>
+                      <div className="h-12 rounded-lg bg-brand-500/20"></div>
                     </div>
-                    <div className="h-24 rounded-xl bg-indigo-500/20"></div>
-                    <div className="h-10 w-full rounded-lg bg-blue-500 flex items-center justify-center text-xs font-bold uppercase tracking-widest">
+                    <div className="h-24 rounded-xl bg-brand-500/20"></div>
+                    <div className="h-10 w-full rounded-lg bg-brand-500 flex items-center justify-center text-xs font-bold uppercase tracking-widest">
                       Dashboard Active
                     </div>
                   </div>
@@ -352,11 +352,11 @@ export function Guide() {
             className="mb-12"
           >
             <div className="flex items-center gap-3 mb-4">
-              <Key className="h-6 w-6 text-blue-600" />
+              <Key className="h-6 w-6 text-brand-600" />
               <h2 className="text-3xl font-bold text-slate-900">Demo Environment</h2>
             </div>
             <p className="text-slate-600">
-              Try the system with sample data. Use password <code className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-mono font-bold tracking-tight">admin123</code> for all accounts below.
+              Try the system with sample data. Use password <code className="bg-brand-50 text-brand-700 px-2 py-0.5 rounded font-mono font-bold tracking-tight">admin123</code> for all accounts below.
             </p>
           </motion.div>
 

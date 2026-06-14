@@ -35,7 +35,7 @@ const STATUS_STYLES = {
   COMPLETED: 'bg-slate-100 text-slate-600 border-slate-200/80',
   ON_HOLD: 'bg-amber-50 text-amber-700 border-amber-200/60',
   CANCELLED: 'bg-red-50 text-red-700 border-red-200/60',
-  ENQUIRY: 'bg-blue-50 text-blue-700 border-blue-200/60',
+  ENQUIRY: 'bg-brand-50 text-brand-700 border-brand-200/60',
 };
 
 const TABS = [
@@ -110,7 +110,7 @@ export function ProjectDetail() {
         <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/60 shadow-sm mb-8">
            {/* Abstract Header Background */}
           <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-slate-50 to-transparent pointer-events-none" />
-          <div className="absolute -top-12 -right-12 h-64 w-64 bg-blue-50/50 rounded-full blur-3xl" />
+          <div className="absolute -top-12 -right-12 h-64 w-64 bg-brand-50/50 rounded-full blur-3xl" />
           
           <div className="relative p-5 sm:p-8 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
             <div className="space-y-4">
@@ -125,7 +125,7 @@ export function ProjectDetail() {
                     project.status === 'ACTIVE' ? "bg-emerald-500" :
                     project.status === 'ON_HOLD' ? "bg-amber-500" :
                     project.status === 'CANCELLED' ? "bg-red-500" :
-                    project.status === 'ENQUIRY' ? "bg-blue-500" : "bg-slate-400"
+                    project.status === 'ENQUIRY' ? "bg-brand-500" : "bg-slate-400"
                   )} />
                   {project.status?.replace(/_/g, ' ')}
                 </span>
@@ -171,11 +171,11 @@ export function ProjectDetail() {
                     className={cn(
                       'flex items-center gap-2.5 whitespace-nowrap border-b-2 px-1 py-4 text-[14px] font-semibold transition-all duration-200 outline-none',
                       isActive
-                        ? 'border-blue-600 text-blue-700'
+                        ? 'border-brand-600 text-brand-700'
                         : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
                     )}
                   >
-                    <tab.icon className={cn("h-4 w-4 shrink-0 transition-colors", isActive ? "text-blue-600" : "text-slate-400")} />
+                    <tab.icon className={cn("h-4 w-4 shrink-0 transition-colors", isActive ? "text-brand-600" : "text-slate-400")} />
                     {tab.label}
                   </button>
                 )
@@ -259,15 +259,15 @@ function OverviewTab({ project, summary }) {
           label="Est. Project Profit" 
           value={formatCurrency(summary.estimatedProfit)} 
           icon={LayoutDashboard}
-          accent={isProfitable ? "from-blue-400 to-indigo-500" : "from-red-400 to-rose-500"}
-          valueClass={isProfitable ? "text-blue-700" : "text-red-700"}
+          accent={isProfitable ? "from-brand-400 to-brand-500" : "from-red-400 to-rose-500"}
+          valueClass={isProfitable ? "text-brand-700" : "text-red-700"}
         />
         <StatCard 
           label="Gross Profit Margin" 
           value={`${summary.profitMargin?.toFixed(1) ?? 0}%`} 
           icon={Percent}
-          accent={isProfitable ? "from-indigo-400 to-violet-500" : "from-slate-300 to-slate-400"}
-          valueClass={isProfitable ? "text-indigo-700" : "text-slate-500"}
+          accent={isProfitable ? "from-brand-400 to-violet-500" : "from-slate-300 to-slate-400"}
+          valueClass={isProfitable ? "text-brand-700" : "text-slate-500"}
         />
       </div>
 
@@ -325,7 +325,7 @@ function BreakdownRow({ label, value, total }) {
        {/* Mini Progress Bar */}
        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-slate-300 group-hover:bg-blue-400 transition-colors duration-500 rounded-full" 
+            className="h-full bg-slate-300 group-hover:bg-brand-400 transition-colors duration-500 rounded-full" 
             style={{ width: `${percentage}%` }} 
           />
        </div>

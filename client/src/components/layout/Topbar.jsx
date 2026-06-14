@@ -1,5 +1,4 @@
 import { authStore } from '../../store/authStore';
-import { Button } from '../ui/button.jsx';
 import { LogOut, Menu } from 'lucide-react';
 import { uiStore } from '../../store/uiStore';
 
@@ -8,42 +7,52 @@ export function Topbar() {
   const logout = authStore((s) => s.logout);
   const setSidebarOpen = uiStore((s) => s.setSidebarOpen);
 
+  const initials = user?.name
+    ? user.name
+        .split(' ')
+        .map((p) => p[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase()
+    : '?';
+
   return (
-    <header className="sticky top-0 z-20 flex h-14 sm:h-16 items-center justify-between border-b border-slate-200 bg-white/80 backdrop-blur-md px-4 sm:px-6">
-      <div className="flex items-center gap-4 lg:hidden">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9 rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95"
+    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/80 px-4 backdrop-blur-md sm:px-6">
+      <div className="flex items-center gap-3 lg:hidden">
+        <button
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-brand-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95"
           onClick={() => setSidebarOpen()}
           aria-label="Toggle sidebar"
         >
           <Menu className="h-5 w-5" />
-        </Button>
+        </button>
+        <img src="/logo.png" alt="Buildops" className="h-9 w-9 object-contain" />
       </div>
-      <div className="flex items-center gap-3">
+
+      <div className="ml-auto flex items-center gap-3">
         {user && (
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="text-right hidden xs:block">
-              <p className="text-[13px] font-bold text-slate-900 leading-none truncate max-w-[120px] sm:max-w-none">
+          <>
+            <div className="hidden text-right xs:block sm:block">
+              <p className="max-w-[160px] truncate text-[13px] font-bold leading-none text-brand-950">
                 {user.name}
               </p>
               {user.role && (
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                  {user.role.replace('_', ' ')}
+                <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-accent-500">
+                  {user.role.replace(/_/g, ' ')}
                 </p>
               )}
             </div>
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={logout} 
-                className="h-9 w-9 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-red-600 transition-all active:scale-90" 
-                aria-label="Logout"
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-800 text-sm font-black text-white shadow-brand">
+              {initials}
+            </div>
+            <button
+              onClick={logout}
+              className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-all hover:bg-red-50 hover:text-red-600 active:scale-90"
+              aria-label="Logout"
             >
               <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
+            </button>
+          </>
         )}
       </div>
     </header>

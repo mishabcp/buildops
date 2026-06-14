@@ -5,7 +5,7 @@ import { toastStore } from '../../store/toastStore.js';
 import { login as loginApi } from '../../api/auth.api.js';
 import { Button } from '../../components/ui/button.jsx';
 import { Input } from '../../components/ui/input.jsx';
-import { Building2, ArrowRight, Loader2, Mail, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Loader2, Mail, Lock, ShieldCheck } from 'lucide-react';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -50,16 +50,16 @@ export function Login() {
   return (
     <div className="flex min-h-screen bg-slate-50 lg:bg-white text-slate-900 overflow-hidden font-sans">
       {/* Left Pane - Branding & Visuals (Hidden on small screens) */}
-      <div className="relative hidden w-full lg:flex lg:w-1/2 flex-col justify-between overflow-hidden bg-slate-950 px-12 pb-12 pt-16">
+      <div className="relative hidden w-full lg:flex lg:w-1/2 flex-col justify-between overflow-hidden bg-brand-950 px-12 pb-12 pt-16">
         {/* Dynamic Abstract Background Elements */}
-        <div className="absolute -left-20 top-0 h-96 w-96 rounded-full bg-blue-600/30 mix-blend-screen blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
-        <div className="absolute right-0 top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 translate-x-1/3 rounded-full bg-indigo-500/20 mix-blend-screen blur-[100px]" />
+        <div className="absolute -left-20 top-0 h-96 w-96 rounded-full bg-brand-600/30 mix-blend-screen blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
+        <div className="absolute right-0 top-1/2 h-[32rem] w-[32rem] -translate-y-1/2 translate-x-1/3 rounded-full bg-accent-500/20 mix-blend-screen blur-[100px]" />
         
         <div className="relative z-10 flex flex-col h-full justify-between gap-12">
           {/* Logo / Header */}
           <div className="flex items-center gap-3 text-white">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30">
-              <Building2 className="h-6 w-6 text-white" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-lg shadow-brand-500/30">
+              <img src="/logo.png" alt="Buildops logo" className="h-9 w-9 object-contain" />
             </div>
             <span className="text-2xl font-bold tracking-tight">Buildops Workspace</span>
           </div>
@@ -68,7 +68,7 @@ export function Login() {
           <div className="max-w-lg">
             <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2 sm:text-5xl lg:text-5xl leading-[1.15]">
               Manage your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">operations</span> smartly.
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-300 to-accent-500">operations</span> smartly.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-slate-300 font-medium">
               A comprehensive system tailored for seamless project management, transparent billing, and efficient resource allocation. 
@@ -79,8 +79,8 @@ export function Login() {
           {/* Trust indicator */}
           <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md max-w-sm mt-auto shadow-2xl">
             <div className="flex items-center gap-4">
-              <div className="p-2.5 bg-blue-500/20 rounded-lg">
-                <ShieldCheck className="h-7 w-7 text-blue-400" />
+              <div className="p-2.5 bg-accent-500/20 rounded-lg">
+                <ShieldCheck className="h-7 w-7 text-accent-400" />
               </div>
               <div>
                 <p className="font-semibold text-white tracking-wide">Enterprise Security</p>
@@ -96,8 +96,8 @@ export function Login() {
         <div className={`w-full max-w-[400px] transition-all duration-700 ease-out ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Mobile Logo */}
           <div className="mb-10 lg:hidden flex justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-xl shadow-blue-500/30">
-              <Building2 className="h-8 w-8 text-white" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-xl shadow-brand-500/10">
+              <img src="/logo.png" alt="Buildops logo" className="h-12 w-12 object-contain" />
             </div>
           </div>
           
@@ -112,7 +112,7 @@ export function Login() {
             <div className="space-y-5">
               <div className="group relative">
                 <label htmlFor="email" className="sr-only">Email address</label>
-                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-brand-600 transition-colors">
                   <Mail className="h-5 w-5" />
                 </div>
                 <Input
@@ -123,13 +123,13 @@ export function Login() {
                   placeholder="admin@company.com"
                   required
                   autoComplete="email"
-                  className="pl-11 h-14 bg-slate-50 hover:bg-slate-100 border-slate-200 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-[15px] font-medium rounded-xl shadow-sm"
+                  className="pl-11 h-14 bg-slate-50 hover:bg-slate-100 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500 transition-all text-[15px] font-medium rounded-xl shadow-sm"
                 />
               </div>
 
               <div className="group relative">
                 <label htmlFor="password" className="sr-only">Password</label>
-                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-brand-600 transition-colors">
                   <Lock className="h-5 w-5" />
                 </div>
                 <Input
@@ -140,7 +140,7 @@ export function Login() {
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="pl-11 h-14 bg-slate-50 hover:bg-slate-100 border-slate-200 focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-[15px] font-medium rounded-xl shadow-sm"
+                  className="pl-11 h-14 bg-slate-50 hover:bg-slate-100 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/15 focus:border-brand-500 transition-all text-[15px] font-medium rounded-xl shadow-sm"
                 />
               </div>
             </div>
@@ -154,7 +154,7 @@ export function Login() {
 
             <Button 
               type="submit" 
-              className="group relative w-full h-14 text-base font-semibold shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white" 
+              className="group relative w-full h-14 text-base font-semibold shadow-lg shadow-brand-500/20 transition-all hover:shadow-xl hover:shadow-brand-500/30 hover:-translate-y-0.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white" 
               disabled={loading}
             >
               <span className="flex items-center justify-center gap-2">

@@ -13,10 +13,10 @@ export function Toaster() {
           key={t.id}
           role="alert"
           className={cn(
-            'flex min-w-[280px] max-w-sm items-start gap-3 rounded-lg border px-4 py-3 shadow-lg',
+            'flex min-w-[280px] max-w-sm items-start gap-3 rounded-xl border px-4 py-3 shadow-xl backdrop-blur-sm',
             t.type === 'error' && 'border-red-200 bg-red-50 text-red-800',
-            t.type === 'success' && 'border-green-200 bg-green-50 text-green-800',
-            t.type === 'info' && 'border-gray-200 bg-white text-gray-900'
+            t.type === 'success' && 'border-emerald-200 bg-emerald-50 text-emerald-800',
+            t.type === 'info' && 'border-slate-200 bg-white text-brand-950'
           )}
         >
           {t.type === 'success' && <CheckCircle className="h-5 w-5 shrink-0" />}

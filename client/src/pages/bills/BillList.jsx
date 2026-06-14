@@ -107,7 +107,7 @@ export function BillList() {
                  className={cn(
                    "px-5 py-2 text-sm font-bold rounded-lg transition-all whitespace-nowrap",
                    tab === t.id 
-                    ? "bg-white text-blue-700 shadow-sm" 
+                    ? "bg-white text-brand-700 shadow-sm" 
                     : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
                  )}
                >
@@ -121,7 +121,7 @@ export function BillList() {
                 <div className="relative min-w-[160px]">
                   <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <select 
-                    className="w-full h-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-8 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20" 
+                    className="w-full h-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-8 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20" 
                     value={branchId} 
                     onChange={(e) => setBranchId(e.target.value)}
                   >
@@ -134,7 +134,7 @@ export function BillList() {
               <div className="relative min-w-[150px]">
                 <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <select 
-                  className="w-full h-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-8 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20" 
+                  className="w-full h-10 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-8 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20" 
                   value={statusFilter} 
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -203,12 +203,12 @@ export function BillList() {
                         <tr 
                           className={cn(
                              "group transition-colors cursor-pointer",
-                             isExpanded ? "bg-blue-50/50" : "hover:bg-slate-50/80"
+                             isExpanded ? "bg-brand-50/50" : "hover:bg-slate-50/80"
                           )}
                           onClick={() => setExpandedId(isExpanded ? null : b.id)}
                         >
                           <td className="p-4 text-center">
-                            <button className="text-slate-400 hover:text-blue-600 transition-colors bg-white hover:bg-blue-50 p-1 rounded-md shadow-sm border border-slate-200">
+                            <button className="text-slate-400 hover:text-brand-600 transition-colors bg-white hover:bg-brand-50 p-1 rounded-md shadow-sm border border-slate-200">
                                {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                             </button>
                           </td>
@@ -252,7 +252,7 @@ export function BillList() {
                           <td className="p-4 text-right" onClick={(e) => e.stopPropagation()}>
                              <Button 
                                size="sm" 
-                               className="h-8 rounded-lg gap-1.5 bg-white text-slate-700 hover:bg-slate-50 hover:text-blue-700 font-semibold shadow-sm border border-slate-200"
+                               className="h-8 rounded-lg gap-1.5 bg-white text-slate-700 hover:bg-slate-50 hover:text-brand-700 font-semibold shadow-sm border border-slate-200"
                                onClick={() => setPaymentBill(b)}
                              >
                                <Banknote className="h-3.5 w-3.5" />
@@ -358,7 +358,7 @@ export function BillList() {
                          <StatusBadge status={b.status} />
                          <Button 
                            size="sm" 
-                           className="h-8 rounded-lg gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200/50 shadow-none font-bold"
+                           className="h-8 rounded-lg gap-1.5 bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200/50 shadow-none font-bold"
                            onClick={(e) => { e.stopPropagation(); setPaymentBill(b); }}
                          >
                            <Banknote className="h-3.5 w-3.5" />

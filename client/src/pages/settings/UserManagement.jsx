@@ -11,7 +11,7 @@ const ROLES = ['SUPER_ADMIN', 'BRANCH_MANAGER', 'STAFF'];
 
 const ROLE_STYLES = {
   SUPER_ADMIN: 'bg-purple-50 text-purple-700 border-purple-200/60',
-  BRANCH_MANAGER: 'bg-blue-50 text-blue-700 border-blue-200/60',
+  BRANCH_MANAGER: 'bg-brand-50 text-brand-700 border-brand-200/60',
   STAFF: 'bg-slate-100 text-slate-600 border-slate-200/80',
 };
 
@@ -152,7 +152,7 @@ export function UserManagement() {
       {/* Main Table Card */}
       <div className="rounded-3xl border border-slate-200/60 bg-white shadow-sm overflow-hidden min-h-[400px]">
         <div className="border-b border-slate-100 bg-slate-50/50 px-6 sm:px-8 py-5 flex items-center gap-3">
-           <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-blue-100/50 text-blue-600">
+           <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-brand-100/50 text-brand-600">
               <Users className="h-5 w-5" />
            </div>
            <div>
@@ -193,7 +193,7 @@ export function UserManagement() {
                                {u.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <p className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors text-[15px]">{u.name}</p>
+                              <p className="font-bold text-slate-900 group-hover:text-brand-600 transition-colors text-[15px]">{u.name}</p>
                               <p className="text-[13px] text-slate-500">{u.email}</p>
                             </div>
                           </div>
@@ -229,7 +229,7 @@ export function UserManagement() {
                             <Button 
                               size="sm" 
                               variant="ghost" 
-                              className="h-9 w-9 p-0 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg" 
+                              className="h-9 w-9 p-0 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg" 
                               onClick={() => openEdit(u)}
                               title="Edit User"
                             >
@@ -340,7 +340,7 @@ export function UserManagement() {
                     <Input 
                       value={form.name} 
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       placeholder="e.g. Jane Doe"
                       required 
                     />
@@ -355,7 +355,7 @@ export function UserManagement() {
                       type="email" 
                       value={form.email} 
                       onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       placeholder="jane@company.com"
                       required 
                     />
@@ -375,7 +375,7 @@ export function UserManagement() {
                       placeholder={editingId ? '• • • • • • • •' : 'Create strong password'} 
                       required={!editingId} 
                       minLength={editingId ? 0 : 6} 
-                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium tracking-wide transition-all"
+                      className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium tracking-wide transition-all"
                     />
                   </div>
                 </div>
@@ -383,11 +383,11 @@ export function UserManagement() {
                 <div className="grid grid-cols-2 gap-4 pt-2">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700 flex items-center gap-1.5 border-b border-transparent">
-                      <ShieldCheck className="h-3.5 w-3.5 text-blue-500" />
+                      <ShieldCheck className="h-3.5 w-3.5 text-brand-500" />
                       System Role
                     </label>
                     <select 
-                      className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 hover:border-slate-300 cursor-pointer" 
+                      className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 hover:border-slate-300 cursor-pointer" 
                       value={form.role} 
                       onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}
                     >
@@ -401,7 +401,7 @@ export function UserManagement() {
                       Branch
                     </label>
                     <select 
-                      className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 hover:border-slate-300 cursor-pointer" 
+                      className="w-full h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 hover:border-slate-300 cursor-pointer" 
                       value={form.branchId} 
                       onChange={(e) => setForm((f) => ({ ...f, branchId: e.target.value }))}
                     >

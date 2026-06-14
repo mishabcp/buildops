@@ -9,6 +9,16 @@ MVP monorepo: React (Vite) frontend, Node.js (Express) backend, Prisma + Postgre
 - `prisma/` — Schema and migrations
 - `.env` — Environment variables (copy from `.env.example`)
 
+## Frontend design system
+
+The UI follows the Buildops logo theme:
+
+- **Typography**: **Outfit** everywhere (loaded in `client/index.html`, set as `fontFamily.sans` and `fontFamily.mono` in `client/tailwind.config.js`). Numbers render in Outfit with aligned **tabular figures** (`client/src/index.css`).
+- **Colors**: navy `brand` scale (primary surfaces/actions) and orange `accent` scale (highlights, CTAs, active states) defined under `theme.extend.colors` in `client/tailwind.config.js`. Use `brand-*` / `accent-*` utilities instead of hard-coded `blue-*`/`indigo-*`.
+- **Primitives**: shared `Button`, `Card`, `Input`, and `StatusBadge` (`client/src/components`) encode the theme; prefer them over ad-hoc styling.
+- **Brand asset**: `client/public/logo.png` (used in the sidebar, login, and favicon).
+- **Dashboard**: the home dashboard uses the selected glass-gradient layout with translucent panels, navy/orange brand surfaces, and tabular Outfit number styling.
+
 ## Setup
 
 1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `JWT_SECRET`, `PORT`, `CLIENT_URL`.
@@ -18,10 +28,14 @@ MVP monorepo: React (Vite) frontend, Node.js (Express) backend, Prisma + Postgre
 
 ```bash
 # Backend
-cd server && npm install && npm run dev
+cd server
+npm install
+npm run dev
 
 # Frontend (another terminal)
-cd client && npm install && npm run dev
+cd client
+npm install
+npm run dev
 ```
 
 - API: http://localhost:5000

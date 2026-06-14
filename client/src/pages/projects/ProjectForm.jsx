@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 
 const STATUS_OPTIONS = [
-  { value: 'ENQUIRY', label: 'Enquiry', color: 'text-blue-600' },
+  { value: 'ENQUIRY', label: 'Enquiry', color: 'text-brand-600' },
   { value: 'ACTIVE', label: 'Active', color: 'text-emerald-600' },
   { value: 'ON_HOLD', label: 'On Hold', color: 'text-amber-600' },
   { value: 'COMPLETED', label: 'Completed', color: 'text-slate-600' },
@@ -172,7 +172,7 @@ export function ProjectForm() {
   if (loading) {
      return (
        <PageWrapper>
-         <div className="animate-pulse max-w-4xl mx-auto space-y-6">
+         <div className="animate-pulse w-full space-y-6">
            <h1 className="text-2xl font-bold tracking-tight text-slate-900">{isEdit ? 'Edit Project' : 'New Project'}</h1>
            <div className="h-10 bg-slate-100 rounded-xl w-32" />
            <div className="h-[600px] bg-slate-100 rounded-3xl w-full" />
@@ -183,7 +183,7 @@ export function ProjectForm() {
 
   return (
     <PageWrapper>
-      <div className="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-6">{isEdit ? 'Edit Project Details' : 'Start a New Project'}</h1>
         
         {/* Navigation / Back Button */}
@@ -210,9 +210,9 @@ export function ProjectForm() {
            
            {/* Section Header */}
           <div className="border-b border-slate-100 bg-slate-50/50 px-5 sm:px-8 py-5 sm:py-6 rounded-t-3xl relative overflow-hidden">
-             <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
+             <div className="absolute top-0 right-0 h-full w-1/2 bg-gradient-to-l from-brand-50/50 to-transparent pointer-events-none" />
              <div className="relative flex items-center gap-4">
-                <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-white border border-slate-200 shadow-sm text-blue-600">
+                <div className="flex items-center justify-center h-12 w-12 rounded-2xl bg-white border border-slate-200 shadow-sm text-brand-600">
                    {isEdit ? <FolderOpen className="h-6 w-6" /> : <FolderOpen className="h-6 w-6" />}
                 </div>
                 <div>
@@ -242,7 +242,7 @@ export function ProjectForm() {
                     <Input 
                       value={form.name} 
                       onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} 
-                      className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                      className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       placeholder="e.g. Skyline Renovation Phase 1"
                       required 
                     />
@@ -256,8 +256,8 @@ export function ProjectForm() {
                     <Input
                       placeholder="Search to assign client..."
                       className={cn(
-                        "pl-10 h-12 rounded-xl border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all",
-                        form.clientId ? "bg-white border-blue-200 ring-4 ring-blue-500/5" : "bg-slate-50"
+                        "pl-10 h-12 rounded-xl border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all",
+                        form.clientId ? "bg-white border-brand-200 ring-4 ring-brand-500/5" : "bg-slate-50"
                       )}
                       value={form.clientId && !showClientDropdown ? (clients.find((c) => c.id === Number(form.clientId))?.name ?? clientSearch) : clientSearch}
                       onChange={(e) => {
@@ -268,7 +268,7 @@ export function ProjectForm() {
                       onFocus={() => setShowClientDropdown(true)}
                     />
                      {form.clientId && !showClientDropdown && (
-                        <CheckCircle2 className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-blue-500" />
+                        <CheckCircle2 className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-500" />
                      )}
                   </div>
                   
@@ -284,7 +284,7 @@ export function ProjectForm() {
                                 key={c.id}
                                 className={cn(
                                   "cursor-pointer px-3 py-2.5 rounded-lg text-sm transition-colors flex items-center gap-3",
-                                  form.clientId === String(c.id) ? "bg-blue-50 text-blue-700 font-semibold" : "hover:bg-slate-50 text-slate-700 font-medium"
+                                  form.clientId === String(c.id) ? "bg-brand-50 text-brand-700 font-semibold" : "hover:bg-slate-50 text-slate-700 font-medium"
                                 )}
                                 onClick={() => {
                                   setForm((f) => ({ ...f, clientId: String(c.id) }));
@@ -312,7 +312,7 @@ export function ProjectForm() {
                   <div className="relative">
                     <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                     <select
-                      className="w-full h-12 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2 text-[15px] font-medium text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full h-12 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2 text-[15px] font-medium text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       value={form.branchId}
                       onChange={(e) => setForm((f) => ({ ...f, branchId: e.target.value }))}
                       required
@@ -333,7 +333,7 @@ export function ProjectForm() {
                     <Input 
                       value={form.location} 
                       onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))} 
-                      className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                      className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       placeholder="Physical site location"
                     />
                   </div>
@@ -357,7 +357,7 @@ export function ProjectForm() {
                         min="0" 
                         value={form.contractValue} 
                         onChange={(e) => setForm((f) => ({ ...f, contractValue: e.target.value }))} 
-                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-mono text-[16px] transition-all"
+                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-mono text-[16px] transition-all"
                         placeholder="0.00"
                         required 
                       />
@@ -369,7 +369,7 @@ export function ProjectForm() {
                     <div className="relative">
                       <CircleDashed className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                       <select
-                        className="w-full h-12 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2 text-[15px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer"
+                        className="w-full h-12 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 py-2 text-[15px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer"
                         value={form.status}
                         onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
                       >
@@ -390,7 +390,7 @@ export function ProjectForm() {
                         type="date" 
                         value={form.startDate} 
                         onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))} 
-                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       />
                     </div>
                   </div>
@@ -404,7 +404,7 @@ export function ProjectForm() {
                         type="date" 
                         value={form.estimatedEndDate} 
                         onChange={(e) => setForm((f) => ({ ...f, estimatedEndDate: e.target.value }))} 
-                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        className="pl-10 h-12 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                       />
                     </div>
                   </div>
@@ -413,7 +413,7 @@ export function ProjectForm() {
                 <div className="space-y-2 h-full">
                   <label className="text-sm font-bold text-slate-700">Additional Notes</label>
                   <textarea
-                    className="flex min-h-[140px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-4 py-3 text-[15px] font-medium transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 resize-y"
+                    className="flex min-h-[140px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-4 py-3 text-[15px] font-medium transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 resize-y"
                     value={form.description}
                     onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                     placeholder="Enter project scope or any internal notes here..."

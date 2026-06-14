@@ -75,7 +75,7 @@ export function ExpenseForm({ onSave, onClose }) {
               <div className="relative">
                 <ReceiptText className="absolute left-3.5 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
                 <textarea 
-                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 resize-y" 
+                  className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 resize-y" 
                   value={form.description} 
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} 
                   required 
@@ -112,7 +112,7 @@ export function ExpenseForm({ onSave, onClose }) {
                     type="date" 
                     value={form.date} 
                     onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))} 
-                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                    className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                     required 
                   />
                 </div>
@@ -124,7 +124,7 @@ export function ExpenseForm({ onSave, onClose }) {
               <div className="relative">
                 <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                 <select 
-                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer" 
+                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer" 
                   value={form.paymentMode} 
                   onChange={(e) => setForm((f) => ({ ...f, paymentMode: e.target.value }))}
                 >

@@ -159,13 +159,13 @@ export function Reports() {
                         className={cn(
                           'flex items-center gap-2.5 lg:gap-3 px-3 lg:px-4 py-2 lg:py-3 text-left text-[13px] lg:text-[14px] font-bold rounded-xl lg:rounded-2xl transition-all duration-200 group relative whitespace-nowrap lg:whitespace-normal',
                           isActive 
-                            ? 'bg-blue-600 text-white shadow-md shadow-blue-200' 
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-transparent'
+                            ? 'bg-brand-600 text-white shadow-md shadow-brand-200' 
+                            : 'text-slate-600 hover:bg-slate-50 hover:text-brand-600 border border-transparent'
                         )}
                       >
                         <div className={cn(
                            "h-7 w-7 lg:h-8 lg:w-8 rounded-lg lg:rounded-xl flex items-center justify-center shrink-0 transition-all",
-                           isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500"
+                           isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-400 group-hover:bg-brand-50 group-hover:text-brand-500"
                         )}>
                            <Icon className="h-4 w-4" />
                         </div>
@@ -191,7 +191,7 @@ export function Reports() {
                   <div className="relative">
                     <GitBranch className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                     <select
-                      className="w-full h-10 lg:h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all cursor-pointer"
+                      className="w-full h-10 lg:h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 transition-all cursor-pointer"
                       value={branchId}
                       onChange={(e) => setBranchId(e.target.value)}
                     >
@@ -212,7 +212,7 @@ export function Reports() {
                     <input
                       type="text"
                       placeholder="e.g. 2026-01-01,2026-12-31"
-                      className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                      className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 transition-all"
                       value={dateRange}
                       onChange={(e) => setDateRange(e.target.value)}
                     />
@@ -225,7 +225,7 @@ export function Reports() {
                   <div className="space-y-1.5 lg:space-y-2 relative">
                      <label className="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest text-slate-400">Month</label>
                      <select
-                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all cursor-pointer"
+                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 transition-all cursor-pointer"
                        value={month}
                        onChange={(e) => setMonth(e.target.value)}
                      >
@@ -240,7 +240,7 @@ export function Reports() {
                        type="number"
                        min="2020"
                        max="2035"
-                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all"
+                       className="w-full h-10 lg:h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[13px] font-semibold text-slate-700 focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 transition-all"
                        value={year}
                        onChange={(e) => setYear(e.target.value)}
                      />
@@ -260,7 +260,7 @@ export function Reports() {
                 <h2 className="text-xl lg:text-2xl font-black tracking-tight text-slate-900">{activeReport?.label}</h2>
                 <p className="text-[13px] font-medium text-slate-400 mt-1 flex items-center gap-2">
                    {branchId ? (
-                     <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md border border-blue-100/50">
+                     <span className="bg-brand-50 text-brand-600 px-2 py-0.5 rounded-md border border-brand-100/50">
                         {branches.find(b => String(b.id) === String(branchId))?.name ?? 'Branch Filtered'}
                      </span>
                    ) : (
@@ -284,7 +284,7 @@ export function Reports() {
                   size="sm" 
                   disabled={exporting !== null || rows.length === 0} 
                   onClick={() => handleExport('pdf')}
-                  className="h-9 lg:h-10 px-3 lg:px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-blue-700 transition-all"
+                  className="h-9 lg:h-10 px-3 lg:px-4 rounded-xl gap-2 font-bold shadow-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-brand-700 transition-all"
                 >
                   <FileDown className="h-4 w-4" />
                   <span className="hidden sm:inline">{exporting === 'pdf' ? 'Exporting…' : 'PDF'}</span>
@@ -381,7 +381,7 @@ export function Reports() {
                      <div key={i} className="p-5 space-y-4">
                         <div className="flex justify-between items-start">
                            <div className="flex items-center gap-2">
-                              <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs ring-1 ring-blue-100">
+                              <div className="h-8 w-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs ring-1 ring-brand-100">
                                  {i + 1}
                               </div>
                               <h4 className="font-bold text-slate-900">{row[Object.keys(row)[0]]}</h4>

@@ -85,7 +85,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                   <div className="relative">
                      <Type className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                      <select 
-                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer" 
+                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer" 
                        value={form.type} 
                        onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}
                      >
@@ -100,7 +100,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                   <div className="relative">
                      <FolderOpen className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                      <select 
-                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer" 
+                       className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer" 
                        value={form.projectId} 
                        onChange={(e) => setForm((f) => ({ ...f, projectId: e.target.value }))}
                      >
@@ -120,7 +120,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                  <Input 
                    value={form.partyName} 
                    onChange={(e) => setForm((f) => ({ ...f, partyName: e.target.value }))} 
-                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-bold text-[15px] transition-all"
+                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-bold text-[15px] transition-all"
                    placeholder="e.g. ABC Suppliers Ltd."
                    required 
                    autoFocus
@@ -136,7 +136,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                    <Input 
                      value={form.billNumber} 
                      onChange={(e) => setForm((f) => ({ ...f, billNumber: e.target.value }))} 
-                     className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                     className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                      placeholder="INV-2024-001"
                    />
                 </div>
@@ -169,7 +169,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                         type="date" 
                         value={form.billDate} 
                         onChange={(e) => setForm((f) => ({ ...f, billDate: e.target.value }))} 
-                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                         required 
                      />
                   </div>
@@ -183,7 +183,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
                         type="date" 
                         value={form.dueDate} 
                         onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} 
-                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                        className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                      />
                   </div>
                </div>
@@ -194,7 +194,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
               <div className="relative">
                  <AlignLeft className="absolute left-3.5 top-3 h-4 w-4 text-slate-400" />
                  <textarea 
-                   className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 resize-y" 
+                   className="flex min-h-[80px] w-full rounded-xl border border-slate-200 bg-slate-50 focus:bg-white px-10 py-2.5 text-[14px] font-medium transition-all focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10 resize-y" 
                    value={form.description} 
                    onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} 
                    rows={2} 
@@ -216,7 +216,7 @@ export function BillForm({ bill, projectId: initialProjectId, onSave, onClose })
              </Button>
              <Button 
                 type="submit" 
-                className="flex-1 h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5"
+                className="flex-1 h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5"
                 disabled={saving}
              >
                 {saving ? 'Processing…' : isEdit ? 'Update Details' : 'Save Bill Info'}

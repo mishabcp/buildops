@@ -153,8 +153,8 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
                   <tr key={e.id} className="group hover:bg-slate-50/50 transition-colors">
                     <td className="py-4 px-6 min-w-[200px]">
                         <div className="flex items-start gap-3">
-                           <div className="h-9 w-9 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shrink-0 mt-0.5">
-                             <ReceiptText className="h-4 w-4 text-indigo-600" />
+                           <div className="h-9 w-9 rounded-xl bg-brand-50 flex items-center justify-center border border-brand-100 shrink-0 mt-0.5">
+                             <ReceiptText className="h-4 w-4 text-brand-600" />
                            </div>
                            <p className="font-bold text-slate-900 whitespace-normal line-clamp-2 leading-relaxed">{e.description}</p>
                         </div>
@@ -195,7 +195,7 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
                  {/* Card Header */}
                  <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                       <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold shrink-0 shadow-sm">
+                       <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 font-bold shrink-0 shadow-sm">
                           <ReceiptText className="h-5 w-5" />
                        </div>
                        <div className="min-w-0">

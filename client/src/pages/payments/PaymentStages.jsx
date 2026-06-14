@@ -146,7 +146,7 @@ export function PaymentStages({ projectId, onDataChange }) {
                 key={stage.id} 
                 className={cn(
                   "rounded-2xl border transition-all duration-200 overflow-hidden group",
-                  isExpanded ? "border-blue-200/60 bg-white shadow-lg shadow-blue-900/5" : "border-slate-200/60 bg-white hover:border-slate-300 hover:shadow-md"
+                  isExpanded ? "border-brand-200/60 bg-white shadow-lg shadow-brand-900/5" : "border-slate-200/60 bg-white hover:border-slate-300 hover:shadow-md"
                 )}
               >
                 <div
@@ -159,7 +159,7 @@ export function PaymentStages({ projectId, onDataChange }) {
                   {/* Header: Stage Info & Actions */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold tracking-tight border border-blue-100/50 shrink-0 shadow-sm text-sm sm:text-base">
+                      <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-600 font-bold tracking-tight border border-brand-100/50 shrink-0 shadow-sm text-sm sm:text-base">
                         S{stage.stageNumber}
                       </div>
                       <div className="min-w-0">
@@ -176,7 +176,7 @@ export function PaymentStages({ projectId, onDataChange }) {
                         type="button" 
                         className={cn(
                           "flex items-center justify-center h-9 w-9 rounded-xl transition-all border shadow-sm",
-                          isExpanded ? "bg-white border-blue-200 text-blue-600 shadow-blue-100" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600 hover:border-slate-300"
+                          isExpanded ? "bg-white border-brand-200 text-brand-600 shadow-brand-100" : "bg-white border-slate-200 text-slate-400 hover:text-slate-600 hover:border-slate-300"
                         )}
                       >
                         <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isExpanded && "rotate-180")} />
@@ -187,7 +187,7 @@ export function PaymentStages({ projectId, onDataChange }) {
                             size="sm" 
                             variant="ghost" 
                             onClick={() => { setEditingStage(stage); setShowStageForm(true); }}
-                            className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
+                            className="h-9 w-9 p-0 text-slate-400 border border-slate-100 bg-slate-50 hover:border-brand-200 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-all"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -230,7 +230,7 @@ export function PaymentStages({ projectId, onDataChange }) {
                       <Button 
                         size="sm" 
                         onClick={(e) => { e.stopPropagation(); setReceiptStage(stage); }} 
-                        className="h-9 rounded-xl gap-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold shadow-none border border-blue-100 px-4 transition-all"
+                        className="h-9 rounded-xl gap-2 bg-brand-50 text-brand-700 hover:bg-brand-600 hover:text-white font-bold shadow-none border border-brand-100 px-4 transition-all"
                       >
                         <Receipt className="h-3.5 w-3.5" />
                         Record Receipt

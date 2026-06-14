@@ -12,9 +12,9 @@ import { formatCurrency } from '../../utils/formatCurrency.js';
 
 const GRADIENT_IDS = ['pendingGrad0', 'pendingGrad1', 'pendingGrad2'];
 const GRADIENT_COLORS = [
-  ['#f43f5e', '#e11d48'],
-  ['#7c3aed', '#6d28d9'],
-  ['#0d9488', '#0f766e'],
+  ['#fb7185', '#e11d48'],
+  ['#fbbf24', '#d97706'],
+  ['#4d86bf', '#1f5288'],
 ];
 
 function CustomTooltip({ active, payload }) {
@@ -60,7 +60,7 @@ export function PendingBreakdownChart({ data }) {
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
           <XAxis
             type="number"
-            tick={{ fontSize: 11, fill: '#94a3b8' }}
+            tick={{ fontSize: 11, fill: '#475569' }}
             axisLine={false}
             tickLine={false}
             tickFormatter={(v) => `${(v / 1e5).toFixed(0)}L`}
@@ -69,7 +69,7 @@ export function PendingBreakdownChart({ data }) {
             type="category"
             dataKey="name"
             width={80}
-            tick={{ fontSize: 11, fill: '#64748b' }}
+            tick={{ fontSize: 11, fill: '#334155' }}
             axisLine={false}
             tickLine={false}
           />

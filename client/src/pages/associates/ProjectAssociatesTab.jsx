@@ -146,7 +146,7 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                 key={p.id} 
                 className={cn(
                   "rounded-2xl border transition-all duration-200 bg-white overflow-hidden shadow-sm hover:shadow-md",
-                  isExpanded ? "border-blue-200/60 ring-4 ring-blue-500/5 shadow-md" : "border-slate-200/60"
+                  isExpanded ? "border-brand-200/60 ring-4 ring-brand-500/5 shadow-md" : "border-slate-200/60"
                 )}
               >
                 <div className="p-4 sm:p-5 flex flex-col gap-4">
@@ -156,7 +156,7 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                     onClick={() => setExpandedId(isExpanded ? null : p.id)}
                   >
                     <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold shrink-0 shadow-sm">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-700 font-bold shrink-0 shadow-sm">
                         {p.associate?.name?.charAt(0).toUpperCase()}
                       </div>
                       <div className="min-w-0">
@@ -171,7 +171,7 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                         <p className="text-sm font-medium text-slate-500 line-clamp-1 mt-0.5">{p.scopeOfWork ?? 'No scope defined'}</p>
                       </div>
                     </div>
-                    <button type="button" className="text-slate-300 hover:text-blue-600 transition-colors shrink-0 bg-slate-50 border border-slate-100 p-1.5 rounded-lg ml-2">
+                    <button type="button" className="text-slate-300 hover:text-brand-600 transition-colors shrink-0 bg-slate-50 border border-slate-100 p-1.5 rounded-lg ml-2">
                       {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                     </button>
                   </div>
@@ -203,7 +203,7 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                     <Button 
                       size="sm" 
                       onClick={(e) => { e.stopPropagation(); setPaymentForm(p); }}
-                      className="h-9 rounded-xl gap-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white font-bold shadow-none border border-blue-100 px-4 transition-all" 
+                      className="h-9 rounded-xl gap-2 bg-brand-50 text-brand-700 hover:bg-brand-600 hover:text-white font-bold shadow-none border border-brand-100 px-4 transition-all" 
                     >
                       <Receipt className="h-3.5 w-3.5" />
                       Make Payment
@@ -382,14 +382,14 @@ function AssignAssociateModal({ associates, assignedIds, onAssign, onClose, onNe
             <div className="space-y-2 relative">
               <div className="flex justify-between items-center">
                  <label className="text-sm font-bold text-slate-700">Select Associate <span className="text-red-500">*</span></label>
-                 <button type="button" onClick={onNewAssociate} className="text-[12px] font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded-md">
+                 <button type="button" onClick={onNewAssociate} className="text-[12px] font-bold text-brand-600 hover:text-brand-800 hover:underline flex items-center gap-1 bg-brand-50 px-2 py-0.5 rounded-md">
                    <Plus className="h-3 w-3" /> New
                  </button>
               </div>
               <div className="relative">
                 <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                 <select
-                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 cursor-pointer"
+                  className="w-full h-11 appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2 text-[14px] font-semibold text-slate-700 shadow-sm transition-all focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-500/10 cursor-pointer"
                   value={form.associateId}
                   onChange={(e) => setForm((f) => ({ ...f, associateId: e.target.value }))}
                   required
@@ -408,7 +408,7 @@ function AssignAssociateModal({ associates, assignedIds, onAssign, onClose, onNe
                  <FileText className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                  <Input
                    placeholder="e.g. Electrical wiring for phase 2"
-                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-blue-500/10 font-medium transition-all"
+                   className="pl-10 h-11 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-4 focus:ring-brand-500/10 font-medium transition-all"
                    value={form.scopeOfWork}
                    onChange={(e) => setForm((f) => ({ ...f, scopeOfWork: e.target.value }))}
                  />
@@ -443,7 +443,7 @@ function AssignAssociateModal({ associates, assignedIds, onAssign, onClose, onNe
               >
                 Cancel
               </Button>
-              <Button type="submit" className="flex-1 h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5" disabled={saving}>
+              <Button type="submit" className="flex-1 h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-500/20 transition-all font-bold hover:shadow-xl hover:-translate-y-0.5" disabled={saving}>
                 {saving ? 'Processing…' : 'Finalize Assignment'}
               </Button>
           </div>

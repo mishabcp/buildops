@@ -69,7 +69,7 @@ export function MaterialList() {
       {/* Top Banner and Actions */}
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
          <div className="bg-white px-4 py-3 rounded-2xl border border-slate-200/60 shadow-sm flex items-center gap-3">
-             <div className="h-10 w-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+             <div className="h-10 w-10 bg-brand-50 text-brand-600 rounded-xl flex items-center justify-center">
                  <Boxes className="h-5 w-5" />
              </div>
              <div>
@@ -144,7 +144,7 @@ export function MaterialList() {
                             size="sm" 
                             variant="ghost" 
                             onClick={() => { setEditing(m); setShowForm(true); }}
-                            className="h-9 w-9 p-0 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors border hover:border-blue-200"
+                            className="h-9 w-9 p-0 rounded-lg text-slate-400 hover:text-brand-600 hover:bg-brand-50 transition-colors border hover:border-brand-200"
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
