@@ -22,7 +22,7 @@ The UI follows the Buildops logo theme:
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `JWT_SECRET`, `PORT`, `CLIENT_URL`, and (for site media) `STORAGE_DRIVER` — use `local` in dev; use `s3` with bucket credentials on Railway production. See [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md).
+1. Copy `.env.example` to `.env` and set `DATABASE_URL`, `JWT_SECRET`, `PORT`, `CLIENT_URL`, and `STORAGE_DRIVER=local`. In production, Railway uses a volume attached to `buildops` for site media uploads. See [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md).
 2. Ensure PostgreSQL 15+ is running and `DATABASE_URL` is correct.
 3. From repo root: `npx prisma db push --schema=prisma/schema.prisma` (or `npm run prisma:migrate` from server if you use migrations). Then `cd server` and `npm run prisma:seed` (seed data: 2 branches, 7 users, 11 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses). All seeded users share password **admin123** — e.g. `admin@company.com` (SUPER_ADMIN), `manager-a@company.com` / `manager-b@company.com` (BRANCH_MANAGER), `staff-a1@company.com` (STAFF).
 4. Install dependencies and run:
@@ -52,7 +52,7 @@ Users can manage clients (add, edit, delete) from the **Clients** page; each pro
 | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Step-by-step usage with diagrams |
 | [docs/WORKFLOW.md](docs/WORKFLOW.md) | End-to-end workflows, money in/out, permissions |
 | [docs/QUICK_START.md](docs/QUICK_START.md) | First 5 minutes after setup |
-| [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md) | Railway deploy + object storage for site media |
+| [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md) | Railway deploy + upload volume setup |
 | [docs/PROJECT_TABS_AND_CALCULATIONS_SUMMARY.md](docs/PROJECT_TABS_AND_CALCULATIONS_SUMMARY.md) | Tab data flow and formulas (maintainers) |
 
 ## Supply chain checks

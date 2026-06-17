@@ -12,8 +12,8 @@ Full-stack **Buildops** MVP: plan and record money in and money out per project,
 
 | | |
 |--|--|
-| **Live demo** | `[Your Vercel URL — placeholder]` |
-| **API** | `[Your Render URL — placeholder]` |
+| **Live demo** | `[Your Railway URL — placeholder]` |
+| **API** | `[Your Railway URL]/api` |
 | **Repository** | `[Your GitHub URL — placeholder]` |
 
 ---
@@ -55,7 +55,7 @@ flowchart TB
   subgraph client [Browser — Vite SPA]
     React[React + React Router]
     Zustand[Zustand auth]
-    Axios[Axios /api or VITE_API_URL]
+    Axios[Axios /api same origin]
   end
   subgraph api [Node — Express]
     Routes["/api/* routes"]
@@ -114,8 +114,8 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 | **Multi-branch access** | Roles `SUPER_ADMIN`, `BRANCH_MANAGER`, `STAFF`; branch id on user; project queries and dashboard scope branch for non-admins. |
 | **Readable money picture** | Dashboard + project Overview + reports; payment stage receipts vs contract value; see WORKFLOW for P&L vs Overview. |
 | **Exports for stakeholders** | Server-side PDF and Excel using `pdfkit` and `exceljs`. |
-| **Split hosting** | Frontend and API on different origins → **CORS** limited to `CLIENT_URL` (`server/src/app.js`); production API base URL via **`VITE_API_URL`** (`client/src/api/axios.js`). |
-| **Render build + Supabase limits** | `DEPLOY.md` documents avoiding `prisma migrate deploy` / `db push` on Render build when pooler limits bite; generate client only on deploy, apply schema from local/CI against the same DB. |
+| **Single Railway service** | One `buildops` service builds the React client, starts Express, serves `/api/*`, and serves the built SPA from `client/dist`. |
+| **Persistent uploads** | Site media uses `STORAGE_DRIVER=local` with a Railway volume mounted at `/app/server/.data/uploads`. |
 
 ---
 
@@ -125,7 +125,7 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 
 - **Code splitting:** Route-level **lazy loading** reduces initial bundle size (`client/src/routes.jsx`).
 - **Dev proxy:** Vite proxies `/api` to `http://localhost:5000` (`client/vite.config.js`).
-- **Production:** `DEPLOY.md` notes Render **free-tier cold starts** (30–60s) as a practical latency factor; optional uptime ping mentioned there.
+- **Production:** Railway serves API and frontend from one service, so the client can call `/api` on the same origin.
 
 ### Security (implemented patterns)
 
@@ -135,7 +135,7 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 - **CORS:** `origin: process.env.CLIENT_URL`, `credentials: true`.
 - **Input handling:** Controllers validate required fields and enums (e.g. project status) in representative paths.
 
-**Hardening note (accurate to code):** `server/src/utils/jwt.js` falls back to a **default secret** if `JWT_SECRET` is unset—production must always set a strong `JWT_SECRET` (as `DEPLOY.md` and `.env` examples require).
+**Hardening note (accurate to code):** `server/src/utils/jwt.js` falls back to a **default secret** if `JWT_SECRET` is unset—production must always set a strong `JWT_SECRET` in Railway variables.
 
 ### Testing
 
@@ -147,22 +147,20 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 
 ## Deployment
 
-Aligned with **`DEPLOY.md`** (Supabase + Render + Vercel + GitHub).
+Aligned with **`docs/DEPLOY_RAILWAY.md`**.
 
 | Step | Platform | Purpose |
 |------|----------|---------|
-| 1 | **Supabase** | Managed PostgreSQL; `DATABASE_URL` (pooler URI, password embedded). |
-| 2 | **Local (or CI)** | `prisma migrate deploy` or `db push`; `npm run prisma:seed` in `server` against that DB. |
-| 3 | **Render** | Web service: **Build** `cd server && npm install && npx prisma generate --schema=../prisma/schema.prisma`; **Start** `cd server && node src/server.js`. |
-| 4 | **Client env** | Set `VITE_API_URL` to Render **origin** without `/api` suffix; axios appends `/api` in code. |
-| 5 | **Vercel** | Root directory **`client`**; build `npm run build`; output `dist`; SPA fallback via `client/vercel.json`. |
-| 6 | **Render env** | Set `CLIENT_URL` to the **Vercel** URL (no trailing slash) so CORS matches. |
+| 1 | **Railway Postgres** | Production PostgreSQL; `DATABASE_URL` is set on the `buildops` service. |
+| 2 | **Railway volume** | Upload persistence for photos, PDFs, and videos mounted at `/app/server/.data/uploads`. |
+| 3 | **GitHub main** | Push code to the connected branch. |
+| 4 | **Railway build** | Uses `railway.json` to install server/client deps, build the client, and generate Prisma. |
+| 5 | **Railway start** | Runs `node server/src/server.js`; Express serves `/api/*` and the built React app. |
 
-**Render environment variables** (from `DEPLOY.md`): `DATABASE_URL`, `JWT_SECRET` (≥32 chars recommended), `CLIENT_URL`, `NODE_ENV=production`.
+**Railway environment variables:** `DATABASE_URL`, `JWT_SECRET` (≥32 chars recommended), `CLIENT_URL`, `NODE_ENV=production`, `STORAGE_DRIVER=local`.
 
-**Vercel:** `VITE_API_URL` = Render service URL (no `/api`).
+**Health check after deploy:** `GET https://<railway-service>/api/health` → JSON success payload.
 
-**Health check after deploy:** `GET https://<render-service>/api/health` → JSON success payload as above.
 
 ---
 
@@ -170,7 +168,7 @@ Aligned with **`DEPLOY.md`** (Supabase + Render + Vercel + GitHub).
 
 - **Domain modeling:** A single **Project** hub with tabs matches how site teams think (stages, labour, materials, subs, bills)—and maps cleanly to REST sub-resources under `/api/projects/...`.
 - **Branch scoping:** Putting **branch** on **Project** (not on **Client**) is a deliberate trade-off: shared client list, branch-specific execution—worth explaining to stakeholders.
-- **Ops reality:** **Split deploys** (static front + sleeping API) teach **env naming**, **CORS**, and **cold start** behavior as first-class concerns.
+- **Ops reality:** A single Railway service keeps deployment simple, while Railway variables and volumes still make runtime configuration explicit.
 - **Specification vs tree:** Keeping **`CURSOR_SPEC.md`**, **`docs/BUILDOPS_OVERVIEW.md`**, and **`docs/WORKFLOW.md`** in sync with routes and RBAC reduces doc drift.
 
 ---
@@ -178,8 +176,8 @@ Aligned with **`DEPLOY.md`** (Supabase + Render + Vercel + GitHub).
 ## Links and CTA
 
 - **Repository:** `[GitHub — placeholder]`
-- **Live app:** `[Vercel — placeholder]`
-- **API health:** `[Render base URL]/api/health`
+- **Live app:** `[Railway — placeholder]`
+- **API health:** `[Railway base URL]/api/health`
 - **Contact / portfolio:** `[Your site or LinkedIn — placeholder]`
 
 ---
@@ -188,4 +186,4 @@ Aligned with **`DEPLOY.md`** (Supabase + Render + Vercel + GitHub).
 
 ### Maintainer note — sources checked
 
-`CURSOR_SPEC.md`, `README.md`, `DEPLOY.md`, `docs/BUILDOPS_OVERVIEW.md`; `server/package.json`, `client/package.json`, root `package.json`; `server/src/app.js`; `server/src/middleware/auth.middleware.js`, `role.middleware.js`; `server/src/controllers/project.controller.js`, `auth.controller.js`, `report.controller.js` (exports + branch helper); `server/src/routes/project.routes.js`, `auth.routes.js`, `client.routes.js`, `user.routes.js`, `branch.routes.js`; `client/src/routes.jsx`, `client/src/api/axios.js`, `client/vite.config.js`; `prisma/schema.prisma`. Repo tree scanned for test files and test runners — none present in `package.json` manifests checked.
+`CURSOR_SPEC.md`, `README.md`, `docs/DEPLOY_RAILWAY.md`, `docs/BUILDOPS_OVERVIEW.md`; `server/package.json`, `client/package.json`, root `package.json`; `server/src/app.js`; `server/src/middleware/auth.middleware.js`, `role.middleware.js`; `server/src/controllers/project.controller.js`, `auth.controller.js`, `report.controller.js` (exports + branch helper); `server/src/routes/project.routes.js`, `auth.routes.js`, `client.routes.js`, `user.routes.js`, `branch.routes.js`; `client/src/routes.jsx`, `client/src/api/axios.js`, `client/vite.config.js`; `prisma/schema.prisma`. Repo tree scanned for test files and test runners — none present in `package.json` manifests checked.
