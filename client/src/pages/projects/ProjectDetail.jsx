@@ -20,7 +20,8 @@ import {
   TrendingUp,
   Percent,
   WalletCards,
-  BookOpen
+  BookOpen,
+  Camera,
 } from 'lucide-react';
 import { PaymentStages } from '../payments/PaymentStages.jsx';
 import { LabourList } from '../labour/LabourList.jsx';
@@ -29,6 +30,7 @@ import { ProjectAssociatesTab } from '../associates/ProjectAssociatesTab.jsx';
 import { ProjectBillsTab } from '../bills/ProjectBillsTab.jsx';
 import { ProjectExpensesTab } from '../expenses/ProjectExpensesTab.jsx';
 import { ProjectDetailGuide } from './ProjectDetailGuide.jsx';
+import { ProjectSiteMediaTab } from './ProjectSiteMediaTab.jsx';
 
 const STATUS_STYLES = {
   ACTIVE: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
@@ -46,6 +48,7 @@ const TABS = [
   { id: 'associates', label: 'Associates', icon: Handshake },
   { id: 'bills', label: 'Bills', icon: FileText },
   { id: 'expenses', label: 'Other Expenses', icon: Receipt },
+  { id: 'media', label: 'Site media', icon: Camera },
   { id: 'guide', label: 'Guide', icon: BookOpen },
 ];
 
@@ -195,6 +198,7 @@ export function ProjectDetail() {
           {activeTab === 'associates' && <ProjectAssociatesTab projectId={id} onDataChange={load} />}
           {activeTab === 'bills' && <ProjectBillsTab projectId={id} onDataChange={load} />}
           {activeTab === 'expenses' && <ProjectExpensesTab projectId={id} onDataChange={load} />}
+          {activeTab === 'media' && <ProjectSiteMediaTab projectId={id} />}
           {activeTab === 'guide' && <ProjectDetailGuide />}
         </div>
       </div>

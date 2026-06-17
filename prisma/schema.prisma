@@ -42,6 +42,22 @@ enum BillType {
   RECEIVABLE
 }
 
+enum ProjectMediaKind {
+  IMAGE
+  PDF
+  VIDEO
+}
+
+enum ProjectMediaLinkType {
+  PROJECT
+  PAYMENT_STAGE
+  LABOUR_PAYMENT
+  MATERIAL_ITEM
+  ASSOCIATE_PAYMENT
+  BILL
+  OTHER_EXPENSE
+}
+
 // ─── MODELS ──────────────────────────────────────────
 
 model Branch {
@@ -64,6 +80,8 @@ model User {
   branch       Branch?  @relation(fields: [branchId], references: [id])
   createdAt    DateTime @default(now())
   isActive     Boolean  @default(true)
+
+  projectMedia ProjectMedia[]
 }
 
 model Client {
@@ -99,6 +117,28 @@ model Project {
   associatePayments AssociatePayment[]
   bills            Bill[]
   otherExpenses    OtherExpense[]
+  projectMedia     ProjectMedia[]
+}
+
+model ProjectMedia {
+  id               Int                  @id @default(autoincrement())
+  projectId        Int
+  project          Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  uploadedById     Int
+  uploadedBy       User                 @relation(fields: [uploadedById], references: [id])
+  kind             ProjectMediaKind
+  mimeType         String
+  originalFileName String
+  sizeBytes        Int
+  storageKey       String               @unique
+  capturedAt       DateTime
+  note             String               @db.VarChar(500)
+  linkType         ProjectMediaLinkType @default(PROJECT)
+  linkId           Int?
+  createdAt        DateTime             @default(now())
+
+  @@index([projectId, createdAt])
+  @@index([projectId, linkType, linkId])
 }
 
 model PaymentStage {

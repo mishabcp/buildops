@@ -1,3 +1,4 @@
+import { unlinkProjectMediaForEntity } from '../utils/unlinkProjectMedia.js';
 import prisma from '../utils/prisma.js';
 import { success, error } from '../utils/response.js';
 
@@ -140,6 +141,7 @@ export async function deleteStage(req, res) {
     if (!isSuperAdmin && userBranchId != null && stage.project.branchId !== userBranchId) {
       return error(res, 'Forbidden', 403);
     }
+    await unlinkProjectMediaForEntity('PAYMENT_STAGE', stageId);
     await prisma.paymentStage.delete({ where: { id: stageId } });
     return success(res, { id: stageId, deleted: true });
   } catch (err) {

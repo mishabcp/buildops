@@ -2,6 +2,10 @@
 
 This document summarizes how each project tab works, how the Overview is calculated, and what modifications are recommended.
 
+**Audience:** Maintainers and implementers. End users should start with **[WORKFLOW.md](WORKFLOW.md)** and **[USER_GUIDE.md](USER_GUIDE.md)**.
+
+**Project detail tabs (UI order):** Overview, Payment Stages, Labour, Materials, Associates, Bills, Other Expenses, **Guide** (in-context help—not a data source for Overview).
+
 ---
 
 ## 1. Data flow overview
@@ -80,46 +84,26 @@ Overview: totalContractValue, totalReceived, totalOutstanding, totalReceivables,
 
 ## 4. Modifications recommended
 
-### 4.1 Material cost: include USAGE, not just PURCHASE (bug)
+### 4.1 Material cost: PURCHASE + USAGE
 
-**Current:** `totalMaterialCost` only sums `MaterialItem` where `type === 'PURCHASE'`.
-
-**Issue:** When material is **used** from stock on the project (type USAGE), the item has `totalCost` (cost allocated to the project). That cost is not counted in Overview, so project expense is understated.
-
-**Change:** In `server/src/controllers/project.controller.js` (getSummary), change material cost to sum **both** PURCHASE and USAGE:
+**Status: Implemented (fixed).** `totalMaterialCost` sums **all** `MaterialItem` rows (PURCHASE and USAGE) via `totalCost`.
 
 ```js
 const totalMaterialCost = project.materialItems
   .reduce((s, i) => s + toNum(i.totalCost ?? 0), 0);
 ```
 
-(Remove the `.filter((i) => i.type === 'PURCHASE')` or use a comment that “material cost” = all items. If you prefer a separate label, you could expose totalMaterialPurchase and totalMaterialUsage and sum them in totalExpenses.)
-
-**Also update:** Reports/dashboard that use the same “PURCHASE only” logic for project material cost (e.g. `report.controller.js` and any dashboard aggregates) so they stay consistent.
-
-**Status: Implemented.** Project summary and reports now sum all material items (PURCHASE + USAGE). Dashboard material aggregate already used all items.
+Reports that aggregate project material **cost** use the same rule. The **Material Usage Log** report is quantity-based (USAGE lines), not this rupee total.
 
 ---
 
-### 4.2 Bills receivables: not in revenue or profit (design gap)
+### 4.2 Bills receivables in revenue and profit
 
-**Current:** Receivables (bills type RECEIVABLE) are not part of contract value, total received, or profit. They’re only listed in the Bills tab.
+**Status: Implemented.** `totalReceivables` = sum of RECEIVABLE bills' `totalAmount` on the project. `totalIncome` = contract + receivables; `estimatedProfit` and `profitMargin` use `totalIncome`. Overview shows **Other receivables** and **Total income** when applicable.
 
-**Issue:** Extra invoices you send to the client (e.g. variation orders) are additional income. For a complete P&L they should affect revenue and profit.
+**Note:** Bill amounts use **full invoice totals** for income/expense buckets, not `totalAmount − paidAmount`.
 
-**Options:**
-
-- **A) Add to Overview revenue:**  
-  - `totalReceivables` = sum of (bill.totalAmount − bill.paidAmount) for project’s RECEIVABLE bills.  
-  - Show “Outstanding from client” = current totalOutstanding + totalReceivables, or show “Contract value” and “Other receivables” separately.  
-  - Optionally: `revenueForProfit` = totalContractValue + totalReceivablesAmount (full receivable amount), and profit = revenueForProfit − totalExpenses. Then document that “received” is still only from payment stages.
-
-- **B) Keep current formula but add a line:**  
-  - e.g. “Other receivables (not in profit)” so the user sees the number without changing profit math until product decision is made.
-
-Recommendation: implement A (or a variant) so profit reflects all billable revenue (contract + receivables); document the definition in USER_GUIDE or BUILDOPS_OVERVIEW.
-
-**Status: Implemented.** totalReceivables and totalIncome added; profit and margin use totalIncome. Overview shows "Other receivables" and "Total income" when applicable.
+**Report gap:** `GET` project P&L report (`report.controller.js`) still uses `profitLoss = contractValue - totalExpenses` without receivables. Treat **Overview / getSummary** as canonical for project profit until the report is aligned.
 
 ---
 
@@ -137,13 +121,9 @@ Recommendation: implement A (or a variant) so profit reflects all billable reven
 
 ### 4.4 Contract value vs sum of stage expected amounts
 
-**Status: Implemented.** Documented that outstanding (contract) = contract value − total received; stages need not sum to contract value. Dashboard totalOutstandingFromClients now uses this definition (sum over projects of max(0, contractValue − totalReceived)).
+**Status: Implemented and documented.** Contract outstanding = **contract value − total received**. Payment stage expected amounts are for milestones only; they need not sum to contract value. Dashboard **outstanding from clients** uses sum over projects of `max(0, contractValue − totalReceived)`.
 
-**Current:** totalOutstanding = contractValue − totalReceived. Payment stages have their own expectedAmount per stage; the dashboard sometimes uses sum(stage expected − stage received) for “outstanding”.
-
-**Risk:** If stages’ expected amounts don’t add up to contract value, project Overview and dashboard “outstanding” can diverge.
-
-**Recommendation:** Either (1) enforce in UI/API that sum(stage.expectedAmount) = contractValue, or (2) document clearly that “Contract value” is the single source of truth for revenue and outstanding, and stage expected amounts are for tracking only. If (2), ensure dashboard “outstanding” uses the same definition (contract value − total received) where it’s meant to show “client owes on main contract”.
+Overview **totalOutstanding** is not floored—over-payment can show negative contract outstanding.
 
 ---
 
@@ -169,10 +149,20 @@ Recommendation: implement A (or a variant) so profit reflects all billable reven
 
 ### 4.7 Consistency: Reports and Dashboard
 
-**Recommendation:** After changing project summary (material cost, receivables), align:
+**Overview / getSummary:** Canonical for per-project profit (`totalIncome`, receivables, expense buckets).
 
-- **Reports** (e.g. project P&L, labour cost, material usage) so material cost and revenue definitions match.
-- **Dashboard** (payables, outstanding, collections) so “outstanding” and any profit-related metrics use the same rules as project Overview.
+**Dashboard:**
+
+- Client outstanding: contract − received (floored per project).
+- Collections: payment stage receipts.
+- **Expense breakdown chart:** mixes paid labour/associate/bill payments with committed material line costs and full other-expense amounts—not identical to Overview expense totals.
+
+**Reports:**
+
+- **Project Dashboard (P&L):** `contractValue - totalExpenses` per project—**does not** add receivable bills to income (differs from Overview).
+- **Material Usage Log:** USAGE quantities, not rupee material cost from Overview.
+
+**Future work:** Align P&L export with `getSummary` if product owners want one profit definition everywhere.
 
 ---
 
@@ -201,5 +191,6 @@ Recommendation: implement A (or a variant) so profit reflects all billable reven
 | Low | Labour single payment date | **Documented.** §4.3; optional future LabourPaymentTransaction. |
 | Low | Contract value vs sum(stages) | **Done.** Documented; dashboard outstanding aligned (§4.4). |
 | Low | Bills without project | **Documented.** §4.6; only project-linked bills in Overview. |
+| Open | P&L report vs Overview profit | **Documented.** §4.7; Overview uses `totalIncome`; report uses contract only. |
 
-§4.1, §4.2, §4.4, §4.5, §4.6 are implemented or documented as above; §4.3 (labour) is documented with optional future payment history. Implementing §4.1 and §4.2 (and the corresponding report/dashboard alignment) will make the project tabs and Overview consistent and complete for P&L and cash-flow tracking.
+User-facing workflow and permissions: **`docs/WORKFLOW.md`**. Step-by-step UI: **`docs/USER_GUIDE.md`**.

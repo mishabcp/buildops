@@ -8,6 +8,7 @@ import { BillForm } from './BillForm.jsx';
 import { BillPaymentForm } from './BillPaymentForm.jsx';
 import { Plus, ChevronDown, ChevronRight, Receipt, FileText, Banknote, MapPin, ReceiptText, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function ProjectBillsTab({ projectId, onDataChange }) {
   const [bills, setBills] = useState([]);
@@ -260,6 +261,9 @@ export function ProjectBillsTab({ projectId, onDataChange }) {
                           <p className="text-sm font-medium text-slate-500">No payment transactions recorded for this bill yet.</p>
                        </div>
                      )}
+                     <div className="px-5 pb-5 pl-14 sm:pl-[5.5rem]">
+                       <LinkedMediaPanel projectId={projectId} linkType="BILL" linkId={b.id} />
+                     </div>
                   </div>
                 )}
               </div>

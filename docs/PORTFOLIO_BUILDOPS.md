@@ -75,7 +75,7 @@ flowchart TB
 - **API surface:** All JSON routes live under `/api` (see `server/src/app.js`). **Health:** `GET /api/health` returns `{"success":true,"message":"Buildops API"}`.
 - **Auth:** `POST /api/auth/login`, `GET /api/auth/me` (Bearer token). Protected routes use `verifyToken` and often `requireRole([...])`.
 - **Branch scoping (projects & dashboard):** Non–super-admins are limited by `req.user.branchId` (e.g. project list/detail/update and dashboard aggregates use branch-filtered project IDs). **Super admin** can filter by `branchId` query where implemented (e.g. dashboard/reports). **Clients** are **not** branch-scoped in the Prisma schema—they are shared across the org; **projects** carry `branchId`.
-- **Destructive actions:** Example: **project delete** is **SUPER_ADMIN** only (`project.routes.js`). Other resources follow their route files; do not assume every delete matches the high-level “managers/staff cannot delete” copy in `BUILDOPS_OVERVIEW.md` without checking the route + UI.
+- **RBAC (user-facing summary):** See **`docs/WORKFLOW.md`** and **`docs/BUILDOPS_OVERVIEW.md`**. Example: **project delete** is **SUPER_ADMIN** only; **STAFF** cannot delete payment stages, labour, material items, or other expenses on a project; **BRANCH_MANAGER** can delete those; **client delete** is allowed for all roles when the client has no projects.
 
 ---
 
@@ -93,13 +93,15 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 | **Labour** | Worker lines, rates/days, paid vs total. |
 | **Materials** | Material catalog + **purchase / usage** lines on projects; stock and low-threshold concepts per schema. |
 | **Associates** | Subcontractor payments and transactions. |
-| **Bills** | Payable/receivable; optional `projectId` (bills without project still affect dashboard payables query). |
+| **Bills** | Payable/receivable; optional `projectId` (bills without project still affect dashboard payables query). No DELETE endpoint. |
 | **Other expenses** | Per-project miscellaneous costs. |
-| **Reports** | PDF (`pdfkit`) and Excel (`exceljs`) generation (`report.controller.js`). |
+| **Reports** | PDF (`pdfkit`) and Excel (`exceljs`) generation (`report.controller.js`). **Project P&L** uses contract-based profit; project **Overview** includes receivable bills in `totalIncome`—see `docs/WORKFLOW.md`. |
 | **Settings** | Users and branches (branches API **SUPER_ADMIN** only). |
 | **Guide** | In-app **User Guide** at `/guide` and `/guide/detailed` (per README). |
 
-**Frontend routes (lazy-loaded):** Login, Guide, Dashboard, Projects (list/new/edit/detail), Clients, Materials, Bills, Reports, Settings (`React.lazy` + `Suspense` in `client/src/routes.jsx`).
+**Frontend routes (lazy-loaded):** Login, Guide, Guide detailed, Dashboard, Dashboard preview (`/dashboard-preview`, auth), Projects (list/new/edit/detail), Clients, Materials, Bills, Reports, Settings (`React.lazy` + `Suspense` in `client/src/routes.jsx`).
+
+**Documentation (repo):** `docs/BUILDOPS_OVERVIEW.md`, `docs/USER_GUIDE.md`, `docs/WORKFLOW.md`, `docs/QUICK_START.md`, `docs/PROJECT_TABS_AND_CALCULATIONS_SUMMARY.md`.
 
 **Explicitly out of scope** (per `BUILDOPS_OVERVIEW.md`): native mobile app, automated payment reminders, approval workflows, inventory alerts beyond low-stock.
 
@@ -110,7 +112,7 @@ Cross-checked against **`docs/BUILDOPS_OVERVIEW.md`** and **`CURSOR_SPEC.md`** a
 | Challenge | How this repo addresses it |
 |-----------|------------------------------|
 | **Multi-branch access** | Roles `SUPER_ADMIN`, `BRANCH_MANAGER`, `STAFF`; branch id on user; project queries and dashboard scope branch for non-admins. |
-| **Readable money picture** | Dashboard + project tabs + reports; payment stage receipts vs contract value. |
+| **Readable money picture** | Dashboard + project Overview + reports; payment stage receipts vs contract value; see WORKFLOW for P&L vs Overview. |
 | **Exports for stakeholders** | Server-side PDF and Excel using `pdfkit` and `exceljs`. |
 | **Split hosting** | Frontend and API on different origins → **CORS** limited to `CLIENT_URL` (`server/src/app.js`); production API base URL via **`VITE_API_URL`** (`client/src/api/axios.js`). |
 | **Render build + Supabase limits** | `DEPLOY.md` documents avoiding `prisma migrate deploy` / `db push` on Render build when pooler limits bite; generate client only on deploy, apply schema from local/CI against the same DB. |
@@ -169,7 +171,7 @@ Aligned with **`DEPLOY.md`** (Supabase + Render + Vercel + GitHub).
 - **Domain modeling:** A single **Project** hub with tabs matches how site teams think (stages, labour, materials, subs, bills)—and maps cleanly to REST sub-resources under `/api/projects/...`.
 - **Branch scoping:** Putting **branch** on **Project** (not on **Client**) is a deliberate trade-off: shared client list, branch-specific execution—worth explaining to stakeholders.
 - **Ops reality:** **Split deploys** (static front + sleeping API) teach **env naming**, **CORS**, and **cold start** behavior as first-class concerns.
-- **Specification vs tree:** Keeping **`CURSOR_SPEC.md`** and **`BUILDOPS_OVERVIEW`** in sync with **routes and RBAC** avoids portfolio/doc drift.
+- **Specification vs tree:** Keeping **`CURSOR_SPEC.md`**, **`docs/BUILDOPS_OVERVIEW.md`**, and **`docs/WORKFLOW.md`** in sync with routes and RBAC reduces doc drift.
 
 ---
 

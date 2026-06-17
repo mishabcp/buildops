@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Button } from '../../components/ui/button.jsx';
 import { StatusBadge } from '../../components/shared/StatusBadge.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
@@ -7,6 +7,7 @@ import { LabourForm } from './LabourForm.jsx';
 import { Plus, Pencil, Trash2, HardHat, Pickaxe, Hammer, User, Calendar } from 'lucide-react';
 import { authStore } from '../../store/authStore.js';
 import { cn } from '../../lib/utils.js';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function LabourList({ projectId, onDataChange }) {
   const user = authStore((s) => s.user);
@@ -140,7 +141,8 @@ export function LabourList({ projectId, onDataChange }) {
                 {entries.map((e) => {
                   const bal = balance(e);
                   return (
-                    <tr key={e.id} className="group transition-colors hover:bg-slate-50/50">
+                    <Fragment key={e.id}>
+                    <tr className="group transition-colors hover:bg-slate-50/50">
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
                           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-orange-600 font-bold border border-orange-100 shrink-0">
@@ -207,6 +209,16 @@ export function LabourList({ projectId, onDataChange }) {
                         </td>
                       )}
                     </tr>
+                    <tr className="bg-slate-50/30">
+                      <td colSpan={isStaff ? 5 : 6} className="px-6 pb-4">
+                        <LinkedMediaPanel
+                          projectId={projectId}
+                          linkType="LABOUR_PAYMENT"
+                          linkId={e.id}
+                        />
+                      </td>
+                    </tr>
+                    </Fragment>
                   )
                 })}
               </tbody>
@@ -274,6 +286,11 @@ export function LabourList({ projectId, onDataChange }) {
                        {e.createdAt ? new Date(e.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'Recent'}
                     </div>
                   </div>
+                  <LinkedMediaPanel
+                    projectId={projectId}
+                    linkType="LABOUR_PAYMENT"
+                    linkId={e.id}
+                  />
                 </div>
               );
             })}

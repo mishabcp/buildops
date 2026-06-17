@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma.js';
 import { success, error } from '../utils/response.js';
+import { unlinkProjectMediaForEntity } from '../utils/unlinkProjectMedia.js';
 
 function toNum(d) {
   if (d == null) return 0;
@@ -142,6 +143,7 @@ export async function deleteLabour(req, res) {
     if (!isSuperAdmin && userBranchId != null && entry.project.branchId !== userBranchId) {
       return error(res, 'Forbidden', 403);
     }
+    await unlinkProjectMediaForEntity('LABOUR_PAYMENT', labourId);
     await prisma.labourPayment.delete({ where: { id: labourId } });
     return success(res, { id: labourId, deleted: true });
   } catch (err) {

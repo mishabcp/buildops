@@ -7,6 +7,14 @@ import { listLabour, createLabour } from '../controllers/labour.controller.js';
 import { listProjectMaterials, createMaterialItem } from '../controllers/material.controller.js';
 import { listProjectAssociates, createProjectAssociate } from '../controllers/associate.controller.js';
 import { listByProject as listExpenses, create as createExpense } from '../controllers/expense.controller.js';
+import {
+  listMedia,
+  createMedia,
+  getMedia,
+  streamMediaFile,
+  removeMedia,
+} from '../controllers/projectMedia.controller.js';
+import { mediaUpload } from '../middleware/upload.middleware.js';
 
 const router = Router();
 
@@ -26,6 +34,11 @@ router.get('/:id/associates', listProjectAssociates);
 router.post('/:id/associates', createProjectAssociate);
 router.get('/:id/expenses', listExpenses);
 router.post('/:id/expenses', createExpense);
+router.get('/:id/media', listMedia);
+router.post('/:id/media', mediaUpload.single('file'), createMedia);
+router.get('/:id/media/:mediaId/file', streamMediaFile);
+router.get('/:id/media/:mediaId', getMedia);
+router.delete('/:id/media/:mediaId', removeMedia);
 router.get('/:id', getOne);
 router.put('/:id', update);
 router.delete('/:id', requireRole('SUPER_ADMIN'), remove);

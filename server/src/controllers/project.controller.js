@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma.js';
 import { success, error } from '../utils/response.js';
+import { deleteAllMediaForProject } from './projectMedia.controller.js';
 
 function toNum(d) {
   if (d == null) return 0;
@@ -208,6 +209,7 @@ export async function remove(req, res) {
     const project = await prisma.project.findUnique({ where: { id } });
     if (!project) return error(res, 'Project not found', 404);
 
+    await deleteAllMediaForProject(id);
     await prisma.project.delete({ where: { id } });
     return success(res, { id, deleted: true });
   } catch (err) {

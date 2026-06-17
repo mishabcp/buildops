@@ -16,6 +16,7 @@ import { ReceiptForm } from './ReceiptForm.jsx';
 import { Plus, ChevronDown, ChevronRight, Receipt, Pencil, Trash2, Wallet, Calendar, FileText, IndianRupee } from 'lucide-react';
 import { authStore } from '../../store/authStore.js';
 import { cn } from '../../lib/utils.js';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function PaymentStages({ projectId, onDataChange }) {
   const user = authStore((s) => s.user);
@@ -319,6 +320,11 @@ export function PaymentStages({ projectId, onDataChange }) {
                            No payments recorded for this stage yet.
                          </div>
                       )}
+                      <LinkedMediaPanel
+                        projectId={projectId}
+                        linkType="PAYMENT_STAGE"
+                        linkId={stage.id}
+                      />
                     </div>
                   </div>
                 </div>

@@ -136,8 +136,9 @@ export function Guide() {
             whileInView="animate"
             viewport={{ once: true }}
             variants={fadeIn}
-            className="mb-12"
+            className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
           >
+            <div>
             <div className="flex items-center gap-3 mb-4">
               <Workflow className="h-6 w-6 text-brand-600" />
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Standard Workflow</h2>
@@ -145,6 +146,14 @@ export function Guide() {
             <p className="text-sm sm:text-slate-600 max-w-2xl">
               Use this order to set up and run your projects from start to finish.
             </p>
+            </div>
+            <Link
+              to="/guide/workflow"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-bold text-brand-800 shadow-sm transition hover:bg-brand-100 hover:border-brand-300"
+            >
+              Detailed workflow
+              <ChevronRight className="h-4 w-4" />
+            </Link>
           </motion.div>
 
           <div className="relative">

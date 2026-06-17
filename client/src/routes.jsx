@@ -9,6 +9,7 @@ const lazyPage = (loader, name) => lazy(() => loader().then((m) => ({ default: m
 const Login = lazyPage(() => import('./pages/auth/Login.jsx'), 'Login');
 const Guide = lazyPage(() => import('./pages/guide/Guide.jsx'), 'Guide');
 const GuideDetailed = lazyPage(() => import('./pages/guide/GuideDetailed.jsx'), 'GuideDetailed');
+const GuideWorkflow = lazyPage(() => import('./pages/guide/GuideWorkflow.jsx'), 'GuideWorkflow');
 const Dashboard = lazyPage(() => import('./pages/dashboard/Dashboard.jsx'), 'Dashboard');
 const Settings = lazyPage(() => import('./pages/settings/Settings.jsx'), 'Settings');
 const DashboardPreview = lazyPage(() => import('./pages/preview/DashboardPreview.jsx'), 'DashboardPreview');
@@ -36,6 +37,7 @@ export function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/guide" element={<Guide />} />
       <Route path="/guide/detailed" element={<GuideDetailed />} />
+      <Route path="/guide/workflow" element={<GuideWorkflow />} />
       <Route
         path="/"
         element={

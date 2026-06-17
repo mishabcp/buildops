@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma.js';
 import { success, error } from '../utils/response.js';
+import { unlinkProjectMediaForEntity } from '../utils/unlinkProjectMedia.js';
 
 const PAYMENT_MODES = ['CASH', 'BANK_TRANSFER', 'CHEQUE', 'UPI'];
 
@@ -77,6 +78,7 @@ export async function remove(req, res) {
     if (!isSuperAdmin && userBranchId != null && expense.project.branchId !== userBranchId) {
       return error(res, 'Forbidden', 403);
     }
+    await unlinkProjectMediaForEntity('OTHER_EXPENSE', id);
     await prisma.otherExpense.delete({ where: { id } });
     return success(res, { deleted: true });
   } catch (err) {

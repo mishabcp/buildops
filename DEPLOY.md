@@ -59,7 +59,7 @@ Do these in order. Each step assumes the previous is done.
    npm run prisma:seed
    cd ..
   ```
-   You should see "Seed completed." Seeded data includes 2 branches, 7 users (1 admin, 2 managers, 4 staff), 10 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses. All user passwords: **admin123** (e.g. `admin@company.com`, `manager-a@company.com`, `staff-a1@company.com`).
+   You should see "Seed completed." Seeded data includes 2 branches, 7 users (1 super admin, 2 managers, 4 staff), 11 clients, 9 projects, materials, associates, payment stages, labour, bills, expenses. All user passwords: **admin123** (e.g. `admin@company.com`, `manager-a@company.com`, `staff-a1@company.com`). Full list: `docs/USER_GUIDE.md`.
 
 **Check:** Supabase **Table Editor** shows tables with data. Log in locally with `admin@company.com` / `admin123` once server and client run.
 

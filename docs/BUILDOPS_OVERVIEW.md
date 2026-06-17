@@ -9,14 +9,15 @@ Buildops is construction business management software. It helps you track projec
 ```mermaid
 flowchart LR
   subgraph inputs [Your business]
-    Clients[Clients]
+    Clients[Clients - org-wide]
     Branches[Branches and offices]
   end
   subgraph core [Projects]
-    Projects[Projects]
+    Projects[Projects per branch]
   end
   subgraph moneyIn [Money in]
     Stages[Payment stages from client]
+    RecBills[Receivable bills on project]
   end
   subgraph moneyOut [Money out]
     Labour[Labour]
@@ -28,6 +29,7 @@ flowchart LR
   Clients --> Projects
   Branches --> Projects
   Projects --> Stages
+  Projects --> RecBills
   Projects --> Labour
   Projects --> Materials
   Projects --> Associates
@@ -35,7 +37,9 @@ flowchart LR
   Projects --> Expenses
 ```
 
-Every project is linked to a client and a branch. You record what the client should pay (payment stages) and what you spend (labour, materials, associates, bills, other expenses). The system shows you what is received, what is outstanding, and what you still owe.
+Every project is linked to a **client** (shared across the company) and a **branch**. You record what the client should pay (payment stages and optional receivable bills) and what you spend (labour, materials, associates, payable bills, other expenses). The system shows what is received, what is outstanding, and what you still owe.
+
+For end-to-end flows, see **[WORKFLOW.md](WORKFLOW.md)**.
 
 ---
 
@@ -44,31 +48,32 @@ Every project is linked to a client and a branch. You record what the client sho
 ```mermaid
 flowchart TB
   subgraph mvp [This version includes]
-    Dashboard[Dashboard - Charts and key numbers]
-    Clients[Clients - Manage client list]
-    Projects[Projects - Create and manage]
-    Stages[Payment stages - Client payments]
-    Labour[Labour - Workers and wages]
-    Materials[Materials - Stock and usage]
-    Associates[Associates - Subcontractors]
-    Bills[Bills - Payable and receivable]
+    Dashboard[Dashboard - KPIs and charts]
+    Clients[Clients - org-wide list]
+    Projects[Projects - tabs and Overview]
+    Stages[Payment stages]
+    Labour[Labour]
+    Materials[Materials and stock]
+    Associates[Associates]
+    Bills[Bills - payable and receivable]
     Reports[Reports - PDF and Excel]
-    Settings[Settings - Users and branches]
+    Settings[Settings - users and branches]
+    Guide[In-app Guide at /guide]
+    SiteMedia[Site media per project]
   end
 ```
 
 | Area | What it does |
 |------|----------------|
-| **Clients** | Manage the client list (add, edit, delete). Required for creating projects. |
-| **Dashboard** | See at a glance: active projects, money received this month, what clients owe, what you owe to vendors/labour/associates. Charts show collections over time, project status, and expense breakdown. Low-stock alert and recent projects. |
-| **Projects** | Create projects (client, branch, contract value). Open any project to see tabs: Overview, Payment stages, Labour, Materials, Associates, Bills, Other expenses. |
-| **Payment stages** | Break the contract into stages (e.g. Advance, Foundation). Record when the client pays; see Pending / Partially paid / Paid. |
-| **Labour** | Add workers, days, rate. Record payments; see what is still due. |
-| **Materials** | List material types and stock. From a project: add Purchase (stock goes up) or Usage (stock goes down). System warns when stock is low. |
-| **Associates** | Add subcontractors and agreed amount per project. Record payments; see outstanding. |
-| **Bills** | Record bills you need to pay or that clients need to pay you. Link to project, record payments. Only bills linked to a project appear in that project's Overview and totals. |
-| **Reports** | View and download reports (e.g. profit and loss, collections, pending bills) as PDF or Excel. |
-| **Settings** | Admins only: add users and manage branch names. |
+| **Clients** | Organization-wide client list (add, edit, delete). Not branch-scoped. Required for projects. |
+| **Dashboard** | Active projects, received this month, client outstanding, pending to vendors/labour/associates, charts, **company-wide** low-stock alert, recent projects (cards). Super Admin can filter by branch. |
+| **Projects** | Status: Enquiry, Active, On hold, Completed, Cancelled. Tabs: Overview, Payment Stages, Labour, Materials, Associates, Bills, Other Expenses, **Site media**, **Guide**. |
+| **Site media** | Per-project photos, PDFs, and videos (date + note). Optional links to payment stages and cost rows. Internal team only. |
+| **Payment stages** | Milestones and receipts; contract value drives contract outstanding. |
+| **Labour / Materials / Associates / Bills / Other expenses** | Project costs; bills can be payable or receivable. Receivable bill **totals** add to Overview **total income** and profit. |
+| **Reports** | Five report types with PDF/Excel export (see USER_GUIDE for names and parameters). |
+| **Settings** | Sidebar link for all users; **only Super Admin** manages users and branches. |
+| **Help** | `/guide`, `/guide/detailed`, `/guide/workflow` (fictional step-by-step example), and project **Guide** tab. |
 
 ---
 
@@ -77,20 +82,26 @@ flowchart TB
 ```mermaid
 flowchart LR
   subgraph roles [Roles]
-    Admin[Admin]
+    Admin[Super Admin]
     Manager[Branch manager]
     Staff[Staff]
   end
-  Admin -->|"All offices, manages users and branches"| A1[Full access]
-  Manager -->|"One office only"| M1[Full use, no delete]
-  Staff -->|"One office only"| S1[Use only, no delete]
+  Admin -->|"All branches"| A1[Users branches reports filter]
+  Manager -->|"One branch"| M1[Full project data entry]
+  Staff -->|"One branch"| S1[Entry limited deletes]
 ```
 
 | Role | Sees | Can do |
 |------|------|--------|
-| **Admin** | All branches and all projects | Everything. Add and edit users and branches in Settings. |
-| **Branch manager** | Only their branch and its projects | Add and edit data; cannot delete records. |
-| **Staff** | Only their branch and its projects | Add and edit data; cannot delete records. |
+| **Super Admin** | All branches and projects | Everything operational; **Settings** (users, branches); filter Dashboard/Reports by branch; **delete projects** (API). |
+| **Branch manager** | Own branch and its projects | Add and edit project data; **delete** payment stages, labour, material items, and other expenses on projects; **delete clients** with no projects; **cannot** delete projects or manage Settings content. |
+| **Staff** | Own branch and its projects | Add and edit project data; **cannot delete** payment stages, labour, material items, or other expenses; **can delete clients** with no projects; **cannot** manage Settings content. |
+
+**Settings menu:** Visible to everyone; configuration is **Super Admin only**.
+
+**Bills:** No delete in the MVP—create bills and record payments only.
+
+Detailed permission matrix: **[WORKFLOW.md §9](WORKFLOW.md#9-permissions-quick-reference-delete)**.
 
 ---
 
@@ -100,26 +111,33 @@ flowchart LR
 flowchart LR
   subgraph inScope [In this version]
     I1[Web app in browser]
-    I2[Clients - add, edit, delete]
-    I3[Dashboard with charts]
-    I4[Projects and all tabs]
-    I5[Payment stages, labour, materials]
-    I6[Associates, bills, other expenses]
-    I7[Reports PDF and Excel]
-    I8[Users and branches in Settings]
+    I2[Clients projects dashboard reports]
+    I3[Payment stages labour materials]
+    I4[Associates bills expenses]
+    I5[Users and branches in Settings]
+    I6[In-app Guide]
   end
   subgraph notInScope [Not in this version]
     N1[No mobile app]
     N2[No automated payment reminders]
     N3[No inventory alerts beyond low stock]
-    N4[No approvals or workflows]
+    N4[No approval workflows]
   end
 ```
 
-**In this version:** Everything described above: clients, dashboard, projects, payment stages, labour, materials, associates, bills, reports, and settings. You use the app in a web browser.
+**In this version:** Everything in the table above. You use the app in a web browser.
 
-**Not in this version:** There is no separate mobile app, no automatic reminders (e.g. for due payments), and no extra approval workflows. Low-stock warning is the only inventory alert.
+**Not in this version:** No separate mobile app, no automatic payment reminders, and no multi-step approval workflows. Low-stock warning is the main inventory alert.
+
+**Internal note:** `/dashboard-preview` is an authenticated design gallery for the dashboard UI; it is not part of end-user training docs.
 
 ---
 
-For step-by-step how to use the system, see **[USER_GUIDE.md](USER_GUIDE.md)**. For a very short “first 5 minutes” path, see **[QUICK_START.md](QUICK_START.md)**.
+## Related documentation
+
+| Document | Use when |
+|----------|----------|
+| **[WORKFLOW.md](WORKFLOW.md)** | You want flows: money in/out, roles, Overview vs Dashboard vs Reports |
+| **[USER_GUIDE.md](USER_GUIDE.md)** | You want step-by-step instructions with diagrams |
+| **[QUICK_START.md](QUICK_START.md)** | You want a 5-minute first run |
+| **[PROJECT_TABS_AND_CALCULATIONS_SUMMARY.md](PROJECT_TABS_AND_CALCULATIONS_SUMMARY.md)** | You need formulas and calculation rules |

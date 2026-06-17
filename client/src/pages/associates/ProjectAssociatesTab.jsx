@@ -15,6 +15,7 @@ import { AssociateForm } from './AssociateForm.jsx';
 import { AssociatePaymentForm } from './AssociatePaymentForm.jsx';
 import { Plus, ChevronDown, ChevronRight, Receipt, BriefcaseBusiness, Users, User, ShieldAlert, FileText, IndianRupee, Banknote, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function ProjectAssociatesTab({ projectId, onDataChange }) {
   const [payments, setPayments] = useState([]);
@@ -270,6 +271,9 @@ export function ProjectAssociatesTab({ projectId, onDataChange }) {
                           <p className="text-sm font-medium text-slate-500">No payment transactions recorded for this associate yet.</p>
                        </div>
                      )}
+                     <div className="px-5 pb-5 pl-14 sm:pl-[5.5rem]">
+                       <LinkedMediaPanel projectId={projectId} linkType="ASSOCIATE_PAYMENT" linkId={p.id} />
+                     </div>
                   </div>
                 )}
               </div>

@@ -1,5 +1,6 @@
 import prisma from '../utils/prisma.js';
 import { success, error } from '../utils/response.js';
+import { unlinkProjectMediaForEntity } from '../utils/unlinkProjectMedia.js';
 
 function toNum(d) {
   if (d == null) return 0;
@@ -170,6 +171,7 @@ export async function deleteMaterialItem(req, res) {
     }
     const qty = toNum(item.quantity);
     const delta = item.type === 'PURCHASE' ? -qty : qty;
+    await unlinkProjectMediaForEntity('MATERIAL_ITEM', itemId);
     await prisma.$transaction(async (tx) => {
       await tx.materialItem.delete({ where: { id: itemId } });
       await tx.material.update({

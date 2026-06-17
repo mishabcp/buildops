@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Button } from '../../components/ui/button.jsx';
 import { formatCurrency } from '../../utils/formatCurrency.js';
 import { formatDate } from '../../utils/formatDate.js';
@@ -6,6 +6,7 @@ import { getProjectExpenses, createExpense, deleteExpense } from '../../api/expe
 import { ExpenseForm } from './ExpenseForm.jsx';
 import { authStore } from '../../store/authStore.js';
 import { Plus, Trash2, Receipt, ReceiptText, Banknote, Calendar } from 'lucide-react';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function ProjectExpensesTab({ projectId, onDataChange }) {
   const user = authStore((s) => s.user);
@@ -150,7 +151,8 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {expenses.map((e) => (
-                  <tr key={e.id} className="group hover:bg-slate-50/50 transition-colors">
+                  <Fragment key={e.id}>
+                  <tr className="group hover:bg-slate-50/50 transition-colors">
                     <td className="py-4 px-6 min-w-[200px]">
                         <div className="flex items-start gap-3">
                            <div className="h-9 w-9 rounded-xl bg-brand-50 flex items-center justify-center border border-brand-100 shrink-0 mt-0.5">
@@ -183,6 +185,12 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
                       </td>
                     )}
                   </tr>
+                  <tr className="bg-slate-50/30">
+                    <td colSpan={isStaff ? 4 : 5} className="px-6 pb-4">
+                      <LinkedMediaPanel projectId={projectId} linkType="OTHER_EXPENSE" linkId={e.id} />
+                    </td>
+                  </tr>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
@@ -239,6 +247,7 @@ export function ProjectExpensesTab({ projectId, onDataChange }) {
                     </div>
                     <span className="text-[10px] font-mono text-slate-300">#{String(e.id ?? '').slice(-6).toUpperCase()}</span>
                  </div>
+                 <LinkedMediaPanel projectId={projectId} linkType="OTHER_EXPENSE" linkId={e.id} />
               </div>
             ))}
           </div>

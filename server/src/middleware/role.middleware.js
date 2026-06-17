@@ -20,6 +20,7 @@ export function requireRole(roles) {
       }
       req.user.role = user.role;
       req.user.branchId = user.branchId;
+      req.user.id = user.id;
       next();
     } catch (err) {
       console.error('requireRole error:', err);

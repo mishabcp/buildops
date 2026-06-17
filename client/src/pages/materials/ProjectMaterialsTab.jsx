@@ -8,6 +8,7 @@ import { MaterialItemForm } from './MaterialItemForm.jsx';
 import { Plus, Trash2, Package, ShoppingCart, Activity, PackageOpen, Boxes, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils.js';
 import { authStore } from '../../store/authStore.js';
+import { LinkedMediaPanel } from '../../components/media/LinkedMediaPanel.jsx';
 
 export function ProjectMaterialsTab({ projectId, onDataChange }) {
   const user = authStore((s) => s.user);
@@ -297,6 +298,7 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                        {formatDate(i.date)}
                     </div>
                   </div>
+                  <LinkedMediaPanel projectId={projectId} linkType="MATERIAL_ITEM" linkId={i.id} />
                 </div>
                 ))}
               </div>
@@ -422,8 +424,9 @@ export function ProjectMaterialsTab({ projectId, onDataChange }) {
                          <Calendar className="h-3.5 w-3.5 text-slate-300" />
                          {formatDate(i.date)}
                       </div>
-                      <span className="text-[10px] font-mono text-slate-300">#{i.id.slice(-6).toUpperCase()}</span>
+                      <span className="text-[10px] font-mono text-slate-300">#{String(i.id).slice(-6).toUpperCase()}</span>
                     </div>
+                    <LinkedMediaPanel projectId={projectId} linkType="MATERIAL_ITEM" linkId={i.id} />
                   </div>
                 ))}
               </div>
